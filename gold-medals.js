@@ -4,7 +4,7 @@ var dat=[];
 
 var app=express();
 
-app.get("/about/gold-medals.js",function (req,res) {
+app.get("/",function (req,res) {
   fs.readFile('datagoldmedals.json','utf8',function (err,content) {
     console.log("Data read");
     dat=JSON.parse(content);
