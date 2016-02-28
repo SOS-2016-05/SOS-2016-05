@@ -4,13 +4,13 @@ var dat=[];
 
 var app=express();
 
-app.get("/about/gold-medals.js",function (req,res) {
-  fs.readFile('datagoldmedals.json','utf8',function (err,content) {
+app.get("/about/location",(req,res)=>{
+  fs.readFile('data.json','utf8',(err,content)=>{
     console.log("Data read");
     dat=JSON.parse(content);
     res.write("<html><body>_____Information_____<ul>");
-    dat.forEach(function (d) {
-      res.write("<li>"+d.country+", "+d.year+", "+d.numgoldmedals+", "+d.numsilvermedals+"</li>");
+    dat.forEach((d)=>{
+      res.write("<li>"+d.country+", "+d.year+", "+d.event+", "+d.edition+"</li>");
     });
 
     res.write("</ul>__________________</body></html>");
