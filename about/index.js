@@ -1,7 +1,7 @@
 var express=require("express");
 var app=express();
 
-app.get("/",(req,res)=>{
+app.get("/about/",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
   res.write("<li>Antonio Jimenez Vega</li>");
