@@ -4,10 +4,10 @@ var app=express();
 app.get("/",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
-  res.write("<li>Antonio Jimenez Vega</li>");
-  res.write("<li>Enrique Guerrero Fernandez</li>");
-  res.write("<li>Mario Esteban Ucles</li>");
-  res.write("");
+  res.write("<li>Antonio Jimenez Vega: location</li>");
+  res.write("<li>Enrique Guerrero Fernandez: participants-number</li>");
+  res.write("<li>Mario Esteban Ucles: gold-medals</li>");
+
   res.write("<ul>________Theme________");
   res.write("<li>Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</li>");
 
