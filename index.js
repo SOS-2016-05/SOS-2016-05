@@ -7,9 +7,9 @@ app.get("/",(req,res)=>{
   res.write("<li>Antonio Jimenez Vega</li>");
   res.write("<li>Enrique Guerrero Fernandez</li>");
   res.write("<li>Mario Esteban Ucles</li>");
-
-  res.write("________Theme________")
-  res.write("<li>Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</li>")
+  res.write("");
+  res.write("________Theme________");
+  res.write("<li>Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</li>");
 
   send.write("</ul>__________________</body></html>");
   res.end();
