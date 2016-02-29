@@ -5,7 +5,7 @@ var fs=require("fs");   //for all files.
 
 var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
-var datt[];       //data gold-medals
+//var datt[];       //data gold-medals
 
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
@@ -47,8 +47,8 @@ app.get("/about/gold-medals",function (req,res) {
     console.log("Data read");
     dat=JSON.parse(content);
     res.write("<html><body>_____Information_____<ul>");
-    datt.forEach(function (dd) {
-      res.write("<li>"+dd.country+", "+dd.year+", "+dd.numgoldmedals+", "+dd.numsilvermedals+"</li>");
+    dat.forEach(function (d) {
+      res.write("<li>"+d.country+", "+d.year+", "+d.numgoldmedals+", "+d.numsilvermedals+"</li>");
     });
 
     res.write("</ul>__________________</body></html>");
