@@ -2,7 +2,8 @@ var express=require("express");
 var app=express();
 
 app.use(express.static("about"));
-app.use('/',express.static('/about'));
+app.use(express.satic("files"));
+app.use('/static',express.static('/about'));
 
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
@@ -20,7 +21,7 @@ app.get("/about",(req,res)=>{
 
 
 app.get('/about/location',function(req,res){
-  res.render('location.js');
+  res.render('/about/location.js');
 });
 
 
