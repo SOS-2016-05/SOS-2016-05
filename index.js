@@ -1,6 +1,9 @@
 var express=require("express");
 var app=express();
 
+app.use(express.static("about"));
+app.use('/',express.static('/about'));
+
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
@@ -15,9 +18,12 @@ app.get("/about",(req,res)=>{
   res.end();
 });
 
-app.get('/about/gold-medals',function(req,res){
-  res.render('gold-medals.js');
+
+app.get('/about/location',function(req,res){
+  res.render('location.js');
 });
+
+
 
 app.listen(process.env.PORT)
 //app.listen(process.env.PORT); //default port of heroku
