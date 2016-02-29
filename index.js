@@ -2,7 +2,7 @@ var express=require("express");
 var app=express();
 
 app.use(express.static("about"));
-app.use('/',express.static('about'));
+app.use('/',express.static('/about'));
 
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
