@@ -15,5 +15,9 @@ app.get("/about",(req,res)=>{
   res.end();
 });
 
+app.get('/about/gold-medals',function(req,res){
+  res.render('gold-medals');
+});
+
 app.listen(process.env.PORT)
 //app.listen(process.env.PORT); //default port of heroku
