@@ -5,13 +5,14 @@ var fs=require("fs");   //for all files.
 
 var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
+var datt[];       //data gold-medals
 
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
   res.write("<li>Antonio Jimenez Vega: <a href='/about/location'>location</a></li>");
   res.write("<li>Enrique Guerrero Fernandez:<a href='/about/athletesnumber'> participants-number</a></li>");
-  res.write("<li>Mario Esteban Ucles: <a href='/about/gold-medals>gold-medals</a></li>");
+  res.write("<li>Mario Esteban Ucles:<a href='/about/gold-medals'> gold-medals </a></li>");
 
   res.write("<ul>________Theme________");
   res.write("<li>Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</li>");
@@ -46,8 +47,8 @@ app.get("/about/gold-medals",function (req,res) {
     console.log("Data read");
     dat=JSON.parse(content);
     res.write("<html><body>_____Information_____<ul>");
-    dat.forEach(function (d) {
-      res.write("<li>"+d.country+", "+d.year+", "+d.numgoldmedals+", "+d.numsilvermedals+"</li>");
+    datt.forEach(function (dd) {
+      res.write("<li>"+dd.country+", "+dd.year+", "+dd.numgoldmedals+", "+dd.numsilvermedals+"</li>");
     });
 
     res.write("</ul>__________________</body></html>");
