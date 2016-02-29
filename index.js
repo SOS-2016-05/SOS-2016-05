@@ -16,7 +16,7 @@ app.get("/about",(req,res)=>{
 });
 
 app.get('/about/gold-medals',function(req,res){
-  res.render('gold-medals');
+  res.render('gold-medals.js');
 });
 
 app.listen(process.env.PORT)
