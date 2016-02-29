@@ -1,8 +1,9 @@
 var express=require("express");
 var app=express();
 
-app.use(express.static("about"));
-app.use('/',express.static('/about'));
+var fs=require("fs");   //for all files.
+
+var dat=[];   //data location
 
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
@@ -19,8 +20,25 @@ app.get("/about",(req,res)=>{
 });
 
 
-app.get('/about/location',function(req,res){
-  res.render('/about/location.js');
+//location
+app.get("/about/location",(req,res)=>{
+  fs.readFile('data.json','utf8',(err,content)=>{
+    console.log("Data read");
+    dat=JSON.parse(content);
+    res.write("<html><body>_____Information_____<ul>");
+    dat.forEach((d)=>{
+      res.write("<li>"+d.country+", "+d.year+", "+d.event+", "+d.edition+"</li>");
+    });
+
+    res.write("</ul>__________________</body></html>");
+    res.end();
+  });
+});
+
+//-----------
+
+
+
 });
 
 
