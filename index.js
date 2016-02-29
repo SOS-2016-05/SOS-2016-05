@@ -2,7 +2,6 @@ var express=require("express");
 var app=express();
 
 app.use(express.static("about"));
-app.use(express.satic("files"));
 app.use('/',express.static('about'));
 
 app.get("/about",(req,res)=>{
