@@ -29,7 +29,7 @@ app.get("/about/location",(req,res)=>{
     dat=JSON.parse(content);
     res.write("<html><body>_____Information_____<ul>");
     dat.forEach((d)=>{
-      res.write("<li>"+d.country+", "+d.year+", "+d.event+", "+d.edition+"</li>");
+      res.write("<li>"+d.country+", "+d.year+", "+d.top+", "+d.doping+"</li>");
     });
 
     res.write("</ul>__________________</body></html>");
