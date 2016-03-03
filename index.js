@@ -1,5 +1,8 @@
 var express=require("express");
 var app=express();
+var port=(process.env.PORT || 10000); //local test port
+
+app.use("/about",express.static(__dirname + "/about")); //route
 
 var fs=require("fs");   //for all files.
 
@@ -7,10 +10,11 @@ var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
 
+
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
-  res.write("<li>Antonio Jimenez Vega: <a href='/about/location'>location</a></li>");
+  res.write("<li>Antonio Jimenez Vega: <a href='/about/location.html'>location</a></li>");
   res.write("<li>Enrique Guerrero Fernandez:<a href='/about/athletesnumber'> participants-number</a></li>");
   res.write("<li>Mario Esteban Ucles:<a href='/about/gold-medals'> gold-medals </a></li></ul>");
 
@@ -21,7 +25,7 @@ app.get("/about",(req,res)=>{
   res.end();
 });
 
-
+/*
 //location
 app.get("/about/location",(req,res)=>{
   fs.readFile('data.json','utf8',(err,content)=>{
@@ -37,8 +41,8 @@ app.get("/about/location",(req,res)=>{
   });
 });
 
-//-----------
-
+//-----------           ALL PUT IN LOCATION.HTML
+*/
 
 
 //gold-medals
@@ -77,5 +81,5 @@ res.end()
 //------------
 
 
-app.listen(process.env.PORT);
+app.listen(port);
 //app.listen(process.env.PORT); //default port of heroku
