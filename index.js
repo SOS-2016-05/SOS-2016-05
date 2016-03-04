@@ -10,20 +10,24 @@ var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
 
-
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
   res.write("<li>Antonio Jimenez Vega: <a href='/about/location.html'>location</a></li>");
-  res.write("<li>Enrique Guerrero Fernandez:<a href='/about/athletesnumber'> participants-number</a></li>");
+  res.write("<li>Enrique Guerrero Fernandez:<a href='/about/athletesnumber.html'> participants-number</a></li>");
   res.write("<li>Mario Esteban Ucles:<a href='/about/gold-medals'> gold-medals </a></li></ul>");
 
   res.write("<ul>________Theme________");
   res.write("<li>Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</li>");
 
-  send.write("</ul></ul>__________________</body></html>");
+  res.write("</ul></ul>__________________</body></html>");
   res.end();
 });
+
+app.get("/time",(req,res)=>{
+  var now=Date();
+    res.send("The time now is: "+now);
+  });
 
 /*
 //location
@@ -63,7 +67,7 @@ app.get("/about/gold-medals",function (req,res) {
 //--------------
 
 //athletesnumber
-app.get("/about/athletesnumber",(req,res)=>{
+/*app.get("/about/athletesnumber",(req,res)=>{
 	fs.readFile('dataatheletesnumber.json','utf8',(err,content)=>{//LEER DE FORMA ASÍNCRONA
 	console.log("Data read");
 	contacts2= JSON.parse(content);
@@ -76,9 +80,9 @@ app.get("/about/athletesnumber",(req,res)=>{
 res.write("</ul></body></html>");
 res.end()
 });
-});
+});*/
 
-//------------
+//------------ALL PUT IN ATHLETESNUMBER.HTML
 
 
 app.listen(port);
