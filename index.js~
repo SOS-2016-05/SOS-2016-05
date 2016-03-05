@@ -48,7 +48,7 @@ app.get("/about/location",(req,res)=>{
 //-----------           ALL PUT IN LOCATION.HTML
 */
 
-
+/*
 //gold-medals
 app.get("/about/gold-medals",function (req,res) {
   fs.readFile('datagoldmedals.json','utf8',function (err,content) {
@@ -62,9 +62,9 @@ app.get("/about/gold-medals",function (req,res) {
     res.write("</ul>__________________</body></html>");
     res.end();
   });
-});
+});*/
 
-//--------------
+//--------------           ALL PUT IN GOLD-MEDALS.HTML
 
 //athletesnumber
 /*app.get("/about/athletesnumber",(req,res)=>{
