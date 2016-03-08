@@ -10,6 +10,7 @@ var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
 
+/*
 app.get("/about",(req,res)=>{
   res.write("<html><body>_____Group Members_____<ul>");
 
@@ -23,12 +24,11 @@ app.get("/about",(req,res)=>{
   res.write("</ul></ul>__________________</body></html>");
   res.end();
 });
-
+*/
 app.get("/time",(req,res)=>{
   var now=Date();
     res.send("The time now is: "+now);
   });
-
 /*
 //location
 app.get("/about/location",(req,res)=>{
