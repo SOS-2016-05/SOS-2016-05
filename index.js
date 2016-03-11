@@ -1,5 +1,7 @@
 var express=require("express");
 var app=express();
+var bodyParser=require("body-parser");
+
 var port=(process.env.PORT || 10000); //local test port
 
 app.use("/about",express.static(__dirname + "/about")); //route
@@ -29,6 +31,11 @@ app.get("/time",(req,res)=>{
   var now=Date();
     res.send("The time now is: "+now);
   });
+
+
+  app.use(bodyParser.json()); //se pone en medio de las peticiones
+
+
 /*
 //location
 app.get("/about/location",(req,res)=>{
