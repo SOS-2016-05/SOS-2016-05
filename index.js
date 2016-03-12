@@ -36,11 +36,8 @@ var mgroups = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 app.get("/api/sandbox/musicgroups/:name",function (req,res){
    var name = req.params.name; //Where the "name" is the one that we've put in /contacts/:xxxx
     console.log("New GET of resource "+name);
-	var groupPos = mgroups[StrArray(req.params.name,mgroups)];
-	if(groupPos != -1)
-		res.send(mgroups[groupPos]);
-	else
-		res.sendStatus(404);
+	res.send(mgroups[StrArray(req.params.name,mgroups)]);
+
 });
 
 //To storage what the client is sending us
