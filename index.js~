@@ -105,6 +105,7 @@ app.put('/api/sandbox/musicbands/:name', function (req, res) {
 	var id = req.params.name;
 	var bandPos = StrArray(id,mBands);
 	if (bandPos != -1)
+	{
 	        mBands[bandPos].name=temporal.name;
 	        res.send(200);
 	}
