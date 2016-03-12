@@ -28,70 +28,70 @@ app.get("/time",(req,res)=>{
   });
 
 
-//Music groups
+//Music bands
 
-var mgroups = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
+var mBands = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 
-//To send back to the client a list of the music groups contained in the API
-app.get("/api/sandbox/musicgroups",function (req,res){
+//To send back to the client a list of the music bands contained in the API
+app.get("/api/sandbox/musicbands",function (req,res){
     console.log("New GET for directory listing");
-	res.status(200).jsonp(mgroups);
+	res.status(200).jsonp(mBands);
 	
 });
 
 //To convert my local data to what the client is requesting for
-app.get("/api/sandbox/musicgroups/:name",function (req,res){
+app.get("/api/sandbox/musicbands/:name",function (req,res){
    var name = req.params.name; //Where the "name" is the one that we've put in /contacts/:xxxx
     console.log("New GET of resource "+name);
-	var groupPos = StrArray(req.params.name,mgroups);
-	if(groupPos != -1)
-		res.send(mgroups[groupPos]);
+	var bandPos = StrArray(req.params.name,mBands);
+	if(bandPos != -1)
+		res.send(mBands[bandPos]);
 	else
 		res.sendStatus(404);
 });
 
 //To storage what the client is sending us
-app.post("/api/sandbox/musicgroups", function (req,res){
-    var mgroup = req.body;
-    mgroups.push(mgroup);
-    console.log("New POST of resource "+mgroup.name);
+app.post("/api/sandbox/musicbands", function (req,res){
+    var mband = req.body;
+    mBands.push(mband);
+    console.log("New POST of resource "+mband.name);
     res.sendStatus(200);
     
 });
 
 //Sends an error when attempting to post over a resource
-app.post("/api/sandbox/musicgroups/:name", function (req,res){
+app.post("/api/sandbox/musicbands/:name", function (req,res){
     res.send("Error: Forbidden action");
     
 });
 
 
 //Deletes an specified resource
- app.delete("/api/sandbox/musicgroups/:name",function (req,res){ 
+ app.delete("/api/sandbox/musicbands/:name",function (req,res){ 
     var name=req.params.name;
     console.log("New DELETE of resource "+name);
-	var groupPos = StrArray(name,mgroups);
-	if (groupPos != -1)
-    		mgroups.splice(groupPos,1);
+	var bandPos = StrArray(name,mBands);
+	if (bandPos != -1)
+    		mBands.splice(bandPos,1);
     	else
 		res.sendStatus(404);
   });
 
 
 //Deletes all the resources in the given directory
-app.delete("/api/sandbox/musicgroups",function (req,res){ 
+app.delete("/api/sandbox/musicbands",function (req,res){ 
 console.log("New DELETE of all resources");
-    mgroups.splice(0,mgroups.length);
+    mBands.splice(0,mBands.length);
   });
 
 
 //Updates an specified resource
-app.put('/api/sandbox/musicgroups/:name', function (request, response) {
+app.put('/api/sandbox/musicbands/:name', function (request, response) {
     var temporal = request.body;
     var id = request.params.name;
-    if (groupPos != -1){
-        var groupPos = StrArray(id,mgroups);
-        mgroups[groupPos].name=temporal.name;
+    if (bandPos != -1){
+        var bandPos = StrArray(id,mBands);
+        mBands[bandPos].name=temporal.name;
         response.send(200);
 	}
 	else
@@ -100,7 +100,7 @@ app.put('/api/sandbox/musicgroups/:name', function (request, response) {
 
 
 //Avoids attempting PUT over the directory
-app.put("/api/sandbox/musicgroups", function (req,res){
+app.put("/api/sandbox/musicbands", function (req,res){
     res.send("Error: Forbidden action"); 
 });
 
