@@ -100,15 +100,16 @@ console.log("New DELETE of all resources");
 
 
 //Updates an specified resource
-app.put('/api/sandbox/musicbands/:name', function (request, response) {
-    var temporal = request.body;
-    var id = request.params.name;
-    if (bandPos != -1){
-	        var bandPos = StrArray(id,mBands);
+app.put('/api/sandbox/musicbands/:name', function (req, res) {
+	var temporal = req.body;
+	var id = req.params.name;
+	var bandPos = StrArray(id,mBands);
+	if (bandPos != -1)
 	        mBands[bandPos].name=temporal.name;
-	        response.send(200);
+	        res.send(200);
 	}
-	
+	else
+	        res.send(404);
 });
 
 
