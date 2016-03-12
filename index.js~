@@ -35,7 +35,7 @@ var mBands = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 //Load initial data into the array
 app.get('/api-test/musicbands/loadInitialData',function (req,res){
 	mBands= [];
-	var content=fs.readFileSync('contacts.json','utf8');
+	var content=fs.readFileSync('musicbands.json','utf8');
 	mBands = JSON.parse(content);                                             
 });
 

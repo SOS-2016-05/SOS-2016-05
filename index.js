@@ -36,7 +36,8 @@ var mBands = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 app.get('/api-test/musicbands/loadInitialData',function (req,res){
 	mBands= [];
 	var content=fs.readFileSync('musicbands.json','utf8');
-	mBands = JSON.parse(content);                                             
+	mBands = JSON.parse(content);      
+	res.sendStatus(200);                                       
 });
 
 //To send back to the client a list of the music bands contained in the API
