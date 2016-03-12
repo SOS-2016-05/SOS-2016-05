@@ -28,7 +28,7 @@ app.get("/time",(req,res)=>{
   });
 
 
-//Music bands
+//Music bands-------------------------------------------------------------
 
 var mBands = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 
@@ -108,8 +108,7 @@ app.put('/api/sandbox/musicbands/:name', function (request, response) {
 	        mBands[bandPos].name=temporal.name;
 	        response.send(200);
 	}
-	else
-	        response.send(404);
+	
 });
 
 

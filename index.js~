@@ -28,7 +28,7 @@ app.get("/time",(req,res)=>{
   });
 
 
-//Music bands
+//Music bands-------------------------------------------------------------
 
 var mBands = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 
@@ -53,7 +53,10 @@ app.get("/api/sandbox/musicbands/:name",function (req,res){
     console.log("New GET of resource "+name);
 	var bandPos = StrArray(req.params.name,mBands);
 	if(bandPos != -1)
+	{
 		res.send(mBands[bandPos]);
+		res.sendStatus(200);   
+}
 	else
 		res.sendStatus(404);
 });
@@ -80,7 +83,10 @@ app.post("/api/sandbox/musicbands/:name", function (req,res){
     console.log("New DELETE of resource "+name);
 	var bandPos = StrArray(name,mBands);
 	if (bandPos != -1)
+	{
     		mBands.splice(bandPos,1);
+		res.sendStatus(200);
+}
     	else
 		res.sendStatus(404);
   });
@@ -98,9 +104,9 @@ app.put('/api/sandbox/musicbands/:name', function (request, response) {
     var temporal = request.body;
     var id = request.params.name;
     if (bandPos != -1){
-        var bandPos = StrArray(id,mBands);
-        mBands[bandPos].name=temporal.name;
-        response.send(200);
+	        var bandPos = StrArray(id,mBands);
+	        mBands[bandPos].name=temporal.name;
+	        response.send(200);
 	}
 	else
 	        response.send(404);
