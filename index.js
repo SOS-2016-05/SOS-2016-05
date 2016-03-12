@@ -41,9 +41,9 @@ app.get("/api/sandbox/musicgroups/:name",function (req,res){
 
 //To storage what the client is sending us
 app.post("/api/sandbox/musicgroups", function (req,res){
-    var contact = req.body;
-    contacts.push(contact);
-    console.log("New POST of resource "+contact.name);
+    var mgroup = req.body;
+    mgroups.push(mgroup);
+    console.log("New POST of resource "+mgroup.name);
     res.sendStatus(200);
     
 });
