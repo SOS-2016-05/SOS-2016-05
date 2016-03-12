@@ -26,13 +26,24 @@ app.get("/time",(req,res)=>{
     dat=JSON.parse(content);
   });*/
 
-  var animes=[{name:"hellsing"}];
+  var animes=[{name:"hellsing"},{name:"evangelion"}];
+  var cont=0;
 
   app.get("/api-test/:name",(req,res)=>{    //name
     var name=req.params.name;
+    for(var i=0;i<animes.length;i++){
+      if(animes[i]==name){
+        cont=i;
+      }
+      else{
+        cont=i;
+      }
+    }
+    
     console.log("New GET of resource "+name);
-    res.send(animes[0]);
-  }); //identificador :name
+    res.send(animes[cont]);
+  });
+
 
   app.get("/api-test",(req,res)=>{    //list
     var name=req.params.name;
