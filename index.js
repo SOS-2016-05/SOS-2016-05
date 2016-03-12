@@ -5,6 +5,7 @@ var bodyParser=require("body-parser");
 var port=(process.env.PORT || 10000); //local test port
 
 app.use("/about",express.static(__dirname + "/about")); //route
+app.use(bodyParser.json()); //se pone en medio de las peticiones
 
 var fs=require("fs");   //for all files.
 
@@ -12,28 +13,60 @@ var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
 
-/*
-app.get("/about",(req,res)=>{
-  res.write("<html><body>_____Group Members_____<ul>");
-
-  res.write("<li>Antonio Jimenez Vega: <a href='/about/location.html'>location</a></li>");
-  res.write("<li>Enrique Guerrero Fernandez:<a href='/about/athletesnumber.html'> participants-number</a></li>");
-  res.write("<li>Mario Esteban Ucles:<a href='/about/gold-medals.html'> gold-medals </a></li></ul>");
-
-  res.write("<ul>________Theme________");
-  res.write("<li>Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</li>");
-
-  res.write("</ul></ul>__________________</body></html>");
-  res.end();
-});
-*/
 app.get("/time",(req,res)=>{
   var now=Date();
     res.send("The time now is: "+now);
   });
 
 
-  app.use(bodyParser.json()); //se pone en medio de las peticiones
+
+//animejs----------------
+/*  fs.readFile('/api-test/animeseries.json','utf8',(err,content)=>{
+    console.log("Data read");
+    dat=JSON.parse(content);
+  });*/
+
+  var animes=[{name:"hellsing"}];
+
+  app.get("/api-test/:name",(req,res)=>{    //name
+    var name=req.params.name;
+    console.log("New GET of resource "+name);
+    res.send(animes[0]);
+  }); //identificador :name
+
+  app.get("/api-test",(req,res)=>{    //list
+    var name=req.params.name;
+    console.log("New GET of resource "+name);
+    res.send(animes[0]);
+  });
+
+  app.post("/api-test",(req,res)=>{
+    var anime=req.body;  //contacto del cliente
+    animes.push(anime);
+    console.log("New POST of resource "+anime.name);
+    res.sendStatus(200);
+  });
+
+  app.put("/api-test/:name",(req,res)=>{  //data update
+    var name=req.params.name;
+    animes.push(anime);
+    console.log("New PUT of resource "+anime.name);
+    res.send(anime[0]);
+  });
+
+  app.delete("/api-test/:name",(req,res)=>{ //delete name
+    var name=req.params.name;
+    console.log("New DELETE of resource "+name);
+    res.sendStatus(200);
+  });
+
+/*  app.delete("/api-test",(req,res)=>{ //delete list
+    var name=req.params.name;
+    console.log("New DELETE of resource "+name);
+    res.sendStatus(200);
+  });*/
+
+//--------------------
 
 
 /*
