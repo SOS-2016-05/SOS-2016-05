@@ -59,6 +59,51 @@ app.post("/api/sandbox/musicgroups", function (req,res){
     
 });
 
+//Sends an error when attempting to post over a resource
+app.post("/api/sandbox/musicgroups/:name", function (req,res){
+    res.send("Error: Forbidden action");
+    
+});
+
+
+//Deletes an specified resource
+ app.delete("/api/sandbox/musicgroups/:name",function (req,res){ 
+    var name=req.params.name;
+    console.log("New DELETE of resource "+name);
+	var groupPos = StrArray(name,mgroups);
+	if (groupPos != -1)
+    		mgroups.splice(groupPos,1);
+    	else
+		res.sendStatus(404);
+  });
+
+
+//Deletes all the resources in the given directory
+app.delete("/api/sandbox/musicgroups",function (req,res){ 
+console.log("New DELETE of all resources");
+    mgroups.splice(0,mgroups.length);
+  });
+
+
+//Updates an specified resource
+app.put('/api/sandbox/musicgroups/:name', function (request, response) {
+    var temporal = request.body;
+    var id = request.params.name;
+    if (groupPos != -1){
+        var groupPos = StrArray(id,mgroups);
+        mgroups[groupPos].name=temporal.name;
+        response.send(200);
+	}
+	else
+	        response.send(404);
+});
+
+
+//Avoids attempting PUT over the directory
+app.put("/api/sandbox/musicgroups", function (req,res){
+    res.send("Error: Forbidden action"); 
+});
+
 
 //animejs----------------
 /*  fs.readFile('/api-test/animeseries.json','utf8',(err,content)=>{
