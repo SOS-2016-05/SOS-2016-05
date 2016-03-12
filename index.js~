@@ -94,8 +94,9 @@ app.post("/api/sandbox/musicbands/:name", function (req,res){
 
 //Deletes all the resources in the given directory
 app.delete("/api/sandbox/musicbands",function (req,res){
-console.log("New DELETE of all resources");
-    mBands.splice(0,mBands.length);
+	console.log("New DELETE of all resources");
+	mBands.splice(0,mBands.length);
+	res.sendStatus(200);
   });
 
 
