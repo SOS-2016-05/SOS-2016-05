@@ -35,8 +35,9 @@ var mgroups = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 //To send back to the client a list of the music groups contained in the API
 app.get("/api/sandbox/musicgroups",function (req,res){
     console.log("New GET for directory listing");
-	for each(var index in mgroups)
-		res.send(index);
+	mgroups.foreach(function (){
+		res.send(this);
+	});
 	
 });
 
