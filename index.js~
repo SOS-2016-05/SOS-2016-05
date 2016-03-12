@@ -72,7 +72,7 @@ app.post("/api/sandbox/musicbands", function (req,res){
 
 //Sends an error when attempting to post over a resource
 app.post("/api/sandbox/musicbands/:name", function (req,res){
-    res.send("Error: Forbidden action");
+    res.send("Error: Forbidden action - POST method should be made over a directory");
 
 });
 
@@ -117,7 +117,7 @@ app.put('/api/sandbox/musicbands/:name', function (req, res) {
 
 //Avoids attempting PUT over the directory
 app.put("/api/sandbox/musicbands", function (req,res){
-    res.send("Error: Forbidden action");
+    res.send("Error: Forbidden action - Is not possible to PUT over a directory");
 });
 
 //---------------------ANIMESERIES----------------------------------------

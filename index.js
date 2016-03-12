@@ -72,8 +72,7 @@ app.post("/api/sandbox/musicbands", function (req,res){
 
 //Sends an error when attempting to post over a resource
 app.post("/api/sandbox/musicbands/:name", function (req,res){
-    res.send("Error: Forbidden action - POST method should be made over a directory");
-
+	res.send("Error: Forbidden action - POST method should be made over a directory");
 });
 
 
