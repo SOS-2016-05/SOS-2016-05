@@ -32,6 +32,14 @@ app.get("/time",(req,res)=>{
 
 var mgroups = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 
+//To send back to the client a list of the music groups contained in the API
+app.get("/api/sandbox/musicgroups",function (req,res){
+    console.log("New GET for directory listing");
+	for each(var index in mgroups)
+		res.send(index);
+	
+});
+
 //To convert my local data to what the client is requesting for
 app.get("/api/sandbox/musicgroups/:name",function (req,res){
    var name = req.params.name; //Where the "name" is the one that we've put in /contacts/:xxxx
