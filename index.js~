@@ -13,40 +13,11 @@ var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
 
-//Declares a function where for a given string returns its position from the given array
-function StrArray(str,elements){
-	var cont = -1;
- for(var i=0;i<elements.length;i++)
-      if(elements[i].name==str)
-        cont=i;
-	return cont;
-};
-
 app.get("/time",(req,res)=>{
   var now=Date();
     res.send("The time now is: "+now);
   });
 
-
-//Music groups
-
-var mgroups = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
-
-//To convert my local data to what the client is requesting for
-app.get("/api/sandbox/musicgroups/:name",function (req,res){
-   var name = req.params.name; //Where the "name" is the one that we've put in /contacts/:xxxx
-    console.log("New GET of resource "+name);
-    res.send(mgroups[StrArray(req.params.name,mgroups)]);
-});
-
-//To storage what the client is sending us
-app.post("/api/sandbox/musicgroups", function (req,res){
-    var contact = req.body;
-    contacts.push(contact);
-    console.log("New POST of resource "+contact.name);
-    res.sendStatus(200);
-    
-});
 
 
 //animejs----------------
@@ -54,8 +25,6 @@ app.post("/api/sandbox/musicgroups", function (req,res){
     console.log("Data read");
     dat=JSON.parse(content);
   });*/
-
-/*
 
   var animes=[{name:"hellsing"},{name:"evangelion"}];
   var cont=0;
@@ -101,12 +70,6 @@ app.post("/api/sandbox/musicgroups", function (req,res){
     console.log("New DELETE of resource "+name);
     res.sendStatus(200);
   });
-
-
-
-*/
-
-
 
 /*  app.delete("/api-test",(req,res)=>{ //delete list
     var name=req.params.name;
