@@ -28,20 +28,23 @@ app.get("/time",(req,res)=>{
 
   var animes=[{name:"hellsing"},{name:"evangelion"}];
   var cont=0;
+  var anime=[];
 
   app.get("/api-test/:name",(req,res)=>{    //name
     var name=req.params.name;
+    res.send(animes.length);
     for(var i=0;i<animes.length;i++){
       if(animes[i]==name){
         cont=i;
+        anime=animes[i];
       }
       else{
-        cont=i;
+        res.send("no existe el valor buscado");
       }
     }
-    
+  //  if(cont=i)
     console.log("New GET of resource "+name);
-    res.send(animes[cont]);
+    res.send(anime);
   });
 
 
