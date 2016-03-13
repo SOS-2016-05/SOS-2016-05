@@ -36,8 +36,8 @@ var mBands = [{name: "LinkinPark"}, {name: "SimplePlan"}, {name: "Sum41"}];
 app.get('/api-test/musicbands/loadInitialData',function (req,res){
 	mBands= [];
 	var content=fs.readFileSync('musicbands.json','utf8');
-	mBands = JSON.parse(content);      
-	res.sendStatus(200);                                       
+	mBands = JSON.parse(content);
+	res.sendStatus(200);
 });
 
 //To send back to the client a list of the music bands contained in the API
@@ -55,7 +55,7 @@ app.get("/api/sandbox/musicbands/:name",function (req,res){
 	if(bandPos != -1)
 	{
 		res.send(mBands[bandPos]);
-		res.sendStatus(200);   
+		res.sendStatus(200);
 }
 	else
 		res.sendStatus(404);
@@ -134,11 +134,19 @@ app.put("/api/sandbox/musicbands", function (req,res){
   	var anime = StrArray(req.params.name,animes);
   	if(anime != -1){
       res.send(animes[anime]);
+			res.sendStatus(200);
     }
   	else{
       res.sendStatus(404);
     }
   });
+
+	app.get('/api-test/animeseries/loadInitialData',(req,res)=>{	//load json animeseries
+		animes= [];
+		var content=fs.readFileSync('animeseries.json','utf8');
+		animes = JSON.parse(content);
+		res.sendStatus(200);
+	});
 
   app.post("/api/sandbox/animeseries",(req,res)=>{  //post ****
       var ani = req.body;
@@ -149,13 +157,14 @@ app.put("/api/sandbox/musicbands", function (req,res){
 
   app.post("/api/sandbox/animeseries/:name",(req,res)=>{    //post FORBIDDEN
       res.send("Error: Forbidden action");
+			res.sendStatus(400);
   });
 
   app.put('/api/sandbox/animeseries/:name',(request, response)=>{ //put
       var temp = request.body;
       var id = request.params.name;
+			var anime = StrArray(id,animes);
       if (anime != -1){
-          var anime = StrArray(id,animes);
           animes[anime].name=temp.name;
           response.send(200);
   	}
@@ -164,8 +173,9 @@ app.put("/api/sandbox/musicbands", function (req,res){
     }
   });
 
-  app.put("/api/sandbox/animeseires",(req,res)=>{ //put FORBBIDEN
+  app.put("/api/sandbox/animeseries",(req,res)=>{ //put FORBBIDEN
       res.send("Error: Forbidden action");
+			res.sendStatus(400);
   });
 
   app.delete("/api/sandbox/animeseries/:name",(req,res)=>{  //delete name
@@ -174,6 +184,7 @@ app.put("/api/sandbox/musicbands", function (req,res){
    var anime = StrArray(name,animes);
    if (anime != -1){
      animes.splice(anime,1);
+		 res.sendStatus(200);
    }
    else{
     res.sendStatus(404);
@@ -181,8 +192,9 @@ app.put("/api/sandbox/musicbands", function (req,res){
    });
 
  app.delete("/api/sandbox/animeseries",(req,res)=>{  //delete list
- console.log("New DELETE of all resources");
+ 		 console.log("New DELETE of all resources");
      animes.splice(0,animes.length);
+		 res.sendStatus(200);
    });
 
 //---------------------------------------------------------------------------
