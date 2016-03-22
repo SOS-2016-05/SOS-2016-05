@@ -217,6 +217,9 @@ app.get("/api/v1/locations/:name",(req,res)=>{ //get name
 	 var name = req.params.name;
 		console.log("New GET of resource "+name);
 	var location = StrArray(req.params.name,locations);
+/*	dat.forEach((location)=>{
+		res.write("<li>"+d.country+", "+d.year+", "+d.top+", "+d.doping+"</li>");
+	});*/
 	if(location != -1){
 		res.send(locations[location]);
 		res.sendStatus(200);
