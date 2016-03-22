@@ -145,19 +145,19 @@ app.put("/api/sandbox/musicbands", function (req,res){
 		animes= [];
 		var content=fs.readFileSync('animeseries.json','utf8');
 		animes = JSON.parse(content);
-		res.sendStatus(200);
+		res.sendStatus(203);
 	});
 
   app.post("/api/sandbox/animeseries",(req,res)=>{  //post ****
       var ani = req.body;
       animes.push(ani);
       console.log("New POST of resource "+ani.name);
-      res.sendStatus(200);
+      res.sendStatus(203);
   });
 
   app.post("/api/sandbox/animeseries/:name",(req,res)=>{    //post FORBIDDEN
       res.send("Error: Forbidden action");
-			res.sendStatus(400);
+			res.sendStatus(401);
   });
 
   app.put('/api/sandbox/animeseries/:name',(request, response)=>{ //put
@@ -166,7 +166,7 @@ app.put("/api/sandbox/musicbands", function (req,res){
 			var anime = StrArray(id,animes);
       if (anime != -1){
           animes[anime].name=temp.name;
-          response.send(200);
+          response.send(203);
   	}
   	else{
         response.send(404);
@@ -175,7 +175,7 @@ app.put("/api/sandbox/musicbands", function (req,res){
 
   app.put("/api/sandbox/animeseries",(req,res)=>{ //put FORBBIDEN
       res.send("Error: Forbidden action");
-			res.sendStatus(400);
+			res.sendStatus(401);
   });
 
   app.delete("/api/sandbox/animeseries/:name",(req,res)=>{  //delete name
