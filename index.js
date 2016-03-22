@@ -196,6 +196,87 @@ app.put("/api/sandbox/musicbands", function (req,res){
      animes.splice(0,animes.length);
 		 res.sendStatus(200);
    });
+//--------------------------------------------ANTONIO API------------------------
+var locations=[{country:"Greece"}];
+
+app.get('/api/v1/locations/loadInitialData',(req,res)=>{	//load json locations
+	locations= [];
+	var content=fs.readFileSync('datalocation.json','utf8');
+	locations = JSON.parse(content);
+	console.log("The location data has been loaded.")
+	res.sendStatus(203);
+});
+
+//API REST
+app.get("/api/v1/locations",(req,res)=>{   //get list
+		console.log("New GET for directory listing");
+	res.status(200).jsonp(locations);
+});
+
+app.get("/api/v1/locations/:name",(req,res)=>{ //get name
+	 var name = req.params.name;
+		console.log("New GET of resource "+name);
+	var location = StrArray(req.params.name,locations);
+	if(location != -1){
+		res.send(locations[location]);
+		res.sendStatus(200);
+	}
+	else{
+		res.sendStatus(404);
+	}
+});
+
+app.post("/api/v1/locations",(req,res)=>{  //post ****
+		var loc = req.body;
+		locations.push(loc);
+		console.log("New POST of resource "+loc.name);
+		res.sendStatus(203);
+});
+
+app.post("/api/v1/locations/:name",(req,res)=>{    //post FORBIDDEN
+		res.send("Error: Forbidden action");
+		res.sendStatus(401);
+});
+
+app.put('/api/v1/locations/:name',(request, response)=>{ //put
+		var temp = request.body;
+		var id = request.params.name;
+		var location = StrArray(id,locations);
+		if (location != -1){
+				locations[location].name=temp.name;
+				response.send(203);
+	}
+	else{
+			response.send(404);
+	}
+});
+
+app.put("/api/v1/locations",(req,res)=>{ //put FORBBIDEN
+		res.send("Error: Forbidden action");
+		res.sendStatus(401);
+});
+
+app.delete("/api/v1/locations/:name",(req,res)=>{  //delete name
+	 var name=req.params.name;
+	 console.log("New DELETE of resource "+name);
+ var location = StrArray(name,locations);
+ if (location != -1){
+	 locations.splice(location,1);
+	 res.sendStatus(200);
+ }
+ else{
+	res.sendStatus(404);
+ }
+ });
+
+app.delete("/api/v1/locations",(req,res)=>{  //delete list
+	 console.log("New DELETE of all resources");
+	 locations.splice(0,locations.length);
+	 res.sendStatus(200);
+ });
+
+//-------------------------------------------------------------------------------
+
 
 //-----------------------SPORTSCENTERS-------------------------------------------
 var sportscenters=[{name: "Ramon_Sanchez_Pizjuan"},
