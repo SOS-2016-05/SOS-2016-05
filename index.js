@@ -197,7 +197,17 @@ app.put("/api/sandbox/musicbands", function (req,res){
 		 res.sendStatus(200);
    });
 //--------------------------------------------ANTONIO API------------------------
-var locations=[{country:"Greece"}];
+function StrArrayLocation(str,elements){
+	var cont = -1;
+ for(var i=0;i<elements.length;i++)
+      if(elements[i].country==str || elements[i].year==str || elements[i].top==str
+			|| elements[i].doping==str){
+				cont=i;
+			}
+	return cont;
+};
+
+var locations=[];
 
 app.get('/api/v1/locations/loadInitialData',(req,res)=>{	//load json locations
 	locations= [];
@@ -215,18 +225,23 @@ app.get("/api/v1/locations",(req,res)=>{   //get list
 
 app.get("/api/v1/locations/:name",(req,res)=>{ //get name
 	 var name = req.params.name;
-		console.log("New GET of resource "+name);
-	var location = StrArray(req.params.name,locations);
-/*	dat.forEach((location)=>{
-		res.write("<li>"+d.country+", "+d.year+", "+d.top+", "+d.doping+"</li>");
-	});*/
-	if(location != -1){
-		res.send(locations[location]);
-		res.sendStatus(200);
-	}
-	else{
+	 var limit=req.query.limit;
+	 var offset=req.query.offset;
+	 var area=req.query.area;
+
+	 console.log("New GET of resource "+name);
+	 console.log("Limit "+limit);
+	 console.log("Offset "+offset);
+
+	 var location = StrArrayLocation(req.params.name,locations);
+
+   if(location != -1){
+	  	res.send(locations[location]);
+			res.sendStatus(200);
+	 }
+	 else{
 		res.sendStatus(404);
-	}
+	 }
 });
 
 app.post("/api/v1/locations",(req,res)=>{  //post ****
@@ -241,10 +256,10 @@ app.post("/api/v1/locations/:name",(req,res)=>{    //post FORBIDDEN
 		res.sendStatus(401);
 });
 
-app.put('/api/v1/locations/:name',(request, response)=>{ //put
+app.put('/api/v1/locations/:name',(request, response)=>{ //put no funciona bien***
 		var temp = request.body;
 		var id = request.params.name;
-		var location = StrArray(id,locations);
+		var location = StrArrayLocation(id,locations);
 		if (location != -1){
 				locations[location].name=temp.name;
 				response.send(203);
@@ -262,7 +277,7 @@ app.put("/api/v1/locations",(req,res)=>{ //put FORBBIDEN
 app.delete("/api/v1/locations/:name",(req,res)=>{  //delete name
 	 var name=req.params.name;
 	 console.log("New DELETE of resource "+name);
- var location = StrArray(name,locations);
+ var location = StrArrayLocation(name,locations);
  if (location != -1){
 	 locations.splice(location,1);
 	 res.sendStatus(200);
