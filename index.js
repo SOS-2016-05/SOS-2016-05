@@ -261,11 +261,14 @@ app.put('/api/v1/locations/:name',(request, response)=>{ //put no funciona bien*
 		var id = request.params.name;
 		var location = StrArrayLocation(id,locations);
 		if (location != -1){
-				locations[location].name=temp.name;
-				response.send(203);
+				locations[location].country=temp.country;
+				locations[location].year=temp.year;
+				locations[location].top=temp.top;
+				locations[location].doping=temp.doping;
+				response.sendStatus(203);
 	}
 	else{
-			response.send(404);
+			response.sendStatus(404);
 	}
 });
 
