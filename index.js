@@ -2,6 +2,8 @@ var express=require("express");
 var app=express();
 var bodyParser=require("body-parser");
 
+var locationCtl=require("./about/controls/locationCtl.js");
+
 var port=(process.env.PORT || 10000); //local test port
 
 app.use("/about",express.static(__dirname + "/about")); //route
@@ -197,104 +199,16 @@ app.put("/api/sandbox/musicbands", function (req,res){
 		 res.sendStatus(200);
    });
 //--------------------------------------------ANTONIO API------------------------
-function StrArrayLocation(str,elements){
-	var cont = -1;
- for(var i=0;i<elements.length;i++)
-      if(elements[i].country==str || elements[i].year==str || elements[i].top==str
-			|| elements[i].doping==str){
-				cont=i;
-			}
-	return cont;
-};
 
-var locations=[];
-
-app.get('/api/v1/locations/loadInitialData',(req,res)=>{	//load json locations
-	locations= [];
-	var content=fs.readFileSync('datalocation.json','utf8');
-	locations = JSON.parse(content);
-	console.log("The location data has been loaded.")
-	res.sendStatus(203);
-});
-
-//API REST
-app.get("/api/v1/locations",(req,res)=>{   //get list
-		console.log("New GET for directory listing");
-	res.status(200).jsonp(locations);
-});
-
-app.get("/api/v1/locations/:name",(req,res)=>{ //get name
-	 var name = req.params.name;
-	 var limit=req.query.limit;
-	 var offset=req.query.offset;
-	 var area=req.query.area;
-
-	 console.log("New GET of resource "+name);
-	 console.log("Limit "+limit);
-	 console.log("Offset "+offset);
-
-	 var location = StrArrayLocation(req.params.name,locations);
-
-   if(location != -1){
-	  	res.send(locations[location]);
-			res.sendStatus(200);
-	 }
-	 else{
-		res.sendStatus(404);
-	 }
-});
-
-app.post("/api/v1/locations",(req,res)=>{  //post ****
-		var loc = req.body;
-		locations.push(loc);
-		console.log("New POST of resource "+loc.name);
-		res.sendStatus(203);
-});
-
-app.post("/api/v1/locations/:name",(req,res)=>{    //post FORBIDDEN
-		res.send("Error: Forbidden action");
-		res.sendStatus(401);
-});
-
-app.put('/api/v1/locations/:name',(request, response)=>{ //put no funciona bien***
-		var temp = request.body;
-		var id = request.params.name;
-		var location = StrArrayLocation(id,locations);
-		if (location != -1){
-				locations[location].country=temp.country;
-				locations[location].year=temp.year;
-				locations[location].top=temp.top;
-				locations[location].doping=temp.doping;
-				response.sendStatus(203);
-	}
-	else{
-			response.sendStatus(404);
-	}
-});
-
-app.put("/api/v1/locations",(req,res)=>{ //put FORBBIDEN
-		res.send("Error: Forbidden action");
-		res.sendStatus(401);
-});
-
-app.delete("/api/v1/locations/:name",(req,res)=>{  //delete name
-	 var name=req.params.name;
-	 console.log("New DELETE of resource "+name);
- var location = StrArrayLocation(name,locations);
- if (location != -1){
-	 locations.splice(location,1);
-	 res.sendStatus(200);
- }
- else{
-	res.sendStatus(404);
- }
- });
-
-app.delete("/api/v1/locations",(req,res)=>{  //delete list
-	 console.log("New DELETE of all resources");
-	 locations.splice(0,locations.length);
-	 res.sendStatus(200);
- });
+app.get("/api/v1/locations",locationCtl.getLocations);
+app.get("/api/v1/locations/loadInitialData",locationCtl.getLoadIntialDataLocations);
+app.get("/api/v1/locations/:name",locationCtl.getLocation);
+app.post("/api/v1/locations",locationCtl.postLocation);
+app.post("/api/v1/locations/:name",locationCtl.postLocationF);
+app.put('/api/v1/locations/:name',locationCtl.putLocation);
+app.put("/api/v1/locations",locationCtl.putLocations);
+app.delete("/api/v1/locations/:name",locationCtl.deleteLocation);
+app.delete("/api/v1/locations",locationCtl.deleteLocations);
 
 //-------------------------------------------------------------------------------
 
