@@ -228,8 +228,8 @@ app.put("/api/sandbox/sportscenters",sportscentersCtl.putSportsCenters);
 app.delete("/api/sandbox/sportscenters/:name",sportscentersCtl.deleteSportsCenter);
 app.delete("/api/sandbox/sportscenters",sportscentersCtl.deleteSportsCenters);
 
-//-----------------------ENRIQUE API ATHELETES NUMBERS-------------------------------------------
-//----------------API-ATHELETES NUMBERS-MODULARIZED----------------------------------
+//-----------------------ENRIQUE API ATHLETES NUMBERS-------------------------------------------
+//----------------API-ATHLETES NUMBERS-MODULARIZED----------------------------------
 app.get("/api/v1/atheletesnumber/loadInitialData",atheletesnumberCtl.getLoadIntialDataAtheletesnumbers);
 app.get("/api/v1/atheletesnumber",atheletesnumberCtl.getAtheletesnumbers);
 app.get("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.getAtheletesnumber);
@@ -243,6 +243,7 @@ app.put("/api/v1/atheletesnumber",atheletesnumberCtl.putAtheletesnumbers);
 app.delete("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.deleteAtheletesnumber);
 app.delete("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.deleteAtheletesnumberCountryOrYear);
 app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
+
 /*
 //location
 app.get("/about/location",(req,res)=>{

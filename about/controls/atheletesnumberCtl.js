@@ -101,7 +101,6 @@ module.exports.postAtheletesnumbers=(req,res)=>{
     }
 
 module.exports.postAtheletesnumber=(req,res)=>{
-        res.send("Error: Forbidden action, the POST method must be do over a directory");
         res.sendStatus(400);
     }
 
@@ -123,7 +122,6 @@ module.exports.putAtheletesnumber=(req, res)=>{
 };
 
 module.exports.putAtheletesnumbers=(req,res)=>{
-        res.send("Error: Forbidden action, the PUT method must not be do over a directory");
         res.sendStatus(400);
     }
 
