@@ -63,7 +63,7 @@ module.exports.putSportsCenter=(req, res)=>{ //put
       }
     }
 module.exports.putSportsCenters=(req,res)=>{ //put FORBBIDEN
-        res.send("Error: Forbidden action, the POST method must not be do over a directory");
+        res.send("Error: Forbidden action, the PUT method must not be do over a directory");
         res.sendStatus(400);
     }
 module.exports.deleteSportsCenter=(req,res)=>{  //delete name

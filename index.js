@@ -3,13 +3,15 @@ var app=express();
 var bodyParser=require("body-parser");
 
 var locationCtl=require("./about/controls/locationCtl.js");
+var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
+var atheletesnumberCtl=require("./about/controls/atheletesnumberCtl.js");
+
 var port=(process.env.PORT || 10000); //local test port
 
 app.use("/about",express.static(__dirname + "/about")); //route
 app.use(bodyParser.json()); //se pone en medio de las peticiones
 
 var fs=require("fs");   //for all files.
-var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
 
 var dat=[];   //data location
 var athletesnumber=[];  //data athletesnumber
@@ -214,7 +216,7 @@ app.delete("/api/v1/locations",locationCtl.deleteLocations);
 
 
 //-----------------------SPORTSCENTERS-------------------------------------------
-//----------------API-SPORTSCENTERS-MODULARIZED----------------------
+//----------------API-SPORTSCENTERS-MODULARIZED----------------------------------
 
 app.get("/api/sandbox/sportscenters",sportscentersCtl.getSportsCenters);
 app.get("/api/sandbox/sportscenters/:name",sportscentersCtl.getSportsCenter);
@@ -226,6 +228,17 @@ app.put("/api/sandbox/sportscenters",sportscentersCtl.putSportsCenters);
 app.delete("/api/sandbox/sportscenters/:name",sportscentersCtl.deleteSportsCenter);
 app.delete("/api/sandbox/sportscenters",sportscentersCtl.deleteSportsCenters);
 
+//-----------------------ENRIQUE API ATHELETES NUMBERS-------------------------------------------
+//----------------API-ATHELETES NUMBERS-MODULARIZED----------------------------------
+app.get("/api/v1/atheletesnumber",atheletesnumberCtl.getAtheletesnumbers);
+app.get("/api/v1/atheletesnumber/loadInitialData",atheletesnumberCtl.getLoadIntialDataAtheletesnumbers);
+app.get("/api/v1/atheletesnumber/:name",atheletesnumberCtl.getAtheletesnumber);
+app.post("/api/v1/atheletesnumber",atheletesnumberCtl.postAtheletesnumbers);
+app.post("/api/v1/atheletesnumber/:name",atheletesnumberCtl.postAtheletesnumber);
+app.put('/api/v1/atheletesnumber/:name',atheletesnumberCtl.putAtheletesnumber);
+app.put("/api/v1/atheletesnumber",atheletesnumberCtl.putAtheletesnumbers);
+app.delete("/api/v1/atheletesnumber/:name",atheletesnumberCtl.deleteAtheletesnumber);
+app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
 /*
 //location
 app.get("/about/location",(req,res)=>{
