@@ -103,7 +103,7 @@ module.exports.postGoldMedal=(req,res)=>{
         res.sendStatus(400);
     }
 
-module.exports.putGoldMedals=(req, res)=>{ 
+module.exports.putGoldMedal=(req, res)=>{ 
 		var temp = req.body;
 		var country = req.params.country;
 		var year = req.params.year;
