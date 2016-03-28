@@ -244,7 +244,7 @@ app.put("/api/v1/atheletesnumber",atheletesnumberCtl.putAtheletesnumbers);
 app.delete("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.deleteAtheletesnumber);
 app.delete("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.deleteAtheletesnumberCountryOrYear);
 app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
-
+/*
 //-----------------------MARIO API ATHLETES NUMBERS-------------------------------------------
 //----------------GOLD-MEDALS NUMBER-MODULARIZED----------------------------------
 app.get("/api/v1/gold-medals/loadInitialData",goldMedalsCtl.getLoadIntialDataGoldMedals);
@@ -259,7 +259,7 @@ app.put("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.putGoldMedalss);
 app.put("/api/v1/gold-medals",goldMedalsCtl.putGoldMedalss);
 app.delete("/api/v1/gold-medals/:country/:year",goldMedalsCtl.deleteGoldMedals);
 app.delete("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.deleteGoldMedalsCountryOrYear);
-app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteGoldMedalss);
+app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteGoldMedalss);*/
 
 /*
 //location
