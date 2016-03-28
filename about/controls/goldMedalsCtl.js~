@@ -1,11 +1,11 @@
 var fs=require("fs");
 
 var medalsnumber=[
-  {"country": "China", "year": "2008","numgoldmedals": "51","numsilvermedals":"21"},
-  {"country": "Russia", "year": "2008","numgoldmedals": "23","numsilvermedals":"21"},
-  {"country": "USA","year": "2004","numgoldmedals": "35","numsilvermedals":"39"},
-  {"country": "Russia","year": "2004","numgoldmedals": "27","numsilvermedals":"27"},
-  {"country": "USA","year": "2000","numgoldmedals": "39","numsilvermedals":"25"}];
+  {"country": "China", "year": "2008","goldmedalsnumber": "51","silvermedalsnumber":"21"},
+  {"country": "Russia", "year": "2008","goldmedalsnumber": "23","silvermedalsnumber":"21"},
+  {"country": "USA","year": "2004","goldmedalsnumber": "35","silvermedalsnumber":"39"},
+  {"country": "Russia","year": "2004","goldmedalsnumber": "27","silvermedalsnumber":"27"},
+  {"country": "USA","year": "2000","goldmedalsnumber": "39","silvermedalsnumber":"25"}];
 
 function StrArrayGoldMedals(str1,str2,elements){
 	var cont = -1;

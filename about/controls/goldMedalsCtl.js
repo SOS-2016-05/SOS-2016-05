@@ -35,9 +35,9 @@ function StrArrayGoldMedals3(str1,elements){
 };
 
 module.exports.getLoadIntialDataGoldMedals=(req,res)=>{  //Load Gold Medals json data
-    goldMedals= [];
+    medalsnumber= [];
     var content=fs.readFileSync('datagoldmedals.json','utf8');
-    goldMedals = JSON.parse(content);
+    medalsnumber = JSON.parse(content);
     console.log("The Gold Medals data have been successfully loaded.")
     res.sendStatus(200);
   }
