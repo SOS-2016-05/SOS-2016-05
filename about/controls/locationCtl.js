@@ -30,16 +30,11 @@ module.exports.getLoadIntialDataLocations=(req,res)=>{	//load json locations
 		var content=fs.readFileSync('./datalocation.json','utf8');
 		locations = JSON.parse(content);
 		console.log("The location data has been loaded.")
-		res.sendStatus(203);
+		res.sendStatus(201);
 	}else{
 		console.log("you must identificate");
 		res,sendStatus(401);
 	}
-
-	var content=fs.readFileSync('./datalocation.json','utf8');
-	locations = JSON.parse(content);
-	console.log("The location data has been loaded.")
-	res.sendStatus(203);
 };
 
 module.exports.getLocations=(req,res)=>{	//load json locations
@@ -85,7 +80,7 @@ module.exports.postLocation=(req,res)=>{  //post ****
 		if(key){
 			locations.push(loc);
 			console.log("New POST of resource "+loc.name);
-			res.sendStatus(203);
+			res.sendStatus(201);
 		}else{
 			console.log("you must identificate");
 			res.sendStatus(401);
