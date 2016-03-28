@@ -90,7 +90,7 @@ module.exports.postLocation=(req,res)=>{  //post ****
 };
 
 module.exports.postLocationF=(req,res)=>{    //post FORBIDDEN
-		res.send("Error: Forbidden action");
+		console.log("Error: Forbidden action");
 		res.sendStatus(401);
 };
 
@@ -105,7 +105,7 @@ module.exports.putLocation=(request, response)=>{ //put ***
 					locations[location].year=temp.year;
 					locations[location].top=temp.top;
 					locations[location].doping=temp.doping;
-					response.sendStatus(203);
+					response.sendStatus(201);
 		}else{
 				response.sendStatus(404);
 		  }
@@ -116,7 +116,7 @@ module.exports.putLocation=(request, response)=>{ //put ***
 };
 
 module.exports.putLocations=(req,res)=>{ //put FORBBIDEN
-		res.send("Error: Forbidden action");
+		console.log("Error: Forbidden action");
 		res.sendStatus(401);
 };
 
