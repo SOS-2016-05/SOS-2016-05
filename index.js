@@ -214,7 +214,7 @@ app.delete("/api/v1/locations/:name",locationCtl.deleteLocation);
 app.delete("/api/v1/locations",locationCtl.deleteLocations);
 
 //-------------------------------------------------------------------------------
-
+ 
 
 //-----------------------SPORTSCENTERS-------------------------------------------
 //----------------API-SPORTSCENTERS-MODULARIZED----------------------------------
