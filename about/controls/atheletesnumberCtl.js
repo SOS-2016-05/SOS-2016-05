@@ -91,9 +91,14 @@ module.exports.getAtheletesnumber=(req,res)=>{ //
 
 module.exports.getAtheletesnumberCountryOrYear=(req,res)=>{
 	 var countryOrYear = req.params.countryOrYear;
+	 var limit=req.query.limit;
+	 var offset=req.query.offset;
+
 	if(key){
 		if(isNaN(countryOrYear)){//if not a number
 		 		 console.log("New GET of resource "+countryOrYear);
+		 		 console.log("Limit "+limit);
+		 		 console.log("Offset "+offset);
 				 var arrayatheletesnumber = StrArrayAtheletesnumber2(countryOrYear,atheletesnumber);
 
 			   if(arrayatheletesnumber.length>0){
@@ -105,6 +110,8 @@ module.exports.getAtheletesnumberCountryOrYear=(req,res)=>{
 				 }
 			 }else{//if a year
 			 	 console.log("New GET of resource "+countryOrYear);
+			 	 console.log("Limit "+limit);
+				 console.log("Offset "+offset);
 				 var arrayatheletesnumber = StrArrayAtheletesnumber3(countryOrYear,atheletesnumber);
 
 			   if(arrayatheletesnumber.length>0){
