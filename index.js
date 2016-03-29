@@ -252,7 +252,7 @@ app.get("/api/v1/gold-medals",goldMedalsCtl.getGoldMedals);
 app.get("/api/v1/gold-medals/:country/:year",goldMedalsCtl.getGoldMedal);
 app.get("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.getGoldMedalsCountryOrYear);
 app.post("/api/v1/gold-medals",goldMedalsCtl.postGoldMedals);
-app.post("/api/v1/gold-medals/:country/:year",goldMedalsCtl.postGoldMedals);
+app.post("/api/v1/gold-medals/:country/:year",goldMedalsCtl.postGoldMedal);
 app.post("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.postGoldMedals);
 app.put('/api/v1/gold-medals/:country/:year',goldMedalsCtl.putGoldMedals);
 app.put("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.putGoldMedals);
