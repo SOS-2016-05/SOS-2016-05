@@ -73,7 +73,7 @@ var country=req.query.country;//search
 		console.log("you must identificate");
 		res.sendStatus(401);
 	}
-  }
+  };
 
 module.exports.getGoldMedal=(req,res)=>{ //
 	if(key){
