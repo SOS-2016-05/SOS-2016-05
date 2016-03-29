@@ -1,6 +1,5 @@
 
 var fs=require("fs");
-
 var locations=[];
 var key=false;
 
@@ -12,6 +11,15 @@ function StrArrayLocation(str,elements){
 				cont=i;
 			}
 	return cont;
+};
+
+function StrArrayLocation2(str1,elements){
+ 	var arr=[];
+	for(var i=0;i<elements.length;i++)
+	      if(elements[i].country==str1){
+					arr.push(elements[i]);
+				}
+		return arr;
 };
 
 module.exports.getLoadIntialDataLocations=(req,res)=>{	//load json locations
@@ -87,7 +95,8 @@ module.exports.getLocation=(req,res)=>{ //get name
 
 module.exports.postLocation=(req,res)=>{  //post ****
 		var loc = req.body;
-
+	//	var year=loc.year;
+	//	var locc=StrArrayLocation(year,locations);
 		if(key){
 	/*		var temp = req.body;
 			var country = req.params.country;
@@ -110,7 +119,7 @@ module.exports.postLocation=(req,res)=>{  //post ****
 
 		}else{
 			console.log("you must identificate");
-			res.sendStatus(401);
+			res.sendStatus(405);
 		}
 
 
