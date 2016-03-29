@@ -67,7 +67,7 @@ var country=req.query.country;//search
      	}else{
      		console.log("New GET for directory listing");
     		res.status(200).jsonp(atheletesnumber);
-     	}
+     	
 		
 	}else{
 		console.log("you must identificate");
