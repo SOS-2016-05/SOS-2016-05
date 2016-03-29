@@ -38,10 +38,18 @@ module.exports.getLoadIntialDataLocations=(req,res)=>{	//load json locations
 };
 
 module.exports.getLocations=(req,res)=>{	//load json locations
-
+	var country=req.query.country;
 	if(key){
-		console.log("New GET for directory listing");
-		res.status(200).jsonp(locations);
+
+		 if(country!=null){
+			 var arrayatheletesnumber = StrArrayLocation(country,locations);
+			 res.send(locations);
+			 res.sendStatus(200);
+		 }else{
+			console.log("New GET for directory listing");
+			res.status(200).jsonp(locations);
+		 }
+
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);
@@ -50,6 +58,9 @@ module.exports.getLocations=(req,res)=>{	//load json locations
 
 module.exports.getLocation=(req,res)=>{ //get name
 	 var name = req.params.name;
+
+	 var country = req.params.country;
+	 var year = req.params.year;
 
 	 var limit=req.query.limit;
 	 var offset=req.query.offset;
@@ -78,9 +89,25 @@ module.exports.postLocation=(req,res)=>{  //post ****
 		var loc = req.body;
 
 		if(key){
+	/*		var temp = req.body;
+			var country = req.params.country;
+			var year = req.params.year;
+			var location = StrArrayLocation(country,locations);
+
+					if (location != -1){
+							locations[location].country=temp.country;
+							locations[location].year=temp.year;
+							locations[location].top=temp.top;
+							locations[location].doping=temp.doping;
+							res.sendStatus(201);
+				}else{
+						res.sendStatus(404);
+				}*/
+
 			locations.push(loc);
 			console.log("New POST of resource "+loc.name);
 			res.sendStatus(201);
+
 		}else{
 			console.log("you must identificate");
 			res.sendStatus(401);
@@ -91,7 +118,7 @@ module.exports.postLocation=(req,res)=>{  //post ****
 
 module.exports.postLocationF=(req,res)=>{    //post FORBIDDEN
 		console.log("Error: Forbidden action");
-		res.sendStatus(401);
+		res.sendStatus(400);
 };
 
 module.exports.putLocation=(request, response)=>{ //put ***
@@ -117,7 +144,7 @@ module.exports.putLocation=(request, response)=>{ //put ***
 
 module.exports.putLocations=(req,res)=>{ //put FORBBIDEN
 		console.log("Error: Forbidden action");
-		res.sendStatus(401);
+		res.sendStatus(405);
 };
 
 module.exports.deleteLocation=(req,res)=>{  //delete name
