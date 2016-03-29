@@ -59,10 +59,19 @@ module.exports.getLoadIntialDataAtheletesnumbers=(req,res)=>{  //load json  athe
 };
     
 
-module.exports.getAtheletesnumbers=(req,res)=>{ 
+module.exports.getAtheletesnumbers=(req,res)=>{
+	 var country=req.query.country;//search
      if(key){
-		console.log("New GET for directory listing");
-    	res.status(200).jsonp(atheletesnumber);
+     	if(country!=null){
+     		var arrayatheletesnumber = StrArrayAtheletesnumber2(country,atheletesnumber);
+     		res.send(arrayatheletesnumber);
+			res.sendStatus(200);
+
+     	}else{
+     		console.log("New GET for directory listing");
+    		res.status(200).jsonp(atheletesnumber);
+     	}
+		
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);
