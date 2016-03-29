@@ -224,7 +224,6 @@ module.exports.deleteAtheletesnumberCountryOrYear=(req,res)=>{
 			  	for(var i=0;i<atheletesnumber.length;i++){
 			  		if(atheletesnumber[i].country==countryOrYear){
 						atheletesnumber.splice(i,1);
-						res.sendStatus(200);
 					}
 			  	}
 		      		
