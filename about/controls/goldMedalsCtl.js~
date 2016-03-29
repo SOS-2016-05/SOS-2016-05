@@ -142,7 +142,7 @@ module.exports.postGoldMedals=(req,res)=>{
     }
 
 module.exports.postGoldMedal=(req,res)=>{
-        res.sendStatus(400);
+        res.sendStatus(405);
     }
 
 module.exports.putGoldMedal=(req, res)=>{ 

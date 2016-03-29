@@ -132,17 +132,9 @@ module.exports.getGoldMedalsCountryOrYear=(req,res)=>{
 module.exports.postGoldMedals=(req,res)=>{
 	if(key){        
 		var mednumber = req.body;
-		var country2= mednumber.country;
-		var year2= mednumber.year;
-		var array2=StrArrayGoldMedals(country2,year2,atheletesnumber);
-		if(array2==-1){
-		        medalsnumber.push(mednumber);
-		        console.log("New POST of resource "+mednumber.country+" "+mednumber.year);
-		        res.sendStatus(201);
-		}else{
-			console.log("Conflict");
- 			res.sendStatus(409);
-		}
+	        medalsnumber.push(mednumber);
+	        console.log("New POST of resource "+mednumber.country+" "+mednumber.year);
+	        res.sendStatus(201);
 	}else{
 		console.log("you must identificate");
  		res.sendStatus(401);
@@ -150,7 +142,7 @@ module.exports.postGoldMedals=(req,res)=>{
     }
 
 module.exports.postGoldMedal=(req,res)=>{
-        res.sendStatus(405);
+        res.sendStatus(400);
     }
 
 module.exports.putGoldMedal=(req, res)=>{ 
