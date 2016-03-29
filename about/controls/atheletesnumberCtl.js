@@ -141,9 +141,21 @@ module.exports.getAtheletesnumberCountryOrYear=(req,res)=>{
 module.exports.postAtheletesnumbers=(req,res)=>{
 	if(key){
 		var athnumber = req.body;
-		atheletesnumber.push(athnumber);
-		console.log("New POST of resource "+athnumber.country+" "+athnumber.year);
-		res.sendStatus(201);
+		var country2= athnumber.country;
+		var year2= athnumber.year;
+		var array2=StrArrayAtheletesnumber(country2,year2,atheletesnumber);
+		console.log(array2);
+		if(array2==-1){
+			atheletesnumber.push(athnumber);
+			console.log("New POST of resource "+athnumber.country+" "+athnumber.year);
+			res.sendStatus(201);
+			
+			
+		}else{
+			console.log("Conflict");
+ 			res.sendStatus(409);
+		}
+		
 	}else{
 		console.log("you must identificate");
  		res.sendStatus(401);
@@ -152,7 +164,7 @@ module.exports.postAtheletesnumbers=(req,res)=>{
 };
 
 module.exports.postAtheletesnumber=(req,res)=>{
-        res.sendStatus(400);
+        res.sendStatus(405);
     }
 
 module.exports.putAtheletesnumber=(req, res)=>{ 
