@@ -119,7 +119,7 @@ module.exports.postLocation=(req,res)=>{  //post ****
 
 		}else{
 			console.log("you must identificate");
-			res.sendStatus(405);
+			res.sendStatus(401);
 		}
 
 
@@ -127,7 +127,7 @@ module.exports.postLocation=(req,res)=>{  //post ****
 
 module.exports.postLocationF=(req,res)=>{    //post FORBIDDEN
 		console.log("Error: Forbidden action");
-		res.sendStatus(400);
+		res.sendStatus(405);
 };
 
 module.exports.putLocation=(request, response)=>{ //put ***
