@@ -152,7 +152,7 @@ module.exports.postAtheletesnumbers=(req,res)=>{
 };
 
 module.exports.postAtheletesnumber=(req,res)=>{
-        res.sendStatus(400);
+        res.sendStatus(405);
     }
 
 module.exports.putAtheletesnumber=(req, res)=>{ 
