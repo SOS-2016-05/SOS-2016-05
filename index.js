@@ -252,7 +252,7 @@ app.get("/api/v1/gold-medals/loadInitialData",goldMedalsCtl.getLoadIntialDataMed
 app.get("/api/v1/gold-medals/:name",goldMedalsCtl.getMedal);
 app.post("/api/v1/gold-medals",goldMedalsCtl.postMedal);
 app.post("/api/v1/gold-medals/:name",goldMedalsCtl.postMedalF);
-app.put('/api/v1/gold-medals/:name',goldMedalsCtl.putMedal);
+app.put('/api/v1/gold-medals/:name",goldMedalsCtl.putMedal);
 app.put("/api/v1/gold-medals",goldMedalsCtl.putMedals);
 app.delete("/api/v1/gold-medals/:name",goldMedalsCtl.deleteMedal);
 app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteMedals);

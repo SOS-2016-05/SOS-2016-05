@@ -42,7 +42,7 @@ module.exports.getLoadIntialDatamedals=(req,res)=>{	//load json medals
 	}
 };
 
-module.exports.getmedals=(req,res)=>{	//load json medals
+module.exports.getMedals=(req,res)=>{	//load json medals
 
 	if(key){
 		console.log("New GET for directory listing");
