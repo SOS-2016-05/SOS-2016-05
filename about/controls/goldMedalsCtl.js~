@@ -1,81 +1,87 @@
 var fs=require("fs");
 var key=false;
 var medalsnumber=[
-  {"country": "China", "year": "2008","goldmedalsnumber": "51","silvermedalsnumber":"21"},
-  {"country": "Russia", "year": "2008","goldmedalsnumber": "23","silvermedalsnumber":"21"},
-  {"country": "USA","year": "2004","goldmedalsnumber": "35","silvermedalsnumber":"39"},
-  {"country": "Russia","year": "2004","goldmedalsnumber": "27","silvermedalsnumber":"27"},
-  {"country": "USA","year": "2000","goldmedalsnumber": "39","silvermedalsnumber":"25"}];
+	{"country": "China", "year": "2008","goldmedalsnumber": "51","silvermedalsnumber":"21"},
+	{"country": "Russia", "year": "2008","goldmedalsnumber": "23","silvermedalsnumber":"21"},
+	{"country": "USA","year": "2004","goldmedalsnumber": "35","silvermedalsnumber":"39"},
+	{"country": "Russia","year": "2004","goldmedalsnumber": "27","silvermedalsnumber":"27"},
+	{"country": "USA","year": "2000","goldmedalsnumber": "39","silvermedalsnumber":"25"}];
 
 function StrArrayGoldMedals(str1,str2,elements){
 	var cont = -1;
- for(var i=0;i<elements.length;i++)
-      if(elements[i].country==str1 && elements[i].year==str2){
-				cont=i;
-			}
+	for(var i=0;i<elements.length;i++)
+	if(elements[i].country==str1 && elements[i].year==str2){
+		cont=i;
+	}
 	return cont;
 };
 
 function StrArrayGoldMedals2(str1,elements){
- 	var arr=[];
+	var arr=[];
 	for(var i=0;i<elements.length;i++)
-	      if(elements[i].country==str1){
-					arr.push(elements[i]);
-				}
+		if(elements[i].country==str1){
+			arr.push(elements[i]);
+		}
 		return arr;
 };
 
 function StrArrayGoldMedals3(str1,elements){
  	var arr=[];
 	for(var i=0;i<elements.length;i++)
-	      if(elements[i].year==str1){
-					arr.push(elements[i]);
-				}
+		if(elements[i].year==str1){
+			arr.push(elements[i]);
+		}
 		return arr;
 };
 
-module.exports.getLoadIntialDataGoldMedals=(req,res)=>{  //Load Gold Medals json data
+module.exports.getLoadIntialDataMedals=function (req,res){  //Load Gold Medals json data
     medalsnumber= [];
-	var apikey=req.query.apikey;
-	if(apikey!="sos"){
-		console.log("failed");
-		res.sendStatus(401);
-	}else{
-		console.log("success");
-		key=true;
+    var apikey=req.query.apikey;
+    if(apikey=="sos"){
+        console.log("Login success");
+        key=true;     
+    }else{ 
+        console.log("Login fail");
+        res.sendStatus(401);
 	}
 
 	if(key){
-			var content=fs.readFileSync('datagoldmedals.json','utf8');
+			var content=fs.readFileSync('datamedals.json','utf8');
 			medalsnumber = JSON.parse(content);
 			console.log("The Gold Medals data have been successfully loaded.")
 			res.sendStatus(200);
 		}else{
-		console.log("you must identificate");
+		console.log("You must identificate");
 		res,sendStatus(401);
 	}
   }
 
-module.exports.getGoldMedals=(req,res)=>{ 
-var country=req.query.country;//search
+module.exports.getMedals=function (req,res){ 
+    var country=req.query.country;
+    var year=req.query.year;
      if(key){
-     	if(country!=null){
-     		var arraymedalsnumber = StrArrayGoldMedals2(country,medalsnumber);
+     	if(country==null && year==null){
+            console.log("New GET for directory listing");
+    		res.status(200).jsonp(medalsnumber);
+     	}
+        else if(country!=null && year==null)
+        {
+            var arraymedalsnumber = StrArrayGoldMedals2(country,medalsnumber);
      		res.send(arraymedalsnumber);
 			res.sendStatus(200);
-
-     	}else{
-     		console.log("New GET for directory listing");
-    		res.status(200).jsonp(atheletesnumber);
-     	
+        }
+         
+        else{
+     		
+     	}
 		
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);
 	}
-  };
+  }
 
-module.exports.getGoldMedal=(req,res)=>{ //
+module.exports.getGoldMedal=function (req,res){ //
 	if(key){
 	 var country = req.params.country;
 	 var year = req.params.year;
@@ -95,7 +101,7 @@ module.exports.getGoldMedal=(req,res)=>{ //
 	 }
 };
 
-module.exports.getGoldMedalsCountryOrYear=(req,res)=>{
+module.exports.getGoldMedalsCountryOrYear=function (req,res){
 	 var countryOrYear = req.params.countryOrYear;
 	if(key){
 	 if(isNaN(countryOrYear)){//if not a number
@@ -129,7 +135,7 @@ module.exports.getGoldMedalsCountryOrYear=(req,res)=>{
 };
 
 
-module.exports.postGoldMedals=(req,res)=>{
+module.exports.postGoldMedals=function (req,res){
 	if(key){        
 		var mednumber = req.body;
 	        medalsnumber.push(mednumber);
@@ -141,11 +147,11 @@ module.exports.postGoldMedals=(req,res)=>{
 	}
     }
 
-module.exports.postGoldMedal=(req,res)=>{
+module.exports.postGoldMedal=function (req,res){
         res.sendStatus(400);
     }
 
-module.exports.putGoldMedal=(req, res)=>{ 
+module.exports.putGoldMedal=function (req,res){ 
 	if(key){
 		var temp = req.body;
 		var country = req.params.country;
@@ -167,11 +173,11 @@ module.exports.putGoldMedal=(req, res)=>{
 	}
 };
 
-module.exports.putGoldMedals=(req,res)=>{
+module.exports.putGoldMedals=function (req,res){
         res.sendStatus(400);
     }
 
-module.exports.deleteGoldMedal=(req,res)=>{
+module.exports.deleteGoldMedal=function (req,res){
 	if(key){	
 		var country = req.params.country;
 		var year = req.params.year;
@@ -190,7 +196,7 @@ module.exports.deleteGoldMedal=(req,res)=>{
 	}
  };
 
-module.exports.deleteGoldMedals=(req,res)=>{
+module.exports.deleteGoldMedals=function (req,res){
 	if(key){
 		console.log("New DELETE of all resources");
 		medalsnumber.splice(0,medalsnumber.length);
@@ -201,10 +207,9 @@ module.exports.deleteGoldMedals=(req,res)=>{
 	}
  };
 
-module.exports.deleteGoldMedalsCountryOrYear=(req,res)=>{
+module.exports.deleteGoldMedalsCountryOrYear=function (req,res){
 	var countryOrYear = req.params.countryOrYear;
 	if(key){
-
 	 	if(isNaN(countryOrYear)){//if not a number
 	 		 console.log("New DELETE of resource "+countryOrYear);
 			 var arraymedalsnumber = StrArrayGoldMedals2(countryOrYear,medalsnumber);
@@ -215,9 +220,7 @@ module.exports.deleteGoldMedalsCountryOrYear=(req,res)=>{
 						medalsnumber.splice(i,1);
 						res.sendStatus(200);
 					}
-			  	}
-		      		
-	
+			  	}    		
 			 }else{
 				res.sendStatus(404);
 			 }

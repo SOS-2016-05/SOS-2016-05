@@ -167,7 +167,7 @@ module.exports.postAtheletesnumber=function (req,res){
         res.sendStatus(405);
     }
 
-module.exports.putAtheletesnumber=function (req,res){ 
+module.exports.putAtheletesnumber=(req, res)=>{ 
 	if(key){
 			var temp = req.body;
 					var country = req.params.country;

@@ -130,7 +130,7 @@ module.exports.postLocationF=function (req,res){    //post FORBIDDEN
 		res.sendStatus(405);
 };
 
-module.exports.putLocation=function (request,response){ //put ***
+module.exports.putLocation=(request, response)=>{ //put ***
 		var temp = request.body;
 		var id = request.params.name;
 

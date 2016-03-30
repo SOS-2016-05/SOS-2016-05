@@ -50,7 +50,7 @@ module.exports.postSportsCenters=function (req,res){    //post FORBIDDEN
         res.send("Error: Forbidden action, the POST method must be do over a directory");
         res.sendStatus(400);
     }
-module.exports.putSportsCenter=function (req,res){ //put
+module.exports.putSportsCenter=(req, res)=>{ //put
         var temp2 = req.body;
         var id2 = req.params.name;
         var sportcenter = StrArray(id2,sportscenters);

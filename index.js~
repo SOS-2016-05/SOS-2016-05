@@ -27,7 +27,7 @@ function StrArray(str,elements){
 	return cont;
 };
 
-app.get("/time",function (req,res){
+app.get("/time",(req,res)=>{
   var now=Date();
     res.send("The time now is: "+now);
   });
@@ -128,12 +128,12 @@ app.put("/api/sandbox/musicbands", function (req,res){
 
   var animes=[{name:"hellsing"},{name:"evangelion"},{name:"FMAB"}];
 
-  app.get("/api/sandbox/animeseries",function (req,res){   //get list
+  app.get("/api/sandbox/animeseries",(req,res)=>{   //get list
       console.log("New GET for directory listing");
   	res.status(200).jsonp(animes);
   });
 
-  app.get("/api/sandbox/animeseries/:name",function (req,res){ //get name
+  app.get("/api/sandbox/animeseries/:name",(req,res)=>{ //get name
      var name = req.params.name;
       console.log("New GET of resource "+name);
   	var anime = StrArray(req.params.name,animes);
@@ -146,26 +146,26 @@ app.put("/api/sandbox/musicbands", function (req,res){
     }
   });
 
-	app.get('/api-test/animeseries/loadInitialData',function (req,res){	//load json animeseries
+	app.get('/api-test/animeseries/loadInitialData',(req,res)=>{	//load json animeseries
 		animes= [];
 		var content=fs.readFileSync('animeseries.json','utf8');
 		animes = JSON.parse(content);
 		res.sendStatus(203);
 	});
 
-  app.post("/api/sandbox/animeseries",function (req,res){  //post ****
+  app.post("/api/sandbox/animeseries",(req,res)=>{  //post ****
       var ani = req.body;
       animes.push(ani);
       console.log("New POST of resource "+ani.name);
       res.sendStatus(203);
   });
 
-  app.post("/api/sandbox/animeseries/:name",function (req,res){    //post FORBIDDEN
+  app.post("/api/sandbox/animeseries/:name",(req,res)=>{    //post FORBIDDEN
       res.send("Error: Forbidden action");
 			res.sendStatus(401);
   });
 
-  app.put('/api/sandbox/animeseries/:name',function (request,response){ //put
+  app.put('/api/sandbox/animeseries/:name',(request, response)=>{ //put
       var temp = request.body;
       var id = request.params.name;
 			var anime = StrArray(id,animes);
@@ -178,12 +178,12 @@ app.put("/api/sandbox/musicbands", function (req,res){
     }
   });
 
-  app.put("/api/sandbox/animeseries",function (req,res){ //put FORBBIDEN
+  app.put("/api/sandbox/animeseries",(req,res)=>{ //put FORBBIDEN
       res.send("Error: Forbidden action");
 			res.sendStatus(401);
   });
 
-  app.delete("/api/sandbox/animeseries/:name",function (req,res){  //delete name
+  app.delete("/api/sandbox/animeseries/:name",(req,res)=>{  //delete name
      var name=req.params.name;
      console.log("New DELETE of resource "+name);
    var anime = StrArray(name,animes);
@@ -196,7 +196,7 @@ app.put("/api/sandbox/musicbands", function (req,res){
    }
    });
 
- app.delete("/api/sandbox/animeseries",function (req,res){  //delete list
+ app.delete("/api/sandbox/animeseries",(req,res)=>{  //delete list
  		 console.log("New DELETE of all resources");
      animes.splice(0,animes.length);
 		 res.sendStatus(200);
@@ -247,10 +247,10 @@ app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
 
 //-----------------------MARIO API ATHLETES NUMBERS-------------------------------------------
 //----------------GOLD-MEDALS NUMBER-MODULARIZED----------------------------------
-app.get("/api/v1/gold-medals/loadInitialData",goldMedalsCtl.getLoadIntialDataMedals);
-app.get("/api/v1/gold-medals",goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:country/:year",goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/loadInitialData",goldMedalsCtl.getLoadIntialDataGoldMedals);
+app.get("/api/v1/gold-medals",goldMedalsCtl.getGoldMedals);
+app.get("/api/v1/gold-medals/:country/:year",goldMedalsCtl.getGoldMedal);
+app.get("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.getGoldMedalsCountryOrYear);
 app.post("/api/v1/gold-medals",goldMedalsCtl.postGoldMedals);
 app.post("/api/v1/gold-medals/:country/:year",goldMedalsCtl.postGoldMedal);
 app.post("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.postGoldMedals);
@@ -263,7 +263,7 @@ app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteGoldMedals);
 
 /*
 //location
-app.get("/about/location",function (req,res){
+app.get("/about/location",(req,res)=>{
   fs.readFile('data.json','utf8',(err,content)=>{
     console.log("Data read");
     dat=JSON.parse(content);
@@ -299,7 +299,7 @@ app.get("/about/gold-medals",function (req,res) {
 //--------------           ALL PUT IN GOLD-MEDALS.HTML
 
 //athletesnumber
-/*app.get("/about/athletesnumber",function (req,res){
+/*app.get("/about/athletesnumber",(req,res)=>{
 	fs.readFile('dataatheletesnumber.json','utf8',(err,content)=>{//LEER DE FORMA ASÍNCRONA
 	console.log("Data read");
 	contacts2= JSON.parse(content);
