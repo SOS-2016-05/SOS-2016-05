@@ -1,6 +1,6 @@
 var fs=require("fs");
 var key=false;
-var medals=[
+var medalsnumber=[
 	{"country": "China", "year": "2008","goldmedalsnumber": "51","silvermedalsnumber":"21"},
 	{"country": "Russia", "year": "2008","goldmedalsnumber": "23","silvermedalsnumber":"21"},
 	{"country": "USA","year": "2004","goldmedalsnumber": "35","silvermedalsnumber":"39"},
@@ -16,29 +16,13 @@ function StrArrayGoldMedals(str1,str2,elements){
 	return cont;
 };
 
-function SubArray(country,year,elements){
-    var temp=[];
-    if(country==null && year==null)
-        temp=elements;
-    else if(country!=null && year==null)
-    {
-        for(var i=0;i<elements.length;i++)
-            if(elements[i].country==country)
-                temp.push(elements[i]);
-	}
-    else if(country==null & year!=null)
-    {
-        for(var i=0;i<elements.length;i++)
-            if(elements[i].year==year)
-                temp.push(elements[i]);
-    }
-    else
-    {
-        for(var i=0;i<elements.length;i++)
-            if(elements[i].country==country && elements[i].year==year)
-                temp.push(elements[i]);
-    }
-    return temp; 
+function StrArrayGoldMedals2(str1,elements){
+	var arr=[];
+	for(var i=0;i<elements.length;i++)
+		if(elements[i].country==str1){
+			arr.push(elements[i]);
+		}
+		return arr;
 };
 
 function StrArrayGoldMedals3(str1,elements){
@@ -51,7 +35,7 @@ function StrArrayGoldMedals3(str1,elements){
 };
 
 module.exports.getLoadIntialDataMedals=function (req,res){  //Load Gold Medals json data
-    medals= [];
+    medalsnumber= [];
     var apikey=req.query.apikey;
     if(apikey=="sos"){
         console.log("Login success");
@@ -63,14 +47,14 @@ module.exports.getLoadIntialDataMedals=function (req,res){  //Load Gold Medals j
 
 	if(key){
 			var content=fs.readFileSync('datamedals.json','utf8');
-			medals = JSON.parse(content);
+			medalsnumber = JSON.parse(content);
 			console.log("The Gold Medals data have been successfully loaded.")
 			res.sendStatus(200);
 		}else{
 		console.log("You must identificate");
 		res,sendStatus(401);
 	}
-  };
+  }
 
 module.exports.getMedals=function (req,res){ 
     var country=req.query.country;
@@ -78,12 +62,12 @@ module.exports.getMedals=function (req,res){
      if(key){
      	if(country==null && year==null){
             console.log("New GET for directory listing");
-    		res.status(200).jsonp(medals);
+    		res.status(200).jsonp(medalsnumber);
      	}
         else if(country!=null && year==null)
         {
-            var medalsTemp = StrArrayGoldMedals2(country,medals);
-     		res.send(medalsTemp);
+            var arraymedalsnumber = StrArrayGoldMedals2(country,medalsnumber);
+     		res.send(arraymedalsnumber);
 			res.sendStatus(200);
         }
          
@@ -95,17 +79,17 @@ module.exports.getMedals=function (req,res){
 		console.log("you must identificate");
 		res.sendStatus(401);
 	}
-  };
+  }
 
 module.exports.getGoldMedal=function (req,res){ //
 	if(key){
 	 var country = req.params.country;
 	 var year = req.params.year;
 	 console.log("New GET of resource "+country+" "+year);
-	 var medalsnumber2 = StrArrayGoldMedals(country,year,medals);
+	 var medalsnumber2 = StrArrayGoldMedals(country,year,medalsnumber);
 
    if(medalsnumber2 != -1){
-	  	res.send(medals[medalsnumber2]);
+	  	res.send(medalsnumber[medalsnumber2]);
 			res.sendStatus(200);
 	 }
 	 else{
@@ -122,10 +106,10 @@ module.exports.getGoldMedalsCountryOrYear=function (req,res){
 	if(key){
 	 if(isNaN(countryOrYear)){//if not a number
  		 console.log("New GET of resource "+countryOrYear);
-		 var medalsTemp = StrArrayGoldMedals2(countryOrYear,medals);
+		 var arraymedalsnumber = StrArrayGoldMedals2(countryOrYear,medalsnumber);
 
-	   if(medalsTemp.length>0){
-		  	res.send(medalsTemp);
+	   if(arraymedalsnumber.length>0){
+		  	res.send(arraymedalsnumber);
 			res.sendStatus(200);
 		 }
 		 else{
@@ -133,10 +117,10 @@ module.exports.getGoldMedalsCountryOrYear=function (req,res){
 		 }
 	 }else{//if a year
 	 	 console.log("New GET of resource "+countryOrYear);
-		 var medalsTemp = StrArrayGoldMedals3(countryOrYear,medals);
+		 var arraymedalsnumber = StrArrayGoldMedals3(countryOrYear,medalsnumber);
 
-	   if(medalsTemp.length>0){
-		  	res.send(medalsTemp);
+	   if(arraymedalsnumber.length>0){
+		  	res.send(arraymedalsnumber);
 			res.sendStatus(200);
 		 }
 		 else{
@@ -154,7 +138,7 @@ module.exports.getGoldMedalsCountryOrYear=function (req,res){
 module.exports.postGoldMedals=function (req,res){
 	if(key){        
 		var mednumber = req.body;
-	        medals.push(mednumber);
+	        medalsnumber.push(mednumber);
 	        console.log("New POST of resource "+mednumber.country+" "+mednumber.year);
 	        res.sendStatus(201);
 	}else{
@@ -172,12 +156,12 @@ module.exports.putGoldMedal=function (req,res){
 		var temp = req.body;
 		var country = req.params.country;
 		var year = req.params.year;
-		var mednumber2 = StrArrayGoldMedals(country,year,medals);
+		var mednumber2 = StrArrayGoldMedals(country,year,medalsnumber);
 		if (mednumber2 != -1){
-				medals[mednumber2].country=temp.country;
-				medals[mednumber2].year=temp.year;
-				medals[mednumber2].goldmedalsnumber=temp.goldmedalsnumber;
-				medals[mednumber2].silvermedalsnumber=temp.silvermedalsnumber;
+				medalsnumber[mednumber2].country=temp.country;
+				medalsnumber[mednumber2].year=temp.year;
+				medalsnumber[mednumber2].goldmedalsnumber=temp.goldmedalsnumber;
+				medalsnumber[mednumber2].silvermedalsnumber=temp.silvermedalsnumber;
 				res.sendStatus(203);
 		}
 		else{
@@ -198,9 +182,9 @@ module.exports.deleteGoldMedal=function (req,res){
 		var country = req.params.country;
 		var year = req.params.year;
 		console.log("New DELETE of resource "+country+" "+year);
-		var mednumber2 = StrArrayGoldMedals(country,year,medals);
+		var mednumber2 = StrArrayGoldMedals(country,year,medalsnumber);
 		if (mednumber2 != -1){
-			 medals.splice(mednumber2,1);
+			 medalsnumber.splice(mednumber2,1);
 			 res.sendStatus(200);
 		 }
 		else{
@@ -215,7 +199,7 @@ module.exports.deleteGoldMedal=function (req,res){
 module.exports.deleteGoldMedals=function (req,res){
 	if(key){
 		console.log("New DELETE of all resources");
-		medals.splice(0,medals.length);
+		medalsnumber.splice(0,medalsnumber.length);
 		res.sendStatus(200);
 	}else{
 		console.log("you must identificate");
@@ -228,12 +212,12 @@ module.exports.deleteGoldMedalsCountryOrYear=function (req,res){
 	if(key){
 	 	if(isNaN(countryOrYear)){//if not a number
 	 		 console.log("New DELETE of resource "+countryOrYear);
-			 var medalsTemp = StrArrayGoldMedals2(countryOrYear,medals);
+			 var arraymedalsnumber = StrArrayGoldMedals2(countryOrYear,medalsnumber);
 	
-		   if(medalsTemp.length>0){
-			  	for(var i=0;i<medals.length;i++){
-			  		if(medals[i].country==countryOrYear){
-						medals.splice(i,1);
+		   if(arraymedalsnumber.length>0){
+			  	for(var i=0;i<medalsnumber.length;i++){
+			  		if(medalsnumber[i].country==countryOrYear){
+						medalsnumber.splice(i,1);
 						res.sendStatus(200);
 					}
 			  	}    		
@@ -242,12 +226,12 @@ module.exports.deleteGoldMedalsCountryOrYear=function (req,res){
 			 }
 		 }else{//if a year
 		 	console.log("New DELETE of resource "+countryOrYear);
-			 var medalsTemp = StrArrayGoldMedals3(countryOrYear,medals);
+			 var arraymedalsnumber = StrArrayGoldMedals3(countryOrYear,medalsnumber);
 	
-		   if(medalsTemp.length>0){
-			  	for(var i=0;i<medals.length;i++){
-			  		if(medals[i].year==countryOrYear){
-						medals.splice(i,1);
+		   if(arraymedalsnumber.length>0){
+			  	for(var i=0;i<medalsnumber.length;i++){
+			  		if(medalsnumber[i].year==countryOrYear){
+						medalsnumber.splice(i,1);
 					}
 			  	}
 	

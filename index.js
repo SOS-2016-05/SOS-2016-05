@@ -4,7 +4,7 @@ var bodyParser=require("body-parser");
 
 var locationCtl=require("./about/controls/locationCtl.js");
 var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
-var participantsNumberCtl=require("./about/controls/participants-number.js");
+var atheletesnumberCtl=require("./about/controls/atheletesnumberCtl.js");
 var goldMedalsCtl=require("./about/controls/goldMedalsCtl.js");
 
 var port=(process.env.PORT || 10000); //local test port
@@ -15,7 +15,7 @@ app.use(bodyParser.json()); //se pone en medio de las peticiones
 var fs=require("fs");   //for all files.
 
 var dat=[];   //data location
-//var athletesnumber=[];  //data athletesnumber
+var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
 
 //Declares a function where for a given string returns its position from the given array
@@ -229,21 +229,21 @@ app.put("/api/sandbox/sportscenters",sportscentersCtl.putSportsCenters);
 app.delete("/api/sandbox/sportscenters/:name",sportscentersCtl.deleteSportsCenter);
 app.delete("/api/sandbox/sportscenters",sportscentersCtl.deleteSportsCenters);
 
-//-----------------------ENRIQUE API PARTICIPANTS NUMBERS-------------------------------------------
-//----------------API-PARTICIPANTS NUMBERS-MODULARIZED----------------------------------
-app.get("/api/v1/participants-number/loadInitialData",participantsNumberCtl.getLoadIntialDataAthletesnumbers);
-app.get("/api/v1/participants-number",participantsNumberCtl.getAthletesnumbers);
-app.get("/api/v1/participants-number/:country/:year",participantsNumberCtl.getAthletesnumber);
-app.get("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.getAthletesnumberCountryOrYear);
-app.post("/api/v1/participants-number",participantsNumberCtl.postAthletesnumbers);
-app.post("/api/v1/participants-number/:country/:year",participantsNumberCtl.postAthletesnumber);
-app.post("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.postAthletesnumber);
-app.put('/api/v1/participants-number/:country/:year',participantsNumberCtl.putAthletesnumber);
-app.put("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.putAthletesnumbers);
-app.put("/api/v1/participants-number",participantsNumberCtl.putAthletesnumbers);
-app.delete("/api/v1/participants-number/:country/:year",participantsNumberCtl.deleteAthletesnumber);
-app.delete("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.deleteAthletesnumberCountryOrYear);
-app.delete("/api/v1/participants-number",participantsNumberCtl.deleteAthletesnumbers);
+//-----------------------ENRIQUE API ATHLETES NUMBERS-------------------------------------------
+//----------------API-ATHLETES NUMBERS-MODULARIZED----------------------------------
+app.get("/api/v1/atheletesnumber/loadInitialData",atheletesnumberCtl.getLoadIntialDataAtheletesnumbers);
+app.get("/api/v1/atheletesnumber",atheletesnumberCtl.getAtheletesnumbers);
+app.get("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.getAtheletesnumber);
+app.get("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.getAtheletesnumberCountryOrYear);
+app.post("/api/v1/atheletesnumber",atheletesnumberCtl.postAtheletesnumbers);
+app.post("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.postAtheletesnumber);
+app.post("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.postAtheletesnumber);
+app.put('/api/v1/atheletesnumber/:country/:year',atheletesnumberCtl.putAtheletesnumber);
+app.put("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.putAtheletesnumbers);
+app.put("/api/v1/atheletesnumber",atheletesnumberCtl.putAtheletesnumbers);
+app.delete("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.deleteAtheletesnumber);
+app.delete("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.deleteAtheletesnumberCountryOrYear);
+app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
 
 //-----------------------MARIO API ATHLETES NUMBERS-------------------------------------------
 //----------------GOLD-MEDALS NUMBER-MODULARIZED----------------------------------
