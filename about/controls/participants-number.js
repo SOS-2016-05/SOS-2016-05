@@ -1,6 +1,6 @@
 var fs=require("fs");
 var key=false;
-var atheletesnumber=[
+var athletesnumber=[
  {"country":"EEUU","year":"2012","maleathletesnumber":288,"femaleathletesnumber":251},
  {"country":"EEUU","year":"2008","maleathletesnumber":307,"femaleathletesnumber":282},
  {"country":"China","year":"2012","maleathletesnumber":215,"femaleathletesnumber":170},
@@ -8,7 +8,7 @@ var atheletesnumber=[
  {"country":"Spain","year":"2012","maleathletesnumber":167,"femaleathletesnumber":131},
  {"country":"Spain","year":"2008","maleathletesnumber":162,"femaleathletesnumber":120}];
 
-function StrArrayAtheletesnumber(str1,str2,elements){
+function StrArrayParticipantsnumber(str1,str2,elements){
 	var cont = -1;
  for(var i=0;i<elements.length;i++)
       if(elements[i].country==str1 && elements[i].year==str2){
@@ -17,7 +17,7 @@ function StrArrayAtheletesnumber(str1,str2,elements){
 	return cont;
 };
 
-function StrArrayAtheletesnumber2(str1,elements){
+function StrArrayParticipantsnumberCountry(str1,elements){
  	var arr=[];
 	for(var i=0;i<elements.length;i++)
 	      if(elements[i].country==str1){
@@ -26,7 +26,7 @@ function StrArrayAtheletesnumber2(str1,elements){
 		return arr;
 };
 
-function StrArrayAtheletesnumber3(str1,elements){
+function StrArrayParticipantsnumberYear(str1,elements){
  	var arr=[];
 	for(var i=0;i<elements.length;i++)
 	      if(elements[i].year==str1){
@@ -35,8 +35,8 @@ function StrArrayAtheletesnumber3(str1,elements){
 		return arr;
 };
 
-module.exports.getLoadIntialDataAtheletesnumbers=function (req,res){  //load json  atheletesnumber
-    atheletesnumber= [];
+module.exports.getLoadIntialDataParticipantsnumber=function (req,res){  //load json  atheletesnumber
+    athletesnumber= [];
     var apikey=req.query.apikey;
 	if(apikey!="abc"){
 		console.log("failed");
@@ -47,9 +47,9 @@ module.exports.getLoadIntialDataAtheletesnumbers=function (req,res){  //load jso
 	}
 
 	if(key){
-		var content=fs.readFileSync('dataatheletesnumber.json','utf8');
-    	atheletesnumber = JSON.parse(content);
-    	console.log("The Atheletesnumbers data has been loaded.")
+		var content=fs.readFileSync('dataParticipantsNumber.json','utf8');
+    	athletesnumber = JSON.parse(content);
+    	console.log("The participants numbers data has been loaded.")
     	res.sendStatus(200);
 		
 	}else{
@@ -59,17 +59,17 @@ module.exports.getLoadIntialDataAtheletesnumbers=function (req,res){  //load jso
 };
     
 
-module.exports.getAtheletesnumbers=function (req,res){
+module.exports.getParticipantsnumber=function (req,res){
 	 var country=req.query.country;//search
      if(key){
      	if(country!=null){
-     		var arrayatheletesnumber = StrArrayAtheletesnumber2(country,atheletesnumber);
-     		res.send(arrayatheletesnumber);
+     		var arrayathletesnumber = StrArrayParticipantsnumberCountry(country,atheletesnumber);
+     		res.send(arrayathletesnumber);
 			res.sendStatus(200);
 
      	}else{
      		console.log("New GET for directory listing");
-    		res.status(200).jsonp(atheletesnumber);
+    		res.status(200).jsonp(athletesnumber);
      	}
 		
 	}else{
@@ -78,15 +78,15 @@ module.exports.getAtheletesnumbers=function (req,res){
 	}
   };
 
-module.exports.getAtheletesnumber=function (req,res){ //
+module.exports.getParticipantsnumber=function (req,res){ //
 	 
 	 if(key){
 		var country = req.params.country;
 	 	var year = req.params.year;
 	 	console.log("New GET of resource "+country+" "+year);
-	 	var atheletesnumber2 = StrArrayAtheletesnumber(country,year,atheletesnumber);
-		if(atheletesnumber2 != -1){
-	  		res.send(atheletesnumber[atheletesnumber2]);
+	 	var athletesnumber2 = StrArrayParticipantsnumber(country,year,atheletesnumber);
+		if(athletesnumber2 != -1){
+	  		res.send(athletesnumber[athletesnumber2]);
 			res.sendStatus(200);
 		 }else{
 			res.sendStatus(404);
@@ -98,9 +98,9 @@ module.exports.getAtheletesnumber=function (req,res){ //
 	 }
 };
 
-module.exports.getAtheletesnumberCountryOrYear=function (req,res){
+module.exports.getParticipantsnumberCountryOrYear=function (req,res){
 	 var countryOrYear = req.params.countryOrYear;
-	 var limit=req.query.limit;
+	 var limit=req.query.limit;//paginación
 	 var offset=req.query.offset;
 
 	if(key){
@@ -108,10 +108,10 @@ module.exports.getAtheletesnumberCountryOrYear=function (req,res){
 		 		 console.log("New GET of resource "+countryOrYear);
 		 		 console.log("Limit "+limit);
 		 		 console.log("Offset "+offset);
-				 var arrayatheletesnumber = StrArrayAtheletesnumber2(countryOrYear,atheletesnumber);
+				 var arrayathletesnumber = StrArrayParticipantsnumberCountry(countryOrYear,athletesnumber);
 
-			   if(arrayatheletesnumber.length>0){
-				  	res.send(arrayatheletesnumber);
+			   if(arrayathletesnumber.length>0){
+				  	res.send(arrayathletesnumber);
 					res.sendStatus(200);
 				 }
 				 else{
@@ -121,10 +121,10 @@ module.exports.getAtheletesnumberCountryOrYear=function (req,res){
 			 	 console.log("New GET of resource "+countryOrYear);
 			 	 console.log("Limit "+limit);
 				 console.log("Offset "+offset);
-				 var arrayatheletesnumber = StrArrayAtheletesnumber3(countryOrYear,atheletesnumber);
+				 var arrayathletesnumber = StrArrayParticipantsnumber(countryOrYear,athletesnumber);
 
-			   if(arrayatheletesnumber.length>0){
-				  	res.send(arrayatheletesnumber);
+			   if(arrayathletesnumber.length>0){
+				  	res.send(arrayathletesnumber);
 					res.sendStatus(200);
 				 }
 				 else{
@@ -138,15 +138,15 @@ module.exports.getAtheletesnumberCountryOrYear=function (req,res){
 };
 
 
-module.exports.postAtheletesnumbers=function (req,res){
+module.exports.postParticipantsnumber=function (req,res){
 	if(key){
 		var athnumber = req.body;
 		var country2= athnumber.country;
 		var year2= athnumber.year;
-		var array2=StrArrayAtheletesnumber(country2,year2,atheletesnumber);
+		var array2=StrArrayParticipantsnumber(country2,year2,athletesnumber);
 		console.log(array2);
 		if(array2==-1){
-			atheletesnumber.push(athnumber);
+			athletesnumber.push(athnumber);
 			console.log("New POST of resource "+athnumber.country+" "+athnumber.year);
 			res.sendStatus(201);
 			
@@ -163,21 +163,21 @@ module.exports.postAtheletesnumbers=function (req,res){
         
 };
 
-module.exports.postAtheletesnumber=function (req,res){
+module.exports.postParticipantsnumber=function (req,res){
         res.sendStatus(405);
     }
 
-module.exports.putAtheletesnumber=function (req,res){ 
+module.exports.putParticipantsnumber=function (req,res){ 
 	if(key){
 			var temp = req.body;
 					var country = req.params.country;
 					var year = req.params.year;
-					var athnumber2 = StrArrayAtheletesnumber(country,year,atheletesnumber);
+					var athnumber2 = StrArrayParticipantsnumber(country,year,athletesnumber);
 					if (athnumber2 != -1){
-							atheletesnumber[athnumber2].country=temp.country;
-							atheletesnumber[athnumber2].year=temp.year;
-							atheletesnumber[athnumber2].maleathletesnumber=temp.maleathletesnumber;
-							atheletesnumber[athnumber2].femaleathletesnumber=temp.femaleathletesnumber;
+							athletesnumber[athnumber2].country=temp.country;
+							athletesnumber[athnumber2].year=temp.year;
+							athletesnumber[athnumber2].maleathletesnumber=temp.maleathletesnumber;
+							athletesnumber[athnumber2].femaleathletesnumber=temp.femaleathletesnumber;
 							res.sendStatus(203);
 				}
 				else{
@@ -190,18 +190,18 @@ module.exports.putAtheletesnumber=function (req,res){
 		
 };
 
-module.exports.putAtheletesnumbers=function (req,res){
+module.exports.putParticipantsnumber=function (req,res){
         res.sendStatus(400);
     }
 
-module.exports.deleteAtheletesnumber=function (req,res){
+module.exports.deleteParticipantsnumber=function (req,res){
 	if(key){
 		var country = req.params.country;
 			var year = req.params.year;
 			console.log("New DELETE of resource "+country+" "+year);
-			var athnumber2 = StrArrayAtheletesnumber(country,year,atheletesnumber);
+			var athnumber2 = StrArrayParticipantsnumber(country,year,atheletesnumber);
 			if (athnumber2 != -1){
-				 atheletesnumber.splice(athnumber2,1);
+				 athletesnumber.splice(athnumber2,1);
 				 res.sendStatus(200);
 			}else{
 				res.sendStatus(404);
@@ -213,10 +213,10 @@ module.exports.deleteAtheletesnumber=function (req,res){
 	
  };
 
-module.exports.deleteAtheletesnumbers=function (req,res){
+module.exports.deleteParticipantsnumber=function (req,res){
 	if(key){
 		console.log("New DELETE of all resources");
-	 	atheletesnumber.splice(0,atheletesnumber.length);
+	 	athletesnumber.splice(0,athletesnumber.length);
 	 	res.sendStatus(200);
 	}else{
 		console.log("you must identificate");
@@ -225,17 +225,17 @@ module.exports.deleteAtheletesnumbers=function (req,res){
 	 
  };
 
-module.exports.deleteAtheletesnumberCountryOrYear=function (req,res){
+module.exports.deleteParticipantsnumberCountryOrYear=function (req,res){
 	var countryOrYear = req.params.countryOrYear;
 	if(key){
 			if(isNaN(countryOrYear)){//if not a number
 	 		 console.log("New DELETE of resource "+countryOrYear);
-			 var arrayatheletesnumber = StrArrayAtheletesnumber2(countryOrYear,atheletesnumber);
+			 var arrayathletesnumber = StrArrayParticipantsnumberCountry(countryOrYear,athletesnumber);
 
-		  	 if(arrayatheletesnumber.length>0){
-			  	for(var i=0;i<atheletesnumber.length;i++){
-			  		if(atheletesnumber[i].country==countryOrYear){
-						atheletesnumber.splice(i,1);
+		  	 if(arrayathletesnumber.length>0){
+			  	for(var i=0;i<athletesnumber.length;i++){
+			  		if(athletesnumber[i].country==countryOrYear){
+						athletesnumber.splice(i,1);
 						res.sendStatus(200);
 					}
 			  	}
@@ -246,12 +246,12 @@ module.exports.deleteAtheletesnumberCountryOrYear=function (req,res){
 			 }
 		 }else{//if a year
 		 	console.log("New DELETE of resource "+countryOrYear);
-			 var arrayatheletesnumber = StrArrayAtheletesnumber3(countryOrYear,atheletesnumber);
+			 var arrayathletesnumber = StrArrayParticipantsnumberYear(countryOrYear,athletesnumber);
 
-		   if(arrayatheletesnumber.length>0){
-			  	for(var i=0;i<atheletesnumber.length;i++){
-			  		if(atheletesnumber[i].year==countryOrYear){
-						atheletesnumber.splice(i,1);
+		   if(arrayathletesnumber.length>0){
+			  	for(var i=0;i<athletesnumber.length;i++){
+			  		if(athletesnumber[i].year==countryOrYear){
+						athletesnumber.splice(i,1);
 						res.sendStatus(200);
 					}
 			  	}
