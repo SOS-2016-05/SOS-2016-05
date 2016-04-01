@@ -249,17 +249,17 @@ app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
 //----------------GOLD-MEDALS NUMBER-MODULARIZED----------------------------------
 app.get("/api/v1/gold-medals/loadInitialData",goldMedalsCtl.getLoadIntialDataMedals);
 app.get("/api/v1/gold-medals",goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:country/:year",goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.getMedals);
-app.post("/api/v1/gold-medals",goldMedalsCtl.postGoldMedals);
-app.post("/api/v1/gold-medals/:country/:year",goldMedalsCtl.postGoldMedal);
+app.get("/api/v1/gold-medals/:value1",goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1/:value2",goldMedalsCtl.getMedals);
+app.post("/api/v1/gold-medals",goldMedalsCtl.postGoldMedal);
+app.post("/api/v1/gold-medals/:country/:year",goldMedalsCtl.postGoldMedals);
 app.post("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.postGoldMedals);
-app.put('/api/v1/gold-medals/:country/:year',goldMedalsCtl.putGoldMedals);
-app.put("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.putGoldMedals);
-app.put("/api/v1/gold-medals",goldMedalsCtl.putGoldMedals);
-app.delete("/api/v1/gold-medals/:country/:year",goldMedalsCtl.deleteGoldMedal);
-app.delete("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.deleteGoldMedalsCountryOrYear);
-app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteGoldMedals);
+app.put('/api/v1/gold-medals/:country/:year',goldMedalsCtl.putMedal);
+app.put("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.putMedals);
+app.put("/api/v1/gold-medals",goldMedalsCtl.putMedals);
+app.delete("/api/v1/gold-medals/:value1/:value2",goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals/:value1",goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteMedals);
 
 /*
 //location
