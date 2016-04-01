@@ -205,22 +205,24 @@ app.put("/api/sandbox/musicbands", function (req,res){
 
 app.get("/api/v1/locations",locationCtl.getLocations);
 app.get("/api/v1/locations/loadInitialData",locationCtl.getLoadIntialDataLocations);
-app.get("/api/v1/locations/:name",locationCtl.getLocation);
+app.get("/api/v1/locations/:country/:year",locationCtl.getLocation);
+app.get("/api/v1/locations/:country",locationCtl.getLocation);
 app.post("/api/v1/locations",locationCtl.postLocation);
 app.post("/api/v1/locations/:name",locationCtl.postLocationF);
-app.put('/api/v1/locations/:name',locationCtl.putLocation);
+app.put('/api/v1/locations/:country/:year',locationCtl.putLocation);
 app.put("/api/v1/locations",locationCtl.putLocations);
+app.put("/api/v1/locations/:name/",locationCtl.putLocationName)
 app.delete("/api/v1/locations/:name",locationCtl.deleteLocation);
 app.delete("/api/v1/locations",locationCtl.deleteLocations);
 
 //-------------------------------------------------------------------------------
- 
+
 
 //-----------------------SPORTSCENTERS-------------------------------------------
 //----------------API-SPORTSCENTERS-MODULARIZED----------------------------------
 
 app.get("/api/sandbox/sportscenters",sportscentersCtl.getSportsCenters);
-app.get("/api/sandbox/sportscenters/:name",sportscentersCtl.getSportsCenter);
+app.get("/api/sandbox/sportscenters/:countryOrYear",sportscentersCtl.getSportsCenter);
 app.get('/api-test/sportscenters/loadInitialData',sportscentersCtl.getLoadIntialDataSportsCenters);
 app.post("/api/sandbox/sportscenters",sportscentersCtl.postSportsCenter);
 app.post("/api/sandbox/sportscenters/:name",sportscentersCtl.postSportsCenters);
