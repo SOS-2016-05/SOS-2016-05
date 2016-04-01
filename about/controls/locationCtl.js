@@ -2,29 +2,6 @@
 var fs=require("fs");
 var locations=[];
 var key=false;
-/*
-function StrArrayLocation(str,elements){
-	var cont = -1;
- for(var i=0;i<elements.length;i++){
-      if(elements[i].country==str || elements[i].year==str || elements[i].top==str
-			|| elements[i].doping==str){
-				cont=i;
-			}
-	}
-	return cont;
-};
-/*
-function StrArrayLocation2(str1,elements){
- 	var arr=[];
-	for(var i=0;i<elements.length;i++)
-	      if(elements[i].country==str1){
-					arr.push(elements[i]);
-				}
-				else if(elements[i].year==str1){
-					arr.push(elements[i]);
-				}
-		return arr;
-};*/
 
 function FilterLocations(str1,str2){
 	return function(location){
@@ -41,8 +18,8 @@ function FilterLocations(str1,str2){
 
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
 	locations= [];
-
 	var apikey=req.query.apikey;
+
 	if(apikey!="abc"){
 		console.log("failed");
 		res.sendStatus(401);
@@ -99,8 +76,6 @@ module.exports.postLocation=function (req,res){  //post ****
 			console.log("you must identificate");
 			res.sendStatus(401);
 		}
-
-
 };
 
 module.exports.postLocationF=function (req,res){    //post FORBIDDEN
@@ -109,27 +84,32 @@ module.exports.postLocationF=function (req,res){    //post FORBIDDEN
 };
 
 module.exports.putLocation=function (req,res){ //put ***FALLA
-		var temp = req.body;
+	if(key){
+		var body = req.body;
 		var country = req.params.country;
-		var year=req.params.year;
+		var year = req.params.year;
 
-		if(key){
-			/*var location = StrArrayLocation(id,locations);
-			if (location != -1){
-					locations[location].country=temp.country;
-					locations[location].year=temp.year;
-					locations[location].top=temp.top;
-					locations[location].doping=temp.doping;
-					response.sendStatus(201);
-		}else{
-				response.sendStatus(404);
-		  }*/
+    var temp = locations.filter(FilterLocations(country,year));
 
-			res.send(locations.filter(FilterLocations(country,year)));
-		}else{
-			console.log("you must identificate");
-			res.sendStatus(401);
-		}
+		console.log(temp.length);
+
+		if(temp.length!=0){
+      temp.
+			temp.forEach(
+				function (location){
+          location.country=body.country;
+          location.year=body.year;
+          location.top=body.top;
+          location.doping=body.doping;
+      });
+    	res.sendStatus(200);
+    }else{
+			res.sendStatus(404);
+    }
+	}else{
+		console.log("you must identificate");
+		res.sendStatus(401);
+	}
 };
 
 module.exports.putLocations=function (req,res){ //put FORBBIDEN
