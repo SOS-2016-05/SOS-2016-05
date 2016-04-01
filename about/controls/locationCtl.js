@@ -10,11 +10,8 @@ function FilterLocations(str1,str2){
 	(str1==undefined && str2!=undefined && location.year===str2 ||
 	(str1!=undefined && str2!=undefined && location.country===str1 && location.year===str2) ||
   (str1==undefined && str2==undefined)));
-
 	}
-
 }
-
 
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
 	locations= [];
@@ -83,7 +80,7 @@ module.exports.postLocationF=function (req,res){    //post FORBIDDEN
 		res.sendStatus(405);
 };
 
-module.exports.putLocation=function (req,res){ //put ***FALLA
+module.exports.putLocation=function (req,res){ //put
 	if(key){
 		var body = req.body;
 		var country = req.params.country;
@@ -94,8 +91,7 @@ module.exports.putLocation=function (req,res){ //put ***FALLA
 		console.log(temp.length);
 
 		if(temp.length!=0){
-      temp.
-			temp.forEach(
+      temp.forEach(
 				function (location){
           location.country=body.country;
           location.year=body.year;
@@ -123,19 +119,23 @@ module.exports.putLocationName=function(req,res){	//put name FORBIDDEN
 }
 
 module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
-	 var name=req.params.name;
 
 	 if(key){
-		 console.log("New DELETE of resource "+name);
-		 res.send(locations.filter(FilterLocations(name)));
-		/* var location = StrArrayLocation(name,locations);
-	 	 if (location != -1){
-		 locations.splice(location,1);
-		 res.sendStatus(200);
-	 	}else{
-		 res.sendStatus(404);
-	 }*/
+		 var country=req.params.country;
+		 var year=req.params.year;
+		 console.log("New DELETE");
+		 var location = locations.filter(FilterLocations(country,year));
+		 //var diff = ArrayDifference(locations,temp);
+		 var contt=StrArrayCountryNumber(country,locations);
 
+		/*
+		 if(temp.length!=0)
+		 {
+				 locations=diff;
+				 res.sendStatus(200);
+		 }
+		 else
+				 res.sendStatus(404);*/
 	 }else{
 		console.log("you must identificate");
  		res.sendStatus(401);
