@@ -4,7 +4,7 @@ var bodyParser=require("body-parser");
 
 var locationCtl=require("./about/controls/locationCtl.js");
 var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
-var atheletesnumberCtl=require("./about/controls/atheletesnumberCtl.js");
+var participantsNumberCtl=require("./about/controls/participants-numberCtl.js");
 var goldMedalsCtl=require("./about/controls/goldMedalsCtl.js");
 
 var port=(process.env.PORT || 10000); //local test port
@@ -205,22 +205,24 @@ app.put("/api/sandbox/musicbands", function (req,res){
 
 app.get("/api/v1/locations",locationCtl.getLocations);
 app.get("/api/v1/locations/loadInitialData",locationCtl.getLoadIntialDataLocations);
-app.get("/api/v1/locations/:name",locationCtl.getLocation);
+app.get("/api/v1/locations/:country/:year",locationCtl.getLocation);
+app.get("/api/v1/locations/:country",locationCtl.getLocation);
 app.post("/api/v1/locations",locationCtl.postLocation);
 app.post("/api/v1/locations/:name",locationCtl.postLocationF);
-app.put('/api/v1/locations/:name',locationCtl.putLocation);
+app.put('/api/v1/locations/:country/:year',locationCtl.putLocation);
 app.put("/api/v1/locations",locationCtl.putLocations);
+app.put("/api/v1/locations/:name/",locationCtl.putLocationName)
 app.delete("/api/v1/locations/:name",locationCtl.deleteLocation);
 app.delete("/api/v1/locations",locationCtl.deleteLocations);
 
 //-------------------------------------------------------------------------------
- 
+
 
 //-----------------------SPORTSCENTERS-------------------------------------------
 //----------------API-SPORTSCENTERS-MODULARIZED----------------------------------
 
 app.get("/api/sandbox/sportscenters",sportscentersCtl.getSportsCenters);
-app.get("/api/sandbox/sportscenters/:name",sportscentersCtl.getSportsCenter);
+app.get("/api/sandbox/sportscenters/:countryOrYear",sportscentersCtl.getSportsCenter);
 app.get('/api-test/sportscenters/loadInitialData',sportscentersCtl.getLoadIntialDataSportsCenters);
 app.post("/api/sandbox/sportscenters",sportscentersCtl.postSportsCenter);
 app.post("/api/sandbox/sportscenters/:name",sportscentersCtl.postSportsCenters);
@@ -229,21 +231,21 @@ app.put("/api/sandbox/sportscenters",sportscentersCtl.putSportsCenters);
 app.delete("/api/sandbox/sportscenters/:name",sportscentersCtl.deleteSportsCenter);
 app.delete("/api/sandbox/sportscenters",sportscentersCtl.deleteSportsCenters);
 
-//-----------------------ENRIQUE API ATHLETES NUMBERS-------------------------------------------
-//----------------API-ATHLETES NUMBERS-MODULARIZED----------------------------------
-app.get("/api/v1/atheletesnumber/loadInitialData",atheletesnumberCtl.getLoadIntialDataAtheletesnumbers);
-app.get("/api/v1/atheletesnumber",atheletesnumberCtl.getAtheletesnumbers);
-app.get("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.getAtheletesnumber);
-app.get("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.getAtheletesnumberCountryOrYear);
-app.post("/api/v1/atheletesnumber",atheletesnumberCtl.postAtheletesnumbers);
-app.post("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.postAtheletesnumber);
-app.post("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.postAtheletesnumber);
-app.put('/api/v1/atheletesnumber/:country/:year',atheletesnumberCtl.putAtheletesnumber);
-app.put("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.putAtheletesnumbers);
-app.put("/api/v1/atheletesnumber",atheletesnumberCtl.putAtheletesnumbers);
-app.delete("/api/v1/atheletesnumber/:country/:year",atheletesnumberCtl.deleteAtheletesnumber);
-app.delete("/api/v1/atheletesnumber/:countryOrYear",atheletesnumberCtl.deleteAtheletesnumberCountryOrYear);
-app.delete("/api/v1/atheletesnumber",atheletesnumberCtl.deleteAtheletesnumbers);
+//-----------------------ENRIQUE API PARTICIPANTS NUMBERS-------------------------------------------
+//----------------API-PARTICIPANTS NUMBERS-MODULARIZED----------------------------------
+app.get("/api/v1/participants-number/loadInitialData",participantsNumberCtl.getLoadIntialDataParticipantsnumbers);
+app.get("/api/v1/participants-number",participantsNumberCtl.getParticipantsnumbers);
+app.get("/api/v1/participants-number/:country/:year",participantsNumberCtl.getParticipantsnumber);
+app.get("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.getParticipantsnumbersCountryOrYear);
+app.post("/api/v1/participants-number",participantsNumberCtl.postParticipantsnumbers);
+app.post("/api/v1/participants-number/:country/:year",participantsNumberCtl.postParticipantsnumber);
+app.post("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.postParticipantsnumber);
+app.put('/api/v1/participants-number/:country/:year',participantsNumberCtl.putParticipantsnumber);
+app.put("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.putParticipantsnumbers);
+app.put("/api/v1/participants-number",participantsNumberCtl.putParticipantsnumbers);
+app.delete("/api/v1/participants-number/:country/:year",participantsNumberCtl.deleteParticipantsnumber);
+app.delete("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.deleteParticipantsnumberCountryOrYear);
+app.delete("/api/v1/participants-number",participantsNumberCtl.deleteParticipantsnumbers);
 
 //-----------------------MARIO API ATHLETES NUMBERS-------------------------------------------
 //----------------GOLD-MEDALS NUMBER-MODULARIZED----------------------------------
