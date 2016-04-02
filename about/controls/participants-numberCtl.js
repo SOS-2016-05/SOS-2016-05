@@ -51,6 +51,43 @@ function ApiKey(password){
 	return pass;
 }
 
+function FilterLimit(limit,offset){	//filter for pagination
+	var res=[];
+	var cont=0;
+	if(limit==null){
+		if(offset>athletesnumber.length){
+			console.log("Error, offset greater than the array size.");
+		}else{
+
+		for(var i=offset;i<athletesnumber.length;i++){
+				res.push(athletesnumber[i]);
+				cont++;
+			}
+		}
+	}else if(offset==null){
+		for(var i=0;i<athletesnumber.length;i++){
+			if(limit>cont){
+				res.push(athletesnumber[i]);
+				cont++;
+				}
+			}
+	}else{
+		if(offset>athletesnumber.length){
+			console.log("Error, offset greater than the array size.");
+		}else{
+
+		for(var i=offset;i<athletesnumber.length;i++){
+			if(limit>cont){
+				res.push(athletesnumber[i]);
+				cont++;
+				}
+			}
+		}
+	}
+	
+	return res;
+}
+
 module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load json  atheletesnumber
     athletesnumber= [];
     var apikey=ApiKey(req.query.apikey);
@@ -70,11 +107,16 @@ module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load 
 
 module.exports.getParticipantsnumbers=function (req,res){
 	 var limit=req.query.limit;//paginación
-	 var offset=req.query.offset;
+	 var offset=req.query.offset;//paginación
 	 var apikey=ApiKey(req.query.apikey);
      if(apikey){
-     	console.log("New GET for directory listing");
-    	res.status(200).jsonp(athletesnumber);//OK
+     	if(offset==null && limit==null ){
+			console.log("New GET for directory listing");
+    		res.status(200).jsonp(athletesnumber);//OK
+     	}else{
+     		res.send(FilterLimit(limit,offset));
+     		res.sendStatus(200);//ok
+     	}
      						
 	}else{
 		console.log("you must identificate");
@@ -182,7 +224,7 @@ module.exports.putParticipantsnumber=function (req,res){
 					athletesnumber[athnumber2].year=temp.year;
 					athletesnumber[athnumber2].maleathletesnumber=temp.maleathletesnumber;
 					athletesnumber[athnumber2].femaleathletesnumber=temp.femaleathletesnumber;
-					res.sendStatus(200);
+					res.sendStatus(200);//ok
 				}else{
 					res.sendStatus(404);//Not Found
 				}
