@@ -34,6 +34,15 @@ function StrArrayParticipantsnumberYear(str1,elements){
 		return arr;
 };
 
+function StrArrayParticipantsnumberCountrySearch(countryOrYear,elements,from1,to1){
+	var arr=[];
+	for(var i=0;i<elements.length;i++)
+	      if(elements[i].country==countryOrYear && elements[i].year>=from1 && elements[i].year<=to1){
+				arr.push(elements[i]);
+			}
+		return arr;
+}
+
 function ApiKey(password){
 	var pass=false;
 	if(password=="abc"){
@@ -60,19 +69,13 @@ module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load 
     
 
 module.exports.getParticipantsnumbers=function (req,res){
-	 var country=req.query.country;//search
+	 var limit=req.query.limit;//paginación
+	 var offset=req.query.offset;
 	 var apikey=ApiKey(req.query.apikey);
      if(apikey){
-     	if(country!=null){
-     		var arrayathletesnumber = StrArrayParticipantsnumberCountry(country,athletesnumber);
-     		res.send(arrayathletesnumber);
-			res.sendStatus(200);//OK
-
-     	}else{
-     		console.log("New GET for directory listing");
-    		res.status(200).jsonp(athletesnumber);//OK
-     	}
-		
+     	console.log("New GET for directory listing");
+    	res.status(200).jsonp(athletesnumber);//OK
+     						
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);// Unauthorized
@@ -101,26 +104,32 @@ module.exports.getParticipantsnumber=function (req,res){ //
 
 module.exports.getParticipantsnumbersCountryOrYear=function (req,res){
 	 var countryOrYear = req.params.countryOrYear;
-	 var limit=req.query.limit;//paginación
-	 var offset=req.query.offset;
+	 var from1=req.query.from;//search
+	 var to1=req.query.to;//search
 	 var apikey=ApiKey(req.query.apikey);
-	//console.log("Limit "+limit);
-	//console.log("Offset "+offset);
 	if(apikey){
-		getParticipantsCountryYear(countryOrYear,athletesnumber,res);
+		getParticipantsCountryYear(countryOrYear,athletesnumber,res,from1,to1);
+		
 	}else{
 		console.log("you must identificate");
  		res.sendStatus(401);// Unauthorized
 	}
 };
 
-function getParticipantsCountryYear(countryOrYear,array,res){
+function getParticipantsCountryYear(countryOrYear,array,res,from1,to1){
 	console.log("New GET of resource "+countryOrYear);
 	var arrayathletesnumber=[];
 	if(isNaN(countryOrYear)){//if is a COUNTRY
+		if(from1==null || to1==null){
 			arrayathletesnumber = StrArrayParticipantsnumberCountry(countryOrYear,array);
+			
+		}else{//search
+			arrayathletesnumber = StrArrayParticipantsnumberCountrySearch(countryOrYear,array,from1,to1);
+			
+		}
 	}else{//if is a YEAR
-			arrayathletesnumber = StrArrayParticipantsnumberYear(countryOrYear,array);
+		arrayathletesnumber = StrArrayParticipantsnumberYear(countryOrYear,array);
+		
 	}
 
 	if(arrayathletesnumber.length>0){
@@ -130,6 +139,7 @@ function getParticipantsCountryYear(countryOrYear,array,res){
 			res.sendStatus(404);//not found
 		}
 }
+
 module.exports.postParticipantsnumbers=function (req,res){
 	var apikey=ApiKey(req.query.apikey);
 	if(apikey){
