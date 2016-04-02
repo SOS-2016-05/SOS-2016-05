@@ -88,6 +88,11 @@ function FilterLimit(limit,offset){	//filter for pagination
 	return res;
 }
 
+function CheckBody(body){
+    return body.country && body.year && body.maleathletesnumber && body.femaleathletesnumber;
+    
+}
+
 module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load json  atheletesnumber
     athletesnumber= [];
     var apikey=ApiKey(req.query.apikey);
@@ -186,20 +191,21 @@ module.exports.postParticipantsnumbers=function (req,res){
 	var apikey=ApiKey(req.query.apikey);
 	if(apikey){
 		var athnumber = req.body;
-		var country2= athnumber.country;
-		var year2= athnumber.year;
-		var array2=StrArrayParticipantsnumber(country2,year2,athletesnumber);
-		console.log(array2);
-		if(array2==-1){
-			athletesnumber.push(athnumber);
-			console.log("New POST of resource "+athnumber.country+" "+athnumber.year);
-			res.sendStatus(201);//created
-			
-			
+		if(CheckBody(athnumber)){
+			var array2=StrArrayParticipantsnumber(athnumber.country,athnumber.year,athletesnumber);
+			if(array2==-1){//not exist the resource
+				athletesnumber.push(athnumber);
+				console.log("New POST of resource "+athnumber.country+" "+athnumber.year);
+				res.sendStatus(201);//created
+						
+			}else{//if exist the resource CONFLICT
+ 				res.sendStatus(409);// Conflict 
+			}
+
 		}else{
-			console.log("Conflict");
- 			res.sendStatus(409);// Conflict 
+ 			res.sendStatus(400);// Bad request
 		}
+		
 		
 	}else{
 		console.log("you must identificate");
@@ -215,19 +221,24 @@ module.exports.postParticipantsnumber=function (req,res){
 module.exports.putParticipantsnumber=function (req,res){ 
 	var apikey=ApiKey(req.query.apikey);
 	if(apikey){
-			var temp = req.body;
-			var country = req.params.country;
-			var year = req.params.year;
-			var athnumber2 = StrArrayParticipantsnumber(country,year,athletesnumber);
-				if (athnumber2 != -1){
-					athletesnumber[athnumber2].country=temp.country;
-					athletesnumber[athnumber2].year=temp.year;
-					athletesnumber[athnumber2].maleathletesnumber=temp.maleathletesnumber;
-					athletesnumber[athnumber2].femaleathletesnumber=temp.femaleathletesnumber;
-					res.sendStatus(200);//ok
-				}else{
+		console.log(req.body);
+		console.log(req.params.country);
+		console.log(req.params.year);
+		if(CheckBody(req.body) && req.body.country==req.params.country && req.body.year==req.params.year){
+				var athnumber2 = StrArrayParticipantsnumber(req.params.country,req.params.year,athletesnumber);//req url
+					if (athnumber2 != -1){
+						athletesnumber[athnumber2].country=req.body.country;//req body
+						athletesnumber[athnumber2].year=req.body.year;
+						athletesnumber[athnumber2].maleathletesnumber=req.body.maleathletesnumber;
+						athletesnumber[athnumber2].femaleathletesnumber=req.body.femaleathletesnumber;
+						res.sendStatus(200);//ok
+					}else{
 					res.sendStatus(404);//Not Found
-				}
+					}
+		}else{
+			res.sendStatus(400);//bad request
+		}
+			
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);//Unauthorized
