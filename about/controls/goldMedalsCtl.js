@@ -90,8 +90,11 @@ module.exports.getMedals=function (req,res){
     var limit = req.query.limit;
     var temp = medals;
     console.log("New GET for directory listing");
-    temp=Paginate(offset,limit,temp).filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
-    res.send(temp);
+ temp=Paginate(offset,limit,temp).filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
+    if(temp.length!=0)
+        res.send(temp);
+    else
+        res.sendStatus(404);
   };
 
 module.exports.postGoldMedal=function (req,res){
