@@ -3,7 +3,7 @@ var fs=require("fs");
 var locations=[];
 var key=false;
 
-function FilterLocations(str1,str2){
+function FilterLocations(str1,str2){	//filter for Locations
 	return function(location){
 		return ((str1!=undefined &&  str2 ==undefined &&
 		(location.country===str1 || location.year===str1)) ||
@@ -12,26 +12,8 @@ function FilterLocations(str1,str2){
   (str1==undefined && str2==undefined)));
 	}
 }
-/*
-function ArrayDifference(arr1,arr2){
-    var res = [];
-    for(var i=0;i<arr2.length;i++){
-			for(var j=0;j<arr1.length;j++){
-				if(arr1[j].country==arr2[i].country){
-					//console.log(arr1);
-				//	console.log(arr2);
-					delete arr1[j];
-		//			console.log("resultado");
-			//		console.log(arr1);
-				}
-			}
-		}
-		res=arr1;
-		return res;
-}*/
 
-function ArrayDifference(arr1,arr2)
-{
+function ArrayDifference(arr1,arr2){	//Filter for Deletes
     var res = [];
     arr1.forEach(
         function (obj){
@@ -40,6 +22,30 @@ function ArrayDifference(arr1,arr2)
         }
     );
     return res;
+}
+
+function FilterLimit(limit,offset){	//filter for pagination
+	var res=[];
+	var cont=0;
+
+	if (offset==undefined){
+		offset=0;
+	}else if(limit==undefined){
+		limit=locations.length;
+	}
+
+	if(offset>locations.length){
+		console.log("Error, offset greater than the array size.");
+	}else{
+
+		for(var i=offset;i<locations.length;i++){
+			if(limit>cont){
+				res.push(locations[i]);
+				cont++;
+			}
+		}
+	}
+	return res;
 }
 
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
@@ -70,7 +76,19 @@ module.exports.getLocations=function (req,res){	//load json locations
 	if(key){
 		var country=req.params.country;
 		var year=req.params.year;
-		res.send(locations.filter(FilterLocations(country,year)));
+
+	  var limit=req.query.limit;
+		var offset=req.query.offset;
+
+		var location=FilterLimit(limit,offset);
+
+		if(limit!=undefined || offset!=undefined){
+			res.send(location);
+		}
+		else{
+				res.send(locations.filter(FilterLocations(country,year)));
+		}
+
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);
@@ -153,10 +171,7 @@ module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
 	console.log("New DELETE "+ value1+ " "+value2);
 	if(key)
 	{
-			
-
 			var temp = locations.filter(FilterLocations(value1,value2));
-			console.log(temp);
 			var diff = ArrayDifference(locations,temp);
 			if(temp.length!=0)
 			{
