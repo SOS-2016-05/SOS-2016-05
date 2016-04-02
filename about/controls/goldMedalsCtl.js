@@ -26,90 +26,63 @@ function ArrayDifference(arr1,arr2)
     return res;
 }
 
+module.exports.unauthorized=function (req,res){
+        res.sendStatus(401);
+    };
+
 module.exports.getLoadIntialDataMedals=function (req,res){  //Load Gold Medals json data
     medals= [];
-    var apikey=req.query.apikey;
-    if(apikey=="sos"){
-        console.log("Login success");
-        key=true;     
-    }else{ 
-        console.log("Login fail");
-        res.sendStatus(401);
-	}
-
-	if(key){
-			var content=fs.readFileSync('datamedals.json','utf8');
-			medals = JSON.parse(content);
-			console.log("The Gold Medals data have been successfully loaded.")
-			res.sendStatus(200);
-		}else{
-		console.log("You must identificate");
-		res,sendStatus(401);
-	}
+	var content=fs.readFileSync('datamedals.json','utf8');
+	medals = JSON.parse(content);
+	console.log("The Gold Medals data have been successfully loaded.")
+	res.sendStatus(200);
   };
 
 module.exports.getMedals=function (req,res){ 
-    if(key)
-    {
-        var value1=req.params.value1;
-        var value2=req.params.value2;
-        console.log("New GET for directory listing");
-        res.send(medals.filter(FilterByCountryYear(value1,value2)));
-    }
+    var value1=req.params.value1;
+    var value2=req.params.value2;
+    console.log("New GET for directory listing");
+    res.send(medals.filter(FilterByCountryYear(value1,value2)));
+    
   };
 
 module.exports.postGoldMedal=function (req,res){
-	if(key){        
-		var body = req.body;
-	        medals.push(body);
-	        console.log("New POST of resource "+body.country+" "+body.year);
-	        res.sendStatus(201);
-	}else{
-		console.log("You must identificate");
- 		res.sendStatus(401);
-	}
-    }
+    var body = req.body;
+    medals.push(body);
+    console.log("New POST of resource "+body.country+" "+body.year);
+    res.sendStatus(201);
+};
 
 module.exports.postGoldMedals=function (req,res){
         res.sendStatus(400);
     }
 
 module.exports.putMedal=function (req,res){ 
-	if(key){
-		var body = req.body;
-		var country = req.params.country;
-		var year = req.params.year;
-        var temp = medals.filter(FilterByCountryYear(country,year));
-        console.log(temp.length);
-        if(temp.length!=0){
-            temp.
-            temp.forEach(
-                function (obj){
-                    obj.country=body.country;
-                    obj.year=body.year;
-                    obj.goldmedalsnumber=body.goldmedalsnumber;
-                    obj.silvermedalsnumber=body.silvermedalsnumber;
-                }
-            );
-            res.sendStatus(200);
-        }
-        
-		else
-			res.sendStatus(404);
-        
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);
-	}
+	var body = req.body;
+	var country = req.params.country;
+	var year = req.params.year;
+    var temp = medals.filter(FilterByCountryYear(country,year));
+    if(temp.length!=0){
+        temp.forEach(
+            function (obj){
+                obj.country=body.country;
+                obj.year=body.year;
+                obj.goldmedalsnumber=body.goldmedalsnumber;
+                obj.silvermedalsnumber=body.silvermedalsnumber;
+            }
+        );
+        res.sendStatus(200);
+    }
+    
+	else
+		res.sendStatus(404);
 };
 
 module.exports.putMedals=function (req,res){
-        res.sendStatus(400);
-    };
+    res.sendStatus(400);
+};
 
 module.exports.deleteMedals=function (req,res){ 
-    if(key)
-    {
         var value1=req.params.value1;
         var value2=req.params.value2;
         console.log("New DELETE");
@@ -122,5 +95,4 @@ module.exports.deleteMedals=function (req,res){
         }
         else
             res.sendStatus(404);
-    }
   };

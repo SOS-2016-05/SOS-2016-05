@@ -32,6 +32,17 @@ app.get("/time",function (req,res){
     res.send("The time now is: "+now);
   });
 
+var passport = require('passport');
+var LocalAPIKeyStrategy = require('passport-localapikey-update').Strategy;
+
+passport.use(new LocalAPIKeyStrategy(
+  function(apikey, done) {
+    if(apikey=="sos")
+        done(null,apikey);
+    else
+        done(null,null);
+  }
+));
 
 //Music bands-------------------------------------------------------------
 
@@ -248,20 +259,23 @@ app.delete("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.de
 app.delete("/api/v1/participants-number",participantsNumberCtl.deleteParticipantsnumbers);
 
 //-----------------------MARIO API ATHLETES NUMBERS-------------------------------------------
-//----------------GOLD-MEDALS NUMBER-MODULARIZED----------------------------------
-app.get("/api/v1/gold-medals/loadInitialData",goldMedalsCtl.getLoadIntialDataMedals);
-app.get("/api/v1/gold-medals",goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:value1",goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:value1/:value2",goldMedalsCtl.getMedals);
-app.post("/api/v1/gold-medals",goldMedalsCtl.postGoldMedal);
-app.post("/api/v1/gold-medals/:country/:year",goldMedalsCtl.postGoldMedals);
-app.post("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.postGoldMedals);
-app.put('/api/v1/gold-medals/:country/:year',goldMedalsCtl.putMedal);
-app.put("/api/v1/gold-medals/:countryOrYear",goldMedalsCtl.putMedals);
+//----------------GOLD-MEDALS-MODULARIZED----------------------------------
+
+app.get("/api/v1/gold-medals/loadInitialData", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }), goldMedalsCtl.getLoadIntialDataMedals);
+app.get("/api/v1/gold-medals/unauthorized",goldMedalsCtl.unauthorized);
+app.get("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1/:value2", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.getMedals);
+app.post("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedal);
+app.post("/api/v1/gold-medals/:country/:year", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedals);
+app.post("/api/v1/gold-medals/:countryOrYear", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedals);
+app.put("/api/v1/gold-medals/:country/:year", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedal);
+app.put("/api/v1/gold-medals/:countryOrYear", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedals);
 app.put("/api/v1/gold-medals",goldMedalsCtl.putMedals);
-app.delete("/api/v1/gold-medals/:value1/:value2",goldMedalsCtl.deleteMedals);
-app.delete("/api/v1/gold-medals/:value1",goldMedalsCtl.deleteMedals);
-app.delete("/api/v1/gold-medals",goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals/:value1/:value2", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals/:value1", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
+
 
 /*
 //location
