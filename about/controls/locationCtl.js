@@ -12,6 +12,35 @@ function FilterLocations(str1,str2){
   (str1==undefined && str2==undefined)));
 	}
 }
+/*
+function ArrayDifference(arr1,arr2){
+    var res = [];
+    for(var i=0;i<arr2.length;i++){
+			for(var j=0;j<arr1.length;j++){
+				if(arr1[j].country==arr2[i].country){
+					//console.log(arr1);
+				//	console.log(arr2);
+					delete arr1[j];
+		//			console.log("resultado");
+			//		console.log(arr1);
+				}
+			}
+		}
+		res=arr1;
+		return res;
+}*/
+
+function ArrayDifference(arr1,arr2)
+{
+    var res = [];
+    arr1.forEach(
+        function (obj){
+            if(arr2.indexOf(obj)==-1)
+                res.push(obj);
+        }
+    );
+    return res;
+}
 
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
 	locations= [];
@@ -119,27 +148,24 @@ module.exports.putLocationName=function(req,res){	//put name FORBIDDEN
 }
 
 module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
+	var value1=req.params.value1;
+	var value2=req.params.value2;
+	console.log("New DELETE "+ value1+ " "+value2);
+	if(key)
+	{
+			
 
-	 if(key){
-		 var country=req.params.country;
-		 var year=req.params.year;
-		 console.log("New DELETE");
-		 var location = locations.filter(FilterLocations(country,year));
-		 //var diff = ArrayDifference(locations,temp);
-		 var contt=StrArrayCountryNumber(country,locations);
-
-		/*
-		 if(temp.length!=0)
-		 {
-				 locations=diff;
-				 res.sendStatus(200);
-		 }
-		 else
-				 res.sendStatus(404);*/
-	 }else{
-		console.log("you must identificate");
- 		res.sendStatus(401);
-	 }
+			var temp = locations.filter(FilterLocations(value1,value2));
+			console.log(temp);
+			var diff = ArrayDifference(locations,temp);
+			if(temp.length!=0)
+			{
+					locations=diff;
+					res.sendStatus(200);
+			}
+			else
+					res.sendStatus(404);
+	}
  };
 
 module.exports.deleteLocations=function (req,res){  //delete list

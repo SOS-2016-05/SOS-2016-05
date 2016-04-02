@@ -26,7 +26,7 @@
 		res.sendStatus(203);
 	};
 
-  module.exports.putAnimes=function (req,res){  //post ****
+  module.exports.postAnimes=function (req,res){  //post ****
       var ani = req.body;
       animes.push(ani);
       console.log("New POST of resource "+ani.name);
