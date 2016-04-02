@@ -14,6 +14,24 @@ function FilterByCountryYear(value1,value2) {
     }    
 } 
 
+function SearchInArray(value1,value2){
+    return function(obj){
+        return ((value1!=undefined && value2==undefined && obj.goldmedalsnumber===value1) || (value1==undefined && value2!=undefined && obj.silvermedalsnumber===value2) || (value1!=undefined && value2!=undefined && obj.goldmedalsnumber===value1 && obj.silvermedalsnumber===value2) || (value1==undefined && value2==undefined));
+    }
+}
+
+function SearchInArray(value1,value2){
+    return function(obj){
+        return ((value1!=undefined && value2==undefined && obj.goldmedalsnumber===value1) || (value1==undefined && value2!=undefined && obj.silvermedalsnumber===value2) || (value1!=undefined && value2!=undefined && obj.goldmedalsnumber===value1 && obj.silvermedalsnumber===value2) || (value1==undefined && value2==undefined));
+    }
+}
+
+function SearchDatesInArray(from,to){
+    return function(obj){
+        return ((from!=undefined && to==undefined && obj.year>=from) || (from==undefined && to!=undefined && obj.year<=to) || (from!=undefined && to!=undefined && obj.year>=from && obj.year<=to || (from==undefined && to==undefined)));
+    }
+}
+
 function ArrayDifference(arr1,arr2)
 {
     var res = [];
@@ -41,9 +59,14 @@ module.exports.getLoadIntialDataMedals=function (req,res){  //Load Gold Medals j
 module.exports.getMedals=function (req,res){ 
     var value1=req.params.value1;
     var value2=req.params.value2;
+    var goldMedals = req.query.goldmedalsnumber;
+    var silverMedals = req.query.silvermedalsnumber;
+    var from = req.query.from;
+    var to = req.query.to;
+    var temp = medals;
     console.log("New GET for directory listing");
-    res.send(medals.filter(FilterByCountryYear(value1,value2)));
-    
+    temp=temp.filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
+    res.send(temp);
   };
 
 module.exports.postGoldMedal=function (req,res){
@@ -85,8 +108,13 @@ module.exports.putMedals=function (req,res){
 module.exports.deleteMedals=function (req,res){ 
         var value1=req.params.value1;
         var value2=req.params.value2;
+        var goldMedals = req.query.goldmedalsnumber;
+        var silverMedals = req.query.silvermedalsnumber;
+        var from = req.query.from;
+        var to = req.query.to;
         console.log("New DELETE");
-        var temp = medals.filter(FilterByCountryYear(value1,value2));
+        var temp = medals;
+        temp=temp.filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
         var diff = ArrayDifference(medals,temp);
         if(temp.length!=0)
         {
