@@ -81,13 +81,6 @@ module.exports.getLoadIntialDataLocations=function (req,res){	//load json locati
 	locations= [];
 	var apikey=ApiKey(req.query.apikey);
 
-	if(apikey==false){
-		console.log("failed");
-		res.sendStatus(401);
-	}else{
-		console.log("success");
-	}
-
 	if(apikey){
 		var content=fs.readFileSync('./datalocation.json','utf8');
 		locations = JSON.parse(content);
@@ -129,9 +122,9 @@ module.exports.getLocations=function (req,res){	//load json locations
 
 module.exports.postLocation=function (req,res){  //post ****
 		var apikey=ApiKey(req.query.apikey);
-		var loc = req.body;
 
 		if(apikey){
+			var loc = req.body;
 			if(CheckBody(loc)){
 				var temp= locations.filter(FilterLocations(loc.country,loc.year));
 				if(!temp.length){
@@ -209,6 +202,10 @@ module.exports.deleteLocation=function (req,res){  //delete name
 			}
 			else
 					res.sendStatus(404);
+	}
+	else{
+		console.log("you must identificate");
+		res.sendStatus(401);
 	}
  };
 
