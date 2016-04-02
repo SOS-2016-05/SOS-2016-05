@@ -158,7 +158,7 @@ app.post("/api/v1/locations",locationCtl.postLocation);
 app.post("/api/v1/locations/:name",locationCtl.postLocationF);
 app.put('/api/v1/locations/:country/:year',locationCtl.putLocation);
 app.put("/api/v1/locations",locationCtl.putLocations);
-app.put("/api/v1/locations/:country",locationCtl.putLocationName);
+app.put("/api/v1/locations/:country",locationCtl.putLocations);
 app.delete("/api/v1/locations/:value1/:value2",locationCtl.deleteLocation);
 app.delete("/api/v1/locations/:value1",locationCtl.deleteLocation);
 app.delete("/api/v1/locations",locationCtl.deleteLocations);

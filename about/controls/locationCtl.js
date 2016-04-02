@@ -73,6 +73,10 @@ function ApiKey(password){		//APIKEY URL
 	return pass;
 }
 
+function CheckBody(body){		//check 400
+    return body.country && body.year && body.top && body.doping;
+}
+
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
 	locations= [];
 	var apikey=ApiKey(req.query.apikey);
@@ -124,10 +128,18 @@ module.exports.postLocation=function (req,res){  //post ****
 		var loc = req.body;
 
 		if(apikey){
-			locations.push(loc);
-			console.log("New POST of resource "+loc.name);
-			res.sendStatus(201);
-
+			if(CheckBody(loc)){
+				var temp= locations.filter(FilterLocations(loc.country,loc.year));
+				if(!temp.length){
+					locations.push(loc);
+					console.log("New POST of resource "+loc.name);
+					res.sendStatus(201);
+				}else{
+					res.sendStatus(409);
+				}
+			}else{
+				res.sendStatus(400);
+			}
 		}else{
 			console.log("you must identificate");
 			res.sendStatus(401);
@@ -151,6 +163,7 @@ module.exports.putLocation=function (req,res){ //put
 		console.log(temp.length);
 
 		if(temp.length!=0){
+			if(CheckBody(body) && body.country==req.params.country && body.year==req.params.year){
       temp.forEach(
 				function (location){
           location.country=body.country;
@@ -159,9 +172,12 @@ module.exports.putLocation=function (req,res){ //put
           location.doping=body.doping;
       });
     	res.sendStatus(200);
-    }else{
+    	}else{
+			res.sendStatus(400);
+    	}
+		}else{
 			res.sendStatus(404);
-    }
+		}
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);
@@ -172,11 +188,6 @@ module.exports.putLocations=function (req,res){ //put FORBBIDEN
 		console.log("Error: Forbidden action");
 		res.sendStatus(405);
 };
-
-module.exports.putLocationName=function(req,res){	//put name FORBIDDEN
-	console.log("Error: Forbidden action");
-	res.sendStatus(405);
-}
 
 module.exports.deleteLocation=function (req,res){  //delete name
 	var apikey=ApiKey(req.query.apikey);
