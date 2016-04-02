@@ -3,6 +3,7 @@ var app=express();
 var bodyParser=require("body-parser");
 
 var locationCtl=require("./about/controls/locationCtl.js");
+var animeCtl=require("./about/controls/animeCtl.js");
 var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
 var participantsNumberCtl=require("./about/controls/participants-numberCtl.js");
 var goldMedalsCtl=require("./about/controls/goldMedalsCtl.js");
@@ -137,81 +138,16 @@ app.put("/api/sandbox/musicbands", function (req,res){
 
 //---------------------ANIMESERIES----------------------------------------
 
-  var animes=[{name:"hellsing"},{name:"evangelion"},{name:"FMAB"}];
+app.get("/api/sandbox/animeseries",animeCtl.getAnimes);
+app.get("/api/sandbox/animeseries/:name",animeCtl.getAnime);
+app.get('/api-test/animeseries/loadInitialData',animeCtl.AnimeLoad);
+app.post("/api/sandbox/animeseries",animeCtl.postAnimes);
+app.post("/api/sandbox/animeseries/:name",animeCtl.postAnime);
+app.put('/api/sandbox/animeseries/:name',animeCtl.putAnime);
+app.put("/api/sandbox/animeseries",animeCtl.putAnimeF);
+app.delete("/api/sandbox/animeseries/:name",animeCtl.deleteAnime);
+app.delete("/api/sandbox/animeseries",animeCtl.deleteAnimes);
 
-  app.get("/api/sandbox/animeseries",function (req,res){   //get list
-      console.log("New GET for directory listing");
-  	res.status(200).jsonp(animes);
-  });
-
-  app.get("/api/sandbox/animeseries/:name",function (req,res){ //get name
-     var name = req.params.name;
-      console.log("New GET of resource "+name);
-  	var anime = StrArray(req.params.name,animes);
-  	if(anime != -1){
-      res.send(animes[anime]);
-			res.sendStatus(200);
-    }
-  	else{
-      res.sendStatus(404);
-    }
-  });
-
-	app.get('/api-test/animeseries/loadInitialData',function (req,res){	//load json animeseries
-		animes= [];
-		var content=fs.readFileSync('animeseries.json','utf8');
-		animes = JSON.parse(content);
-		res.sendStatus(203);
-	});
-
-  app.post("/api/sandbox/animeseries",function (req,res){  //post ****
-      var ani = req.body;
-      animes.push(ani);
-      console.log("New POST of resource "+ani.name);
-      res.sendStatus(203);
-  });
-
-  app.post("/api/sandbox/animeseries/:name",function (req,res){    //post FORBIDDEN
-      res.send("Error: Forbidden action");
-			res.sendStatus(401);
-  });
-
-  app.put('/api/sandbox/animeseries/:name',function (request,response){ //put
-      var temp = request.body;
-      var id = request.params.name;
-			var anime = StrArray(id,animes);
-      if (anime != -1){
-          animes[anime].name=temp.name;
-          response.send(203);
-  	}
-  	else{
-        response.send(404);
-    }
-  });
-
-  app.put("/api/sandbox/animeseries",function (req,res){ //put FORBBIDEN
-      res.send("Error: Forbidden action");
-			res.sendStatus(401);
-  });
-
-  app.delete("/api/sandbox/animeseries/:name",function (req,res){  //delete name
-     var name=req.params.name;
-     console.log("New DELETE of resource "+name);
-   var anime = StrArray(name,animes);
-   if (anime != -1){
-     animes.splice(anime,1);
-		 res.sendStatus(200);
-   }
-   else{
-    res.sendStatus(404);
-   }
-   });
-
- app.delete("/api/sandbox/animeseries",function (req,res){  //delete list
- 		 console.log("New DELETE of all resources");
-     animes.splice(0,animes.length);
-		 res.sendStatus(200);
-   });
 //--------------------------------------------ANTONIO API------------------------
 
 app.get("/api/v1/locations",locationCtl.getLocations);
@@ -222,8 +158,9 @@ app.post("/api/v1/locations",locationCtl.postLocation);
 app.post("/api/v1/locations/:name",locationCtl.postLocationF);
 app.put('/api/v1/locations/:country/:year',locationCtl.putLocation);
 app.put("/api/v1/locations",locationCtl.putLocations);
-app.put("/api/v1/locations/:name/",locationCtl.putLocationName)
-app.delete("/api/v1/locations/:name",locationCtl.deleteLocation);
+app.put("/api/v1/locations/:country",locationCtl.putLocationName);
+app.delete("/api/v1/locations/:value1/:value2",locationCtl.deleteLocation);
+app.delete("/api/v1/locations/:value1",locationCtl.deleteLocation);
 app.delete("/api/v1/locations",locationCtl.deleteLocations);
 
 //-------------------------------------------------------------------------------

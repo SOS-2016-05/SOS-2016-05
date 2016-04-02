@@ -12,23 +12,6 @@ function FilterLocations(str1,str2){
   (str1==undefined && str2==undefined)));
 	}
 }
-/*
-function ArrayDifference(arr1,arr2){
-    var res = [];
-    for(var i=0;i<arr2.length;i++){
-			for(var j=0;j<arr1.length;j++){
-				if(arr1[j].country==arr2[i].country){
-					//console.log(arr1);
-				//	console.log(arr2);
-					delete arr1[j];
-		//			console.log("resultado");
-			//		console.log(arr1);
-				}
-			}
-		}
-		res=arr1;
-		return res;
-}*/
 
 function ArrayDifference(arr1,arr2)
 {
@@ -153,10 +136,7 @@ module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
 	console.log("New DELETE "+ value1+ " "+value2);
 	if(key)
 	{
-			
-
 			var temp = locations.filter(FilterLocations(value1,value2));
-			console.log(temp);
 			var diff = ArrayDifference(locations,temp);
 			if(temp.length!=0)
 			{
