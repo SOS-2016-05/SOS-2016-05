@@ -152,8 +152,8 @@ app.delete("/api/sandbox/animeseries",animeCtl.deleteAnimes);
 
 app.get("/api/v1/locations",locationCtl.getLocations);
 app.get("/api/v1/locations/loadInitialData",locationCtl.getLoadIntialDataLocations);
-app.get("/api/v1/locations/:country/:year",locationCtl.getLocation);
-app.get("/api/v1/locations/:country",locationCtl.getLocation);
+app.get("/api/v1/locations/:country/:year",locationCtl.getLocations);
+app.get("/api/v1/locations/:country",locationCtl.getLocations);
 app.post("/api/v1/locations",locationCtl.postLocation);
 app.post("/api/v1/locations/:name",locationCtl.postLocationF);
 app.put('/api/v1/locations/:country/:year',locationCtl.putLocation);
@@ -212,26 +212,6 @@ app.put("/api/v1/gold-medals",goldMedalsCtl.putMedals);
 app.delete("/api/v1/gold-medals/:value1/:value2", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
 app.delete("/api/v1/gold-medals/:value1", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
 app.delete("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
-
-
-/*
-//location
-app.get("/about/location",function (req,res){
-  fs.readFile('data.json','utf8',(err,content)=>{
-    console.log("Data read");
-    dat=JSON.parse(content);
-    res.write("<html><body>_____Information_____<ul>");
-    dat.forEach((d)=>{
-      res.write("<li>"+d.country+", "+d.year+", "+d.top+", "+d.doping+"</li>");
-    });
-
-    res.write("</ul>__________________</body></html>");
-    res.end();
-  });
-});
-
-//-----------           ALL PUT IN LOCATION.HTML
-*/
 
 /*
 //gold-medals

@@ -1,7 +1,6 @@
 
 var fs=require("fs");
 var locations=[];
-var key=false;
 
 function FilterLocations(str1,str2){	//filter for Locations
 	return function(location){
@@ -24,23 +23,23 @@ function ArrayDifference(arr1,arr2){	//Filter for Deletes
     return res;
 }
 
-function FilterLimit(limit,offset){	//filter for pagination
+function FilterLimit(limit,offset,arr){	//filter for pagination
 	var res=[];
 	var cont=0;
 
 	if (offset==undefined){
 		offset=0;
-	}else if(limit==undefined){
-		limit=locations.length;
+	}if(limit==undefined){
+		limit=arr.length;
 	}
 
-	if(offset>locations.length){
+	if(offset>arr.length){
 		console.log("Error, offset greater than the array size.");
 	}else{
 
-		for(var i=offset;i<locations.length;i++){
+		for(var i=offset;i<arr.length;i++){
 			if(limit>cont){
-				res.push(locations[i]);
+				res.push(arr[i]);
 				cont++;
 			}
 		}
@@ -48,19 +47,44 @@ function FilterLimit(limit,offset){	//filter for pagination
 	return res;
 }
 
+function SearchInArray(value1,value2){			//SEARCH
+    return function(location){
+        return ((value1!=undefined && value2==undefined && location.top===value1) ||
+				(value1==undefined && value2!=undefined && location.doping===value2) ||
+				(value1!=undefined && value2!=undefined && location.top===value1 && location.doping===value2) ||
+				(value1==undefined && value2==undefined));
+    }
+}
+
+function SearchDatesInArray(from,to){		//SEARCH DATE
+    return function(location){
+        return ((from!=undefined && to==undefined && location.year>=from) ||
+				(from==undefined && to!=undefined && location.year<=to) ||
+				(from!=undefined && to!=undefined && location.year>=from && location.year<=to ||
+					 (from==undefined && to==undefined)));
+    }
+}
+
+function ApiKey(password){		//APIKEY URL
+	var pass=false;
+	if(password=="abc"){
+		pass=true;
+	}
+	return pass;
+}
+
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
 	locations= [];
-	var apikey=req.query.apikey;
+	var apikey=ApiKey(req.query.apikey);
 
-	if(apikey!="abc"){
+	if(apikey==false){
 		console.log("failed");
 		res.sendStatus(401);
 	}else{
 		console.log("success");
-		key=true;
 	}
 
-	if(key){
+	if(apikey){
 		var content=fs.readFileSync('./datalocation.json','utf8');
 		locations = JSON.parse(content);
 		console.log("The location data has been loaded.")
@@ -72,22 +96,22 @@ module.exports.getLoadIntialDataLocations=function (req,res){	//load json locati
 };
 
 module.exports.getLocations=function (req,res){	//load json locations
-
-	if(key){
+	var apikey=ApiKey(req.query.apikey);
+	if(apikey){
 		var country=req.params.country;
 		var year=req.params.year;
-
+		var from=req.query.from;
+ 	  var to=req.query.to;
+ 	  var doping=req.query.doping;
+ 	  var top=req.query.top;
 	  var limit=req.query.limit;
 		var offset=req.query.offset;
+		var temp=locations;
 
-		var location=FilterLimit(limit,offset);
-
-		if(limit!=undefined || offset!=undefined){
-			res.send(location);
-		}
-		else{
-				res.send(locations.filter(FilterLocations(country,year)));
-		}
+		temp=FilterLimit(limit,offset,temp).filter(FilterLocations(country,year)).
+	 	filter(SearchInArray(top,doping)).
+	 	filter(SearchDatesInArray(from,to));
+	 	res.send(temp);
 
 	}else{
 		console.log("you must identificate");
@@ -95,23 +119,11 @@ module.exports.getLocations=function (req,res){	//load json locations
 	}
 };
 
-module.exports.getLocation=function (req,res){ //get name
-	 var country = req.params.country;
-	 var year=req.params.year;
-
-	 if(key){
-		 console.log("New GET of resource "+country+" "+ year);
-		 res.send(locations.filter(FilterLocations(country,year)));
-	 }else{
-		console.log("you must identificate");
- 		res.sendStatus(401);
-	 }
-};
-
 module.exports.postLocation=function (req,res){  //post ****
+		var apikey=ApiKey(req.query.apikey);
 		var loc = req.body;
 
-		if(key){
+		if(apikey){
 			locations.push(loc);
 			console.log("New POST of resource "+loc.name);
 			res.sendStatus(201);
@@ -128,7 +140,8 @@ module.exports.postLocationF=function (req,res){    //post FORBIDDEN
 };
 
 module.exports.putLocation=function (req,res){ //put
-	if(key){
+	var apikey=ApiKey(req.query.apikey);
+	if(apikey){
 		var body = req.body;
 		var country = req.params.country;
 		var year = req.params.year;
@@ -165,12 +178,13 @@ module.exports.putLocationName=function(req,res){	//put name FORBIDDEN
 	res.sendStatus(405);
 }
 
-module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
-	var value1=req.params.value1;
-	var value2=req.params.value2;
-	console.log("New DELETE "+ value1+ " "+value2);
-	if(key)
-	{
+module.exports.deleteLocation=function (req,res){  //delete name
+	var apikey=ApiKey(req.query.apikey);
+
+	if(apikey){
+			var value1=req.params.value1;
+			var value2=req.params.value2;
+			console.log("New DELETE "+ value1+ " "+value2);
 			var temp = locations.filter(FilterLocations(value1,value2));
 			var diff = ArrayDifference(locations,temp);
 			if(temp.length!=0)
@@ -184,7 +198,8 @@ module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
  };
 
 module.exports.deleteLocations=function (req,res){  //delete list
-		if(key){
+		var apikey=ApiKey(req.query.apikey);
+		if(apikey){
 		 console.log("New DELETE of all resources");
 	 	 locations.splice(0,locations.length);
 	 	 res.sendStatus(200);
