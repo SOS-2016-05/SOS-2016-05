@@ -1,5 +1,4 @@
 var fs=require("fs");
-var key=false;
 var medals=[
 	{"country": "China", "year": "2008","goldmedalsnumber": "51","silvermedalsnumber":"21"},
 	{"country": "Russia", "year": "2008","goldmedalsnumber": "23","silvermedalsnumber":"21"},
@@ -44,6 +43,25 @@ function ArrayDifference(arr1,arr2)
     return res;
 }
 
+function Paginate(offset,limit,arr){
+	var res=[];
+	var cont=0;
+
+	if (offset==undefined)
+		offset=0;
+	if(limit==undefined)
+		limit=arr.length;
+	if(offset>arr.length)
+		console.log("Error: Offset greater than the array size.");
+	else
+		for(var i=offset;i<arr.length;i++)
+			if(limit>cont){
+				res.push(arr[i]);
+				cont++;
+			}
+	return res;
+}
+
 module.exports.unauthorized=function (req,res){
         res.sendStatus(401);
     };
@@ -63,9 +81,11 @@ module.exports.getMedals=function (req,res){
     var silverMedals = req.query.silvermedalsnumber;
     var from = req.query.from;
     var to = req.query.to;
+    var offset = req.query.offset;
+    var limit = req.query.limit;
     var temp = medals;
     console.log("New GET for directory listing");
-    temp=temp.filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
+    temp=Paginate(offset,limit,temp).filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
     res.send(temp);
   };
 
@@ -106,21 +126,23 @@ module.exports.putMedals=function (req,res){
 };
 
 module.exports.deleteMedals=function (req,res){ 
-        var value1=req.params.value1;
-        var value2=req.params.value2;
-        var goldMedals = req.query.goldmedalsnumber;
-        var silverMedals = req.query.silvermedalsnumber;
-        var from = req.query.from;
-        var to = req.query.to;
-        console.log("New DELETE");
-        var temp = medals;
-        temp=temp.filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
-        var diff = ArrayDifference(medals,temp);
-        if(temp.length!=0)
-        {
-            medals=diff;
-            res.sendStatus(200);
-        }
-        else
-            res.sendStatus(404);
-  };
+    var value1=req.params.value1;
+    var value2=req.params.value2;
+    var goldMedals = req.query.goldmedalsnumber;
+    var silverMedals = req.query.silvermedalsnumber;
+    var from = req.query.from;
+    var to = req.query.to;
+    var offset = req.query.offset;
+    var limit = req.query.limit;
+    console.log("New DELETE");
+    var temp = medals;
+    temp=Paginate(offset,limit,temp).filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
+    var diff = ArrayDifference(medals,temp);
+    if(temp.length!=0)
+    {
+        medals=diff;
+        res.sendStatus(200);
+    }
+    else
+        res.sendStatus(404);
+};
