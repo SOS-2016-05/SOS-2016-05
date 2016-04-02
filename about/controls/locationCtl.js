@@ -2,29 +2,6 @@
 var fs=require("fs");
 var locations=[];
 var key=false;
-/*
-function StrArrayLocation(str,elements){
-	var cont = -1;
- for(var i=0;i<elements.length;i++){
-      if(elements[i].country==str || elements[i].year==str || elements[i].top==str
-			|| elements[i].doping==str){
-				cont=i;
-			}
-	}
-	return cont;
-};
-/*
-function StrArrayLocation2(str1,elements){
- 	var arr=[];
-	for(var i=0;i<elements.length;i++)
-	      if(elements[i].country==str1){
-					arr.push(elements[i]);
-				}
-				else if(elements[i].year==str1){
-					arr.push(elements[i]);
-				}
-		return arr;
-};*/
 
 function FilterLocations(str1,str2){
 	return function(location){
@@ -33,16 +10,42 @@ function FilterLocations(str1,str2){
 	(str1==undefined && str2!=undefined && location.year===str2 ||
 	(str1!=undefined && str2!=undefined && location.country===str1 && location.year===str2) ||
   (str1==undefined && str2==undefined)));
-
 	}
-
 }
+/*
+function ArrayDifference(arr1,arr2){
+    var res = [];
+    for(var i=0;i<arr2.length;i++){
+			for(var j=0;j<arr1.length;j++){
+				if(arr1[j].country==arr2[i].country){
+					//console.log(arr1);
+				//	console.log(arr2);
+					delete arr1[j];
+		//			console.log("resultado");
+			//		console.log(arr1);
+				}
+			}
+		}
+		res=arr1;
+		return res;
+}*/
 
+function ArrayDifference(arr1,arr2)
+{
+    var res = [];
+    arr1.forEach(
+        function (obj){
+            if(arr2.indexOf(obj)==-1)
+                res.push(obj);
+        }
+    );
+    return res;
+}
 
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
 	locations= [];
-
 	var apikey=req.query.apikey;
+
 	if(apikey!="abc"){
 		console.log("failed");
 		res.sendStatus(401);
@@ -99,8 +102,6 @@ module.exports.postLocation=function (req,res){  //post ****
 			console.log("you must identificate");
 			res.sendStatus(401);
 		}
-
-
 };
 
 module.exports.postLocationF=function (req,res){    //post FORBIDDEN
@@ -108,28 +109,32 @@ module.exports.postLocationF=function (req,res){    //post FORBIDDEN
 		res.sendStatus(405);
 };
 
-module.exports.putLocation=function (req,res){ //put ***FALLA
-		var temp = req.body;
+module.exports.putLocation=function (req,res){ //put
+	if(key){
+		var body = req.body;
 		var country = req.params.country;
-		var year=req.params.year;
+		var year = req.params.year;
 
-		if(key){
-			/*var location = StrArrayLocation(id,locations);
-			if (location != -1){
-					locations[location].country=temp.country;
-					locations[location].year=temp.year;
-					locations[location].top=temp.top;
-					locations[location].doping=temp.doping;
-					response.sendStatus(201);
-		}else{
-				response.sendStatus(404);
-		  }*/
+    var temp = locations.filter(FilterLocations(country,year));
 
-			res.send(locations.filter(FilterLocations(country,year)));
-		}else{
-			console.log("you must identificate");
-			res.sendStatus(401);
-		}
+		console.log(temp.length);
+
+		if(temp.length!=0){
+      temp.forEach(
+				function (location){
+          location.country=body.country;
+          location.year=body.year;
+          location.top=body.top;
+          location.doping=body.doping;
+      });
+    	res.sendStatus(200);
+    }else{
+			res.sendStatus(404);
+    }
+	}else{
+		console.log("you must identificate");
+		res.sendStatus(401);
+	}
 };
 
 module.exports.putLocations=function (req,res){ //put FORBBIDEN
@@ -143,23 +148,24 @@ module.exports.putLocationName=function(req,res){	//put name FORBIDDEN
 }
 
 module.exports.deleteLocation=function (req,res){  //delete name	**FALLA
-	 var name=req.params.name;
+	var value1=req.params.value1;
+	var value2=req.params.value2;
+	console.log("New DELETE "+ value1+ " "+value2);
+	if(key)
+	{
+			
 
-	 if(key){
-		 console.log("New DELETE of resource "+name);
-		 res.send(locations.filter(FilterLocations(name)));
-		/* var location = StrArrayLocation(name,locations);
-	 	 if (location != -1){
-		 locations.splice(location,1);
-		 res.sendStatus(200);
-	 	}else{
-		 res.sendStatus(404);
-	 }*/
-
-	 }else{
-		console.log("you must identificate");
- 		res.sendStatus(401);
-	 }
+			var temp = locations.filter(FilterLocations(value1,value2));
+			console.log(temp);
+			var diff = ArrayDifference(locations,temp);
+			if(temp.length!=0)
+			{
+					locations=diff;
+					res.sendStatus(200);
+			}
+			else
+					res.sendStatus(404);
+	}
  };
 
 module.exports.deleteLocations=function (req,res){  //delete list
