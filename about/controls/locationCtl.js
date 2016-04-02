@@ -115,7 +115,11 @@ module.exports.getLocations=function (req,res){	//load json locations
 		temp=FilterLimit(limit,offset,temp).filter(FilterLocations(country,year)).
 	 	filter(SearchInArray(top,doping)).
 	 	filter(SearchDatesInArray(from,to));
-	 	res.send(temp);
+
+		if(temp.length!=0)
+        res.send(temp);
+    else
+        res.sendStatus(404);
 
 	}else{
 		console.log("you must identificate");
