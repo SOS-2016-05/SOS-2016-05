@@ -208,7 +208,7 @@ app.post("/api/v1/gold-medals/:country/:year", passport.authenticate('localapike
 app.post("/api/v1/gold-medals/:countryOrYear", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedals);
 app.put("/api/v1/gold-medals/:country/:year", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedal);
 app.put("/api/v1/gold-medals/:countryOrYear", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedals);
-app.put("/api/v1/gold-medals",goldMedalsCtl.putMedals);
+app.put("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedals);
 app.delete("/api/v1/gold-medals/:value1/:value2", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
 app.delete("/api/v1/gold-medals/:value1", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
 app.delete("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
