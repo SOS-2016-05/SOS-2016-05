@@ -27,6 +27,13 @@ function ArrayDifference(arr1,arr2){	//Filter for Deletes
 function FilterLimit(limit,offset){	//filter for pagination
 	var res=[];
 	var cont=0;
+
+	if (offset==undefined){
+		offset=0;
+	}else if(limit==undefined){
+		limit=locations.length;
+	}
+
 	if(offset>locations.length){
 		console.log("Error, offset greater than the array size.");
 	}else{
