@@ -62,6 +62,11 @@ function Paginate(offset,limit,arr){
 	return res;
 }
 
+function CheckBody(body){
+    return body.country && body.year && body.goldmedalsnumber && body.silvermedalsnumber;
+    
+}
+
 module.exports.unauthorized=function (req,res){
         res.sendStatus(401);
     };
@@ -91,38 +96,53 @@ module.exports.getMedals=function (req,res){
 
 module.exports.postGoldMedal=function (req,res){
     var body = req.body;
-    medals.push(body);
-    console.log("New POST of resource "+body.country+" "+body.year);
-    res.sendStatus(201);
+    if(CheckBody(body))
+    {
+        var temp= medals.filter(FilterByCountryYear(body.country,body.year));
+        if(!temp.length)
+        {
+            medals.push(body);
+            console.log("New POST of resource "+body.country+" "+body.year);
+            res.sendStatus(201);
+        }
+        else
+            res.sendStatus(409);
+    }
+    else
+        res.sendStatus(400);
 };
 
 module.exports.postGoldMedals=function (req,res){
-        res.sendStatus(400);
+        res.sendStatus(405);
     }
 
 module.exports.putMedal=function (req,res){ 
 	var body = req.body;
-	var country = req.params.country;
-	var year = req.params.year;
-    var temp = medals.filter(FilterByCountryYear(country,year));
-    if(temp.length!=0){
-        temp.forEach(
-            function (obj){
-                obj.country=body.country;
-                obj.year=body.year;
-                obj.goldmedalsnumber=body.goldmedalsnumber;
-                obj.silvermedalsnumber=body.silvermedalsnumber;
-            }
-        );
-        res.sendStatus(200);
+    var country = req.params.country;
+    var year = req.params.year;
+     var temp = medals.filter(FilterByCountryYear(country,year));
+     if(temp.length!=0){
+         if(CheckBody(body) && body.country==req.params.country && body.year==req.params.year)
+         {
+            temp.forEach(
+                 function (obj){
+                     obj.country=body.country;
+                     obj.year=body.year;
+                     obj.goldmedalsnumber=body.goldmedalsnumber;
+                     obj.silvermedalsnumber=body.silvermedalsnumber;
+                 }
+            );
+            res.sendStatus(200);        
+        }
+        else
+            res.sendStatus(400);
     }
-    
-	else
-		res.sendStatus(404);
+    else
+        res.sendStatus(404);
 };
 
 module.exports.putMedals=function (req,res){
-    res.sendStatus(400);
+    res.sendStatus(405);
 };
 
 module.exports.deleteMedals=function (req,res){ 
