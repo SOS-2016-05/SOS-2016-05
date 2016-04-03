@@ -38,12 +38,30 @@ var LocalAPIKeyStrategy = require('passport-localapikey-update').Strategy;
 
 passport.use(new LocalAPIKeyStrategy(
   function(apikey, done) {
-    if(apikey=="sos")
+    if(apikey=="sosrw" || apikey=="sosr")
         done(null,apikey);
     else
-        done(null,null);
+        done(null,false);
   }
 ));
+
+function WriteReadAccess(req, res, next) {
+    passport.authenticate('localapikey', function(err, user, info) {
+        if (user == false || user!="sosrw") {
+            return res.sendStatus(401);
+        }
+        return next();
+    })(req, res, next);   
+};
+
+function ReadAccess(req, res, next) {
+    passport.authenticate('localapikey', function(err, user, info) {
+        if (user == false && (user!="sosrw" || user!="sosr")) {
+            return res.sendStatus(401);
+        }
+        return next();
+    })(req, res, next);   
+};
 
 //Music bands-------------------------------------------------------------
 
@@ -198,20 +216,19 @@ app.delete("/api/v1/participants-number",participantsNumberCtl.deleteParticipant
 //-----------------------MARIO API ATHLETES NUMBERS-------------------------------------------
 //----------------GOLD-MEDALS-MODULARIZED----------------------------------
 
-app.get("/api/v1/gold-medals/loadInitialData", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }), goldMedalsCtl.getLoadIntialDataMedals);
-app.get("/api/v1/gold-medals/unauthorized",goldMedalsCtl.unauthorized);
-app.get("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:value1", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:value1/:value2", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.getMedals);
-app.post("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedal);
-app.post("/api/v1/gold-medals/:country/:year", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedals);
-app.post("/api/v1/gold-medals/:countryOrYear", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.postGoldMedals);
-app.put("/api/v1/gold-medals/:country/:year", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedal);
-app.put("/api/v1/gold-medals/:countryOrYear", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedals);
-app.put("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.putMedals);
-app.delete("/api/v1/gold-medals/:value1/:value2", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
-app.delete("/api/v1/gold-medals/:value1", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
-app.delete("/api/v1/gold-medals", passport.authenticate('localapikey', { session: false,failureRedirect: '/api/v1/gold-medals/unauthorized' }),goldMedalsCtl.deleteMedals);
+app.get("/api/v1/gold-medals/loadInitialData", ReadAccess , goldMedalsCtl.getLoadIntialDataMedals);
+app.get("/api/v1/gold-medals", ReadAccess ,goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1", ReadAccess ,goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1/:value2", ReadAccess ,goldMedalsCtl.getMedals);
+app.post("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.postGoldMedal);
+app.post("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.postGoldMedals);
+app.post("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.postGoldMedals);
+app.put("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.putMedal);
+app.put("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.putMedals);
+app.put("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.putMedals);
+app.delete("/api/v1/gold-medals/:value1/:value2", WriteReadAccess ,goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals/:value1", WriteReadAccess ,goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.deleteMedals);
 
 /*
 //gold-medals

@@ -67,10 +67,6 @@ function CheckBody(body){
     
 }
 
-module.exports.unauthorized=function (req,res){
-        res.sendStatus(401);
-    };
-
 module.exports.getLoadIntialDataMedals=function (req,res){  //Load Gold Medals json data
     medals= [];
 	var content=fs.readFileSync('datamedals.json','utf8');
