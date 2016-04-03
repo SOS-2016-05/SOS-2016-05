@@ -36,19 +36,14 @@ app.get("/time",function (req,res){
 var passport = require('passport');
 var LocalAPIKeyStrategy = require('passport-localapikey-update').Strategy;
 
-passport.use(new LocalAPIKeyStrategy(
-  function(apikey, done) {
-    if(apikey=="sosrw" || apikey=="sosr")
-        done(null,apikey);
-    else
-        done(null,false);
-  }
-));
+passport.use(new LocalAPIKeyStrategy(function(apikey, done) { done(null,apikey); }));
 
 function WriteReadAccess(req, res, next) {
     passport.authenticate('localapikey', function(err, user, info) {
-        if (user == false || user!="sosrw") {
+        if(user==false)
             return res.sendStatus(401);
+        else if (user!="sosrw") {
+            return res.sendStatus(403);
         }
         return next();
     })(req, res, next);   
@@ -56,8 +51,11 @@ function WriteReadAccess(req, res, next) {
 
 function ReadAccess(req, res, next) {
     passport.authenticate('localapikey', function(err, user, info) {
-        if (user == false && (user!="sosrw" || user!="sosr")) {
+        console.log(user);
+        if(user==false)
             return res.sendStatus(401);
+        else if (user!="sosrw" && user!="sosr") {
+            return res.sendStatus(403);
         }
         return next();
     })(req, res, next);   
