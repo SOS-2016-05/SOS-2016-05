@@ -93,7 +93,7 @@ module.exports.getMedals=function (req,res){
         res.sendStatus(404);
   };
 
-module.exports.postGoldMedal=function (req,res){
+module.exports.postMedal=function (req,res){
     var body = req.body;
     if(CheckBody(body))
     {
@@ -111,7 +111,7 @@ module.exports.postGoldMedal=function (req,res){
         res.sendStatus(400);
 };
 
-module.exports.postGoldMedals=function (req,res){
+module.exports.postMedals=function (req,res){
         res.sendStatus(405);
     }
 

@@ -51,14 +51,13 @@ function WriteReadAccess(req, res, next) {
 
 function ReadAccess(req, res, next) {
     passport.authenticate('localapikey', function(err, user, info) {
-        console.log(user);
         if(user==false)
             return res.sendStatus(401);
         else if (user!="sosrw" && user!="sosr") {
             return res.sendStatus(403);
         }
         return next();
-    })(req, res, next);   
+    })(req, res, next);
 };
 
 //Music bands-------------------------------------------------------------
@@ -219,9 +218,9 @@ app.get("/api/v1/gold-medals/loadInitialData", ReadAccess , goldMedalsCtl.getLoa
 app.get("/api/v1/gold-medals", ReadAccess ,goldMedalsCtl.getMedals);
 app.get("/api/v1/gold-medals/:value1", ReadAccess ,goldMedalsCtl.getMedals);
 app.get("/api/v1/gold-medals/:value1/:value2", ReadAccess ,goldMedalsCtl.getMedals);
-app.post("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.postGoldMedal);
-app.post("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.postGoldMedals);
-app.post("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.postGoldMedals);
+app.post("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.postMedal);
+app.post("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.postMedals);
+app.post("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.postMedals);
 app.put("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.putMedal);
 app.put("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.putMedals);
 app.put("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.putMedals);
