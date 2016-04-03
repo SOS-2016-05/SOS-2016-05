@@ -174,6 +174,7 @@ app.get("/api/v1/locations/:country/:year",locationCtl.getLocations);
 app.get("/api/v1/locations/:country",locationCtl.getLocations);
 app.post("/api/v1/locations",locationCtl.postLocation);
 app.post("/api/v1/locations/:name",locationCtl.postLocationF);
+app.post("/api/v1/locations/:country/:year",locationCtl.postLocationF);
 app.put('/api/v1/locations/:country/:year',locationCtl.putLocation);
 app.put("/api/v1/locations",locationCtl.putLocations);
 app.put("/api/v1/locations/:country",locationCtl.putLocations);
