@@ -154,8 +154,7 @@ module.exports.deleteMedals=function (req,res){
     var offset = req.query.offset;
     var limit = req.query.limit;
     console.log("New DELETE");
-    var temp = medals;
-    temp=Paginate(offset,limit,temp).filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
+    var temp = medals; temp=Paginate(offset,limit,temp).filter(FilterByCountryYear(value1,value2)).filter(SearchInArray(goldMedals,silverMedals)).filter(SearchDatesInArray(from,to));
     var diff = ArrayDifference(medals,temp);
     if(temp.length!=0)
     {

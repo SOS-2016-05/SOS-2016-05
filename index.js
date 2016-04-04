@@ -40,7 +40,7 @@ passport.use(new LocalAPIKeyStrategy(function(apikey, done) { done(null,apikey);
 
 function WriteReadAccess(req, res, next) {
     passport.authenticate('localapikey', function(err, user, info) {
-        if(user==false)
+        if(!user)
             return res.sendStatus(401);
         else if (user!="sosrw") {
             return res.sendStatus(403);
@@ -51,7 +51,7 @@ function WriteReadAccess(req, res, next) {
 
 function ReadAccess(req, res, next) {
     passport.authenticate('localapikey', function(err, user, info) {
-        if(user==false)
+        if(!user)
             return res.sendStatus(401);
         else if (user!="sosrw" && user!="sosr") {
             return res.sendStatus(403);
