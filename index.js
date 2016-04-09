@@ -263,4 +263,7 @@ res.end()
 });*/
 
 //------------ALL PUT IN ATHLETESNUMBER.HTML
+
+app.use("/RESTClient",express.static(__dirname + "/restclient"));
+
 app.listen(port);
