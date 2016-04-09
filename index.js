@@ -12,6 +12,8 @@ var port=(process.env.PORT || 10000); //local test port
 
 app.use("/about",express.static(__dirname + "/about")); //route
 app.use(bodyParser.json()); //se pone en medio de las peticiones
+app.use("/RESTClient",express.static(__dirname + "/restclient"));
+app.use("/data",express.static(__dirname + "/data"));
 
 var fs=require("fs");   //for all files.
 
@@ -46,7 +48,7 @@ function WriteReadAccess(req, res, next) {
             return res.sendStatus(403);
         }
         return next();
-    })(req, res, next);   
+    })(req, res, next);
 };
 
 function ReadAccess(req, res, next) {
@@ -263,7 +265,4 @@ res.end()
 });*/
 
 //------------ALL PUT IN ATHLETESNUMBER.HTML
-
-app.use("/RESTClient",express.static(__dirname + "/restclient"));
-
 app.listen(port);
