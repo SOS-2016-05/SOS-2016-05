@@ -1,26 +1,34 @@
+var service = '../../api/v1/';
+
 $(document).ready(function(){
+
+    jQuery.support.cors = true;
+
     $.ajax({
         type: "GET",
-        url: '/api/v1/gold-medals?apikey=sosrw',
+        url: service + 'gold-medals?apikey=sosrw',
+        data: "{}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        cache: false,
         success: function(data) {
-            insertTable(data);
+        drawTable(data);
+        var trHTML = '';
     	}
     });
-    	
-	function insertRow(data) {
-	    var row = $("<tr/>")
-	    $("#medals").append(row); 
-	    row.append($("<td>"+data.country+"</td>"));
-	    row.append($("<td>"+data.year+"</td>"));
-	    row.append($("<td>"+data.goldmedalsnumber+"</td>"));
-	    row.append($("<td>"+data.silvermedalsnumber+"</td>"));
-	}
-    
-    function insertTable(data) {
-	    for (var i = 0; i < data.length; i++)
-	        insertRow(data[i]);
+    function drawTable(data) {
+	    for (var i = 0; i < data.length; i++) {
+	        drawRow(data[i]);
+	    }
+	}	
+
+	function drawRow(rowData) {
+	    var row = $("<tr bgcolor='#FFFFFF'/>")
+	    $("#location").append(row); 
+	    row.append($("<td>" + rowData.country + "</td>"));
+	    row.append($("<td>" + rowData.year + "</td>"));
+	    row.append($("<td>" + rowData.goldmedalsnumber + "</td>"));
+	    row.append($("<td>" + rowData.silvermedalsnumber + "</td>"));
 	}
 
 })
