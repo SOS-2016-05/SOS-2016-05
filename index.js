@@ -265,4 +265,7 @@ res.end()
 });*/
 
 //------------ALL PUT IN ATHLETESNUMBER.HTML
+app.use("/RESTClient",express.static(__dirname + "/restclient"));
+app.use("/data/gold-medals",express.static(__dirname + "/data/gold-medals"));
+app.use("/data/locations",express.static(__dirname + "/data/locations"));
 app.listen(port);
