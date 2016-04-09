@@ -12,10 +12,10 @@ $(document).ready(() => {
             contentType: "application/json"
         });
 
-        request.done(function(datalocation) {
+        request.done(function(data) {
             console.log("Handling request (OK)");
             console.log("Data received:");
-            var jsonString = JSON.stringify(datalocation);
+            var jsonString = JSON.stringify(data);
             console.log(jsonString);
             $("#log").html(jsonString);
         });
