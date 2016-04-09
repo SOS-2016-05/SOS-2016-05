@@ -266,4 +266,6 @@ res.end()
 
 app.use("/RESTClient",express.static(__dirname + "/restclient"));
 
+app.use("/data/gold-medals",express.static(__dirname + "/data/gold-medals"));
+
 app.listen(port);
