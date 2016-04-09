@@ -8,9 +8,10 @@ $(document).ready(() => {
         var request = $.ajax({
             url:$("#url").val(),
             type: method,
+            data:$("#payload").val(),
             contentType: "application/json"
         });
-//POST NO FUNCIONA LANZA ERROR 400 CONSTANTEMENTE
+
         request.done(function(datalocation) {
             console.log("Handling request (OK)");
             console.log("Data received:");
