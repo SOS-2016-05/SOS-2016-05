@@ -101,7 +101,7 @@ module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load 
 		var content=fs.readFileSync('dataParticipantsNumber.json','utf8');
     	athletesnumber = JSON.parse(content);
     	console.log("The participants numbers data has been loaded.")
-    	res.sendStatus(200);//OK
+    	res.sendStatus(201);//OK
 		
 	}else{
 		console.log("you must identificate");

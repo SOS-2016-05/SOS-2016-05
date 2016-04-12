@@ -12,18 +12,27 @@ $(document).ready(() => {
             contentType: "application/json"
         });
 
-        request.done(function(data) {
+        request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
             console.log("Data received:");
             var jsonString = JSON.stringify(data);
             console.log(jsonString);
-            $("#log").html(jsonString);
+            $("#data").html(jsonString);
+            $("#status").html(jqXHR.status);
+            $("#log").html(status);
+
         });
 
         request.always(function (jqXHR,status){
-            if(status=="error")
+            if(status=="error"){
                 console.log("Status: "+jqXHR.status);
+                $("#data").html(" ");
+                $("#status").html(jqXHR.status);
+                $("#log").html(status);
+            }
+                
         });
+            
 
     });
 });
