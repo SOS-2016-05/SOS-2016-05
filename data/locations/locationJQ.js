@@ -8,19 +8,18 @@ $(document).ready(function(){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
-            insertTable(data);
+          insertTable(data);
     	}
     });
 
 	function insertRow(data) {
 	    var row = $("<tr/>")
 	    $("#locations").append(row);
-	    row.append($("<td>"+data.country+"</td>"));
+      row.append($("<td>"+data.country+"</td>"));
 	    row.append($("<td>"+data.year+"</td>"));
 	    row.append($("<td>"+data.top+"</td>"));
 	    row.append($("<td>"+data.doping+"</td>"));
 	}
-
     function insertTable(data) {
 	    for (var i = 0; i < data.length; i++)
 	        insertRow(data[i]);
