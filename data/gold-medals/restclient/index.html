@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="jquery-1.12.2.min.js"></script>
+        <script type="text/javascript" src="JQueryClient.js"></script>
+</head>
+    <body>
+        <div class="container">
+        <form role="form"></form>
+        
+        <h1>JQuery REST Client</h1>
+            <label for="url">URL:</label><input id="url" class="form-control" size="30" value="/api/v1/gold-medals?apikey=sosrw"/>
+            GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
+            POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
+            PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
+            DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
+        <br/><br/>
+        <label for="payload">Payload:</label>
+            <input id="payload" class="form-control" size="60" value='{"country":" ","year":" ",}'/>
+        <br/><br/>
+            
+        <button id="button" type="submit" class="btn btn-primary">Send</button>
+            <button id="checkdata" type="button" class="btn btn-default">View data</button>
+            
+        <br/><hr/>
+        HTTP Status: <span id="status"></span>
+        <br/><hr/>
+        <span id="data"></span>
+        <br/><hr/>
+        <ul id="list"></ul>
+        <hr/>
+        Log: <span id="log"></span>
+            
+        </form>
+        </div>
+    </body>
+</html>
