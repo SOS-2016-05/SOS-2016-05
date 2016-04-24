@@ -1,27 +1,52 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <meta charset="UTF-8">
         <script src="jquery-1.12.2.min.js"></script>
         <script type="text/javascript" src="JQueryClient.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="easyUI/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="easyUI/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="easyUI/demo.css">
+        <script type="text/javascript" src="easyUI/jquery.min.js"></script>
+        <script type="text/javascript" src="easyUI/jquery.easyui.min.js"></script>
     </head>
     <body>
-        <h1>JQuery REST Client</h1>
-            URL: <input id="url" size="30" value="/api/v1/   /loadInitialData?apikey="/>
-            GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
-            POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
-            PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
-            DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
-        <br/>
-        Payload: <input id="payload" size="60" value='{"country":" ","year":" ",}'/>
-        <br/><br/>
-        <span id="button">Send</span>
-        <br/><hr/>
-        HTTP Status: <span id="status"></span>
-        <br/><hr/>
-        <span id="data"></span>
-        <br/><hr/>
-        <ul id="list"></ul>
-        <hr/>
-        Log: <span id="log"></span>
+        <div class="easyui-panel" title="JQuery REST Client" style="width:1350px;padding:60px 120px">
+
+        <div style="margin-bottom:20px">
+            <div>URL:</div>
+            <input id="url" size="30" value="/api/v1/participants-number/loadInitialData?apikey=" class="easyui-textbox" style="width:100%;height:32px">
+        </div>
+
+        <div style="margin-bottom:20px">
+            GET <input name="method" type="radio" id="GET" checked="checked"/> 
+            POST <input name="method" type="radio" id="POST" /> 
+            PUT <input name="method" type="radio" id="PUT" /> 
+            DELETE <input name="method" type="radio" id="DELETE" /> 
+        </div>
+
+        <div style="margin-bottom:20px">
+            <div>Payload:</div>
+            <input id="payload" size="30" value='{"country":"    ","year":"    ", "maleathletesnumber:":"    ","femaleathletesnumber:":"    " } '  class="easyui-textbox" style="width:100%;height:32px">
+        </div>
+
+        <div style="margin-bottom:20px">
+            <div>HTTP Status: <span id="status"></div>
+            
+        </div>
+
+        <div style="margin-bottom:20px">
+            <div>Log: <span id="log"></div>
+            
+        </div>
+
+        <div style="margin-bottom:20px">
+            <div>Data: <span id="data"></div>
+            
+        </div>
+       
+                <span id="button">Send</span>
+        </div>
+            
     </body>
 </html>
