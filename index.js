@@ -268,4 +268,5 @@ res.end()
 app.use("/data/gold-medals",express.static(__dirname + "/data/gold-medals"));
 app.use("/data/gold-medals/RESTClient",express.static(__dirname + "/data/gold-medals/restclient"));
 app.use("/data/locations",express.static(__dirname + "/data/locations"));
+app.use("/data/locations",express.static(__dirname + "/data/locations/restclient"));
 app.listen(port);
