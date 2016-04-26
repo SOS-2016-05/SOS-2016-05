@@ -23,4 +23,6 @@ $(document).ready(function(){
 	        insertRow(data[i]);
 	}
 
-})
+	
+
+});
