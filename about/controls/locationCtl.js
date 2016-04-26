@@ -27,7 +27,7 @@ function FilterLimit(limit,offset,arr){	//filter for pagination
 	var res=[];
 	var cont=0;
 
-	if (offset==undefined){
+	if (offset==undefined || offset==null){
 		offset=0;
 	}if(limit==undefined){
 		limit=arr.length;

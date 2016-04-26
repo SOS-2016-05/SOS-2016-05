@@ -7,30 +7,111 @@
         <script type="text/javascript" src="jQueryClientLocation.js"></script>
     </head>
     <body>
-        <h1 align="center" class="collection-header">JQuery REST Client Locations</h1>
-            URL: <input id="url" size="30" value="/api/v1/locations/?apikey=abc"/>
 
+      <nav>
+        <div class="nav-wrapper">
+          <div class="col s12">
+            <a href="/about" class="breadcrumb">About</a>
+            <a href="/data/locations" class="breadcrumb">Table Locations</a>
+            <a href="#" class="brand-logo right">JQuery REST Client Locations</a>
+          </div>
+        </div>
+        </nav>
+
+    <br>
+    <div class="row">
+    <form class="col s6">
+      <div class="row">
+        <div class="input-field col s3">
+          <input placeholder="/api/v1/locations/" id="urll" type="text" class="validate" disabled="disabled">
+          <label for="urll">URL</label>
+        </div>
+        <div class="input-field col s1">
+          <input id="url" type="text" class="validate" length="4">
+          <label for="url">apikey</label>
+        </div>
+
+        <div class="input-field col s1">
+          <input value="0" id="offset" type="text" class="validate">
+          <label for="offset">offset</label>
+        </div>
+        <div class="input-field col s1">
+          <input value="10" id="limit" type="text" class="validate">
+          <label for="limit">limit</label>
+        </div>
+      </div></div>
+<!--
+      <a class="btn-floating btn-large waves-effect waves-light blue">search<i class="material-icons">search</i></a>
+
+      <a class="btn-floating btn-large waves-effect waves-light red">add<i class="material-icons">add</i></a>
+
+      <a class="btn-floating btn-large waves-effect waves-light orange">update<i class="material-icons">add</i></a>
+
+      <a class="btn-floating btn-large waves-effect waves-light green">delete<i class="material-icons">add</i></a>
+-->
+<!--
   <form action="#">
-   <p>
-     <input name="group1" type="radio" id="GET" checked="checked"/>
-     <label for="GET">GET</label>
+        <p>
+          <input name="group1" type="radio" id="GET" checked="checked"/>
+          <label for="GET">GET</label>
 
-     <input name="group1" type="radio" name="method" id="POST"/>
-     <label for="POST">POST</label>
+          <input name="group1" type="radio" name="method" id="POST"/>
+          <label for="POST">ADD</label>
 
-     <input class="with-gap" name="group1" type="radio" id="PUT"/>
-     <label for="PUT">PUT</label>
+          <input class="with-gap" name="group1" type="radio" id="PUT"/>
+          <label for="PUT">UPDATE</label>
 
-     <input name="group1" type="radio" id="DELETE"/>
-     <label for="DELETE">DELETE</label>
-   </p>
- </form>
+          <input name="group1" type="radio" id="DELETE"/>
+          <label for="DELETE">DELETE</label>
+         </p>
+  </form>
+
+
         <br/>
         <br/>
-        Payload: <input id="payload" size="60" value='{"country":" ","year":" ","top":" ","doping": " "}'/>
+    --><!--    Payload: <input id="payload" size="60" value=' {"country":" " , "year":" ","top":" ","doping": " "} '/> -->
+        <div class="row">
+        <form class="col s6">
+          <div class="row">
+
+            <div class="input-field col s3">
+              <i class="material-icons prefix">present_to_all</i>
+              <input id="payloadt" type="text" class="validate" disabled="disabled">
+              <label for="payloadt">Payload: </label>
+            </div>
+
+            <div class="input-field col s3">
+              <i class="material-icons prefix">location_on</i>
+              <input id="payload" type="text" class="validate" length="10">
+              <label for="payload">Country</label>
+            </div>
+
+            <div class="input-field col s2">
+              <i class="material-icons prefix">today</i>
+              <input id="payload2" type="text" class="validate" length="4">
+              <label for="payload2">Year</label>
+            </div>
+
+            <div class="input-field col s2">
+              <i class="material-icons prefix">alarm_on</i>
+              <input id="payload3" type="text" class="validate" length="6">
+              <label for="payload3">Top</label>
+            </div>
+
+            <div class="input-field col s2">
+              <i class="material-icons prefix">mode_edit</i>
+              <input id="payload4" type="text" class="validate" length="4">
+              <label for="payload4">Doping</label>
+
+            </div>
+            <span id="view" class="btn-floating btn-large waves-effect waves-light red">view</span>
+            <span id="add" class="btn-floating btn-large waves-effect waves-light red">add</span>
+            <span id="update" class="btn-floating btn-large waves-effect waves-light blue">update</span>
+            <span id="remove" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></span>
+          </div></div>
+
         <br/><br/>
-        <span id="button" class="btn waves-effect waves-teal">Send</span>
-        <span id="loaddata" class="btn waves-effect waves-teal">Load Initial Data</span>
+        <span id="loaddata" class="btn waves-effect waves-teal">Load Initial Data<i class="material-icons right">send</i></span>
         <br/><hr/>
         HTTP Status: <span id="status"></span>
         <br/><hr/>
