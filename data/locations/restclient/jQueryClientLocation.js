@@ -1,15 +1,38 @@
 $(document).ready(() => {
     console.log("Jquery ready!");
     var urll="/api/v1/locations/?apikey=";
+    var urlll;
     var urlput="/api/v1/locations";
-
-
+  //  var remo="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val();
 //necesario reparar VIEW + REMOVE ALL
+console.log("URL ANTES DE IF: "+urlll);
 
-    $("#remove").click(() => {
+function urrl(){
+  console.log("URL ANTES DE TRATAR: "+urlll);
+  if($("#payload").val()==0 && $("#payload2").val()==0){
+    console.log("ANTES DE URLLL FUNCION");
+    urlll="/api/v1/locations/?apikey=";
+    console.log("PASA POR PRIMER IF");
+  }else if($("#payload2").val()==0 && $("#payload").val()!=0){
+    urlll="/api/v1/locations"+"/"+$("#payload").val()+"/?apikey=";
+    console.log("PASA POR SEGUNDO IF");
+  }else if($("#payload2").val()!=0 && $("#payload").val()==0){
+    urlll="/api/v1/locations"+"/"+$("#payload2").val()+"/?apikey=";
+    console.log("PASA POR TERCER IF");
+  }else{
+    urlll="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey=";
+    console.log("PASA POR ELSE");
+  }
+  return urlll;
+}
+
+    $("#removeAll").click(() => {
         console.log("Data removed");
+        urlll=urrl()+$("#url").val();
+        console.log("URL seleccionada: "+urlll);
+
         var request = $.ajax({
-            url:urlput+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val(),
+            url:urlll,
             type: "DELETE",
             data:"{" + ' "country": ' + '"' + $("#payload").val() + '"'  + "," +
               '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
@@ -103,9 +126,9 @@ $(document).ready(() => {
   });
 
   $("#view").click(() => {
+    urlll=urrl()+$("#url").val();
       var request = $.ajax({
-        //  url:urlput+$("#payload").val()+"/"+$("#payload2").val()+"&"+"limit="+$("#limit").val()+"&"+"offset="+$("#offset").val()+"/?apikey="+$("#url").val(),
-          url:urll+$("#url").val(),
+          url:urlll,
           type: "GET",
           data:"{" + ' "country": ' + '"' + $("#payload").val() + '"'  + "," +
             '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
