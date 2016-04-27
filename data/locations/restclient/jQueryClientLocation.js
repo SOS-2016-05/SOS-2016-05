@@ -2,9 +2,10 @@ $(document).ready(() => {
     console.log("Jquery ready!");
     var urll="/api/v1/locations/?apikey=";
     var urlll;
-    var urlput="/api/v1/locations";
-  //  var remo="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val();
-//necesario reparar VIEW + REMOVE ALL
+    var urlput="/api/v1/locations/";
+
+    //MEJORAR FUNCIÓN PARA USAR TOP Y DOPING
+    
 console.log("URL ANTES DE IF: "+urlll);
 
 function urrl(){
