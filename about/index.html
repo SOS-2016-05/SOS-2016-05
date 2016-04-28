@@ -1,38 +1,61 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <link rel="stylesheet" type="text/css" href="style.css" media="screen,projection" />
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" />
+  <script src="/restclient/jquery-1.12.2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
 </head>
   <body>
   <div id="container" >
-  <div id="header">
-    <h1 align="center">SOS-2016-05</h1>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/about" class="brand-logo" align="center">SOS-2016-05</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/timer">Timer</a></li>
+      </ul>
   </div>
   </div>
   <div id="content">
-  <h3 align="center">_______Group Members______</h3>
-  <p align="center"><a href='https://github.com/antjim'>Antonio Jimenez Vega (gitHub)</a>: <a href='/about/location.html'>location</a></p>
-  <p align="center"><a href='https://github.com/enrguefer'>Enrique Guerrero Fernandez (gitHub)</a>:<a href='/about/participants-number.html'> participants-number</a></p>
-  <p align="center"><a href='https://github.com/marioesuc'>Mario Esteban Uclés (gitHub)</a>:<a href='/about/gold-medals.html'> gold-medals </a></p>
-  </div>
-  <h3 align="center">________Theme________</h3>
-  <p align="center">Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</p>
-
-    <h3 align="center">________Hobbies API's________</h3>
-    <p align="center">Antonio Jimenez Vega:<a href='/api/sandbox/animeseries'>Anime series</a></p>
-	<p align="center">Mario Esteban Uclés: <a href='/api/sandbox/musicbands'>Music bands</a></p>
-  <p align="center">Enrique Guerrero Fernandez:<a href='/api/sandbox/sportscenters'>Sports centers</a></p>
-
-  <h3 align="center">________Olympics API's________</h3>
-  <p align="center"><a href='/RestClient'>JQuery Client</a></p>
-  <p align="center">Enrique Guerrero Fernandez:<a href='/api/v1/participants-number'>Participants number</a></p>
-  <p align="center">Antonio Jiménez Vega:<a href='/api/v1/locations'>Locations</a></p>
-  <p align="center">Mario Esteban Uclés: <a href='/api/v1/gold-medals'>Gold Medals</a></p>
-
-  <h3 align="center">________Tables of API's data and individual REST Clients________</h3>
-  <p align="center">Enrique Guerrero Fernandez:<a href='/data/participants-number'> Participants number data -</a> <a href='/data/participants-number/restclient'>Participants number REST Client</a></p>
-  <p align="center">Antonio Jiménez Vega:<a href='/data/locations'> Locations data - </a> <a href='/data/locations/restclient'>Locations REST Client</a></p>
-  <p align="center">Mario Esteban Uclés: <a href='/data/gold-medals'>Gold Medals data</a> - <a href='/data/gold-medals/restclient'>Gold Medals REST Client</a></p>
-
+    <ul class="collapsible" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header"><i class="material-icons">filter_drama</i>Group Members</div>
+    <div class="collapsible-body">
+      <p align="center"><i class="material-icons">perm_identity</i><a href='https://github.com/antjim'>Antonio Jimenez Vega (gitHub)</a>: <a href='/about/location.html'>location</a></p>
+      <p align="center"><i class="material-icons">perm_identity</i><a href='https://github.com/enrguefer'>Enrique Guerrero Fernandez (gitHub)</a>:<a href='/about/participants-number.html'> participants-number</a></p>
+      <p align="center"><i class="material-icons">perm_identity</i><a href='https://github.com/marioesuc'>Mario Esteban Uclés (gitHub)</a>:<a href='/about/gold-medals.html'> gold-medals </a></p>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">info_outline</i>Theme</div>
+    <div class="collapsible-body">
+      <p align="center">Our sources of information are aimed at analyzing the relationship between the location, no of participants and achieved gold medals in the Olympic Games throughout history.</p>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">grade</i>Hobbies API's</div>
+    <div class="collapsible-body"><p align="center">Antonio Jimenez Vega:<a href='/api/sandbox/animeseries'>Anime series</a><i class="material-icons">translate</i></p>
+	     <p align="center">Mario Esteban Uclés: <a href='/api/sandbox/musicbands'>Music bands</a><i class="material-icons">album</i></p>
+       <p align="center">Enrique Guerrero Fernandez:<a href='/api/sandbox/sportscenters'>Sports centers</a><i class="material-icons">store</i></p>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">whatshot</i>Olympics API's</div>
+    <div class="collapsible-body">
+      <p align="center"><a href='/RestClient'>JQuery Client</a></p>
+      <p align="center">Enrique Guerrero Fernandez:<a href='/api/v1/participants-number'>Participants number</a></p>
+      <p align="center">Antonio Jiménez Vega:<a href='/api/v1/locations'>Locations</a></p>
+      <p align="center">Mario Esteban Uclés: <a href='/api/v1/gold-medals'>Gold Medals</a></p>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">settings</i>Tables of API's data and individual REST Clients</div>
+    <div class="collapsible-body">
+      <p align="center">Enrique Guerrero Fernandez:<a href='/data/participants-number'> Participants number data -</a> <a href='/data/participants-number/restclient'>Participants number REST Client</a></p>
+      <p align="center">Antonio Jiménez Vega:<a href='/data/locations'> Locations data - </a> <a href='/data/locations/restclient'>Locations REST Client</a></p>
+      <p align="center">Mario Esteban Uclés: <a href='/data/gold-medals'>Gold Medals data</a> - <a href='/data/gold-medals/restclient'>Gold Medals REST Client</a></p>
+    </div>
+  </li>
+</ul>
   </body>
 </html>
