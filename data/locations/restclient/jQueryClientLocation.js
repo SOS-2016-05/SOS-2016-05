@@ -52,9 +52,6 @@ $(document).ready(() => {
         request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
             console.log("Data received:");
-            var jsonString = JSON.stringify(data);
-            console.log(jsonString);
-            $("#data").html(jsonString);
             $("#status").html(jqXHR.status);
             $("#log").html(status);
 
@@ -63,7 +60,6 @@ $(document).ready(() => {
         request.always(function (jqXHR,status){
             if(status=="error"){
                 console.log("Status: "+jqXHR.status);
-                $("#data").html(" ");
                 $("#status").html(jqXHR.status);
                 $("#log").html(status);
             }
@@ -82,9 +78,6 @@ $(document).ready(() => {
         request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
             console.log("Data received:");
-            var jsonString = JSON.stringify(data);
-            console.log(jsonString);
-            $("#data").html(jsonString);
             $("#status").html(jqXHR.status);
             $("#log").html(status);
 
@@ -93,7 +86,6 @@ $(document).ready(() => {
         request.always(function (jqXHR,status){
             if(status=="error"){
                 console.log("Status: "+jqXHR.status);
-                $("#data").html(" ");
                 $("#status").html(jqXHR.status);
                 $("#log").html(status);
             }
@@ -116,9 +108,6 @@ $(document).ready(() => {
        request.done(function(data,status,jqXHR) {
            console.log("Handling request (OK)");
            console.log("Data received:");
-           var jsonString = JSON.stringify(data);
-           console.log(jsonString);
-           $("#data").html(jsonString);
            $("#status").html(jqXHR.status);
            $("#log").html(status);
 
@@ -127,7 +116,6 @@ $(document).ready(() => {
        request.always(function (jqXHR,status){
            if(status=="error"){
                console.log("Status: "+jqXHR.status);
-               $("#data").html(" ");
                $("#status").html(jqXHR.status);
                $("#log").html(status);
            }
@@ -143,16 +131,24 @@ $(document).ready(() => {
           data:"{" + ' "country": ' + '"' + $("#payload").val() + '"'  + "," +
             '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
             $("#payload3").val()+'"'+ "," + ' "doping": ' + '"' + $("#payload4").val() + '"' + "}",
-          contentType: "application/json"
+          contentType: "application/json; charset=utf-8"
 
       });
 
       request.done(function(data,status,jqXHR) {
           console.log("Handling request (OK)");
           console.log("Data received:");
-          var jsonString = JSON.stringify(data);
-          console.log(jsonString);
-          $("#data").html(jsonString);
+
+          $("#locations").find("tr:gt(0)").remove();    //delete all rows
+           for (i=0;i<data.length;i++){
+             var row = $('<tr/>');
+             $("#locations").append(row);
+             $('<td></td>').text(data[i].country).appendTo(row);
+             $('<td></td>').text(data[i].year).appendTo(row);
+             $('<td></td>').text(data[i].top).appendTo(row);
+             $('<td></td>').text(data[i].doping).appendTo(row);
+           }
+
           $("#status").html(jqXHR.status);
           $("#log").html(status);
 
@@ -161,7 +157,6 @@ $(document).ready(() => {
       request.always(function (jqXHR,status){
           if(status=="error"){
               console.log("Status: "+jqXHR.status);
-              $("#data").html(" ");
               $("#status").html(jqXHR.status);
               $("#log").html(status);
           }
@@ -183,9 +178,6 @@ $(document).ready(() => {
       request.done(function(data,status,jqXHR) {
           console.log("Handling request (OK)");
           console.log("Data received:");
-          var jsonString = JSON.stringify(data);
-          console.log(jsonString);
-          $("#data").html(jsonString);
           $("#status").html(jqXHR.status);
           $("#log").html(status);
 
@@ -194,7 +186,6 @@ $(document).ready(() => {
       request.always(function (jqXHR,status){
           if(status=="error"){
               console.log("Status: "+jqXHR.status);
-              $("#data").html(" ");
               $("#status").html(jqXHR.status);
               $("#log").html(status);
           }
