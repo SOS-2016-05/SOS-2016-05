@@ -1,9 +1,10 @@
 $(document).ready(() => {
     console.log("Jquery ready!");
     var urlll;
+    var urll="/api/v1/locations/?apikey=";
     //MEJORAR FUNCIÓN PARA USAR TOP Y DOPING
 
-function urrl(){    //FROM DELTE AND VIEW
+    function urrl(){    //FROM DELTE AND VIEW
   console.log("URL ANTES DE TRATAR: "+urlll);
   if($("#payload").val()==0 && $("#payload2").val()==0){
     console.log("ANTES DE URLLL FUNCION");
@@ -22,7 +23,7 @@ function urrl(){    //FROM DELTE AND VIEW
   return urlll;
 }
 
-function urrl2(){ //FROM PUT => UPDATE
+  function urrl2(){ //FROM PUT => UPDATE
   if($("#payload").val()==0 || $("#payload2").val()==0){
     urlll="/api/v1/locations/?apikey="+$("#url").val();
     console.log("PASA POR IF");
@@ -151,7 +152,6 @@ function urrl2(){ //FROM PUT => UPDATE
           console.log("Data received:");
           var jsonString = JSON.stringify(data);
           console.log(jsonString);
-
           $("#data").html(jsonString);
           $("#status").html(jqXHR.status);
           $("#log").html(status);
