@@ -5,6 +5,7 @@
         <script src="jquery-1.12.2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
         <script type="text/javascript" src="jQueryClientLocation.js"></script>
+        <script type="text/javascript" src="/data/locations/locationJQ.js"></script>
     </head>
     <body>
 
@@ -39,43 +40,21 @@
           <input value="10" id="limit" type="text" class="validate">
           <label for="limit">limit</label>
         </div>
+        <div class="input-field col s2">
+          <input value="1896" id="from" type="text" class="validate" length="5">
+          <label for="from">from</label>
+        </div>
+        <div class="input-field col s2">
+          <input value="2016" id="to" type="text" class="validate" length="5">
+          <label for="to">to</label>
       </div></div>
-<!--
-      <a class="btn-floating btn-large waves-effect waves-light blue">search<i class="material-icons">search</i></a>
 
-      <a class="btn-floating btn-large waves-effect waves-light red">add<i class="material-icons">add</i></a>
-
-      <a class="btn-floating btn-large waves-effect waves-light orange">update<i class="material-icons">add</i></a>
-
-      <a class="btn-floating btn-large waves-effect waves-light green">delete<i class="material-icons">add</i></a>
--->
-<!--
-  <form action="#">
-        <p>
-          <input name="group1" type="radio" id="GET" checked="checked"/>
-          <label for="GET">GET</label>
-
-          <input name="group1" type="radio" name="method" id="POST"/>
-          <label for="POST">ADD</label>
-
-          <input class="with-gap" name="group1" type="radio" id="PUT"/>
-          <label for="PUT">UPDATE</label>
-
-          <input name="group1" type="radio" id="DELETE"/>
-          <label for="DELETE">DELETE</label>
-         </p>
-  </form>
-
-
-        <br/>
-        <br/>
-    --><!--    Payload: <input id="payload" size="60" value=' {"country":" " , "year":" ","top":" ","doping": " "} '/> -->
         <div class="row">
         <form class="col s6">
           <div class="row">
 
             <div class="input-field col s3">
-              <i class="material-icons prefix">present_to_all</i>
+              <i class="material-icons prefix">launch</i>
               <input id="payloadt" type="text" class="validate" disabled="disabled">
               <label for="payloadt">Payload: </label>
             </div>
@@ -106,8 +85,8 @@
             </div>
             <span id="view" class="btn-floating btn-large waves-effect waves-light gray"><i class="material-icons">search</i></span>
             <span id="add" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></span>
-            <span id="update" class="btn-floating btn-large waves-effect waves-light blue">update</span>
-            <span id="removeAll" class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">delete</i></span>
+            <span id="update" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons prefix">present_to_all</i></span>
+            <span id="remove" class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">delete</i></span>
           </div></div>
 
         <br/><br/>
@@ -115,7 +94,16 @@
         <br/><hr/>
         HTTP Status: <span id="status"></span>
         <br/><hr/>
-        <span id="data"></span>
+        <span id="data">
+          <table id="locations" border='1' class="striped bordered centered highlight responsive-table">
+            <tr>
+              <th class="black-text center-align">Country</th>
+              <th class="black-text center-align">Year</th>
+              <th class="black-text center-align">Top</th>
+              <th class="black-text center-align">Doping</th>
+            </tr>
+          </table>
+        </span>
         <br/><hr/>
         <ul id="list"></ul>
         <hr/>

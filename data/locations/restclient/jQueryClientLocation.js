@@ -1,35 +1,42 @@
 $(document).ready(() => {
     console.log("Jquery ready!");
-    var urll="/api/v1/locations/?apikey=";
     var urlll;
-    var urlput="/api/v1/locations/";
-
     //MEJORAR FUNCIÓN PARA USAR TOP Y DOPING
-    
-console.log("URL ANTES DE IF: "+urlll);
 
-function urrl(){
+function urrl(){    //FROM DELTE AND VIEW
   console.log("URL ANTES DE TRATAR: "+urlll);
   if($("#payload").val()==0 && $("#payload2").val()==0){
     console.log("ANTES DE URLLL FUNCION");
-    urlll="/api/v1/locations/?apikey=";
+    urlll="/api/v1/locations/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
     console.log("PASA POR PRIMER IF");
   }else if($("#payload2").val()==0 && $("#payload").val()!=0){
-    urlll="/api/v1/locations"+"/"+$("#payload").val()+"/?apikey=";
+    urlll="/api/v1/locations"+"/"+$("#payload").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
     console.log("PASA POR SEGUNDO IF");
   }else if($("#payload2").val()!=0 && $("#payload").val()==0){
-    urlll="/api/v1/locations"+"/"+$("#payload2").val()+"/?apikey=";
+    urlll="/api/v1/locations"+"/"+$("#payload2").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
     console.log("PASA POR TERCER IF");
   }else{
-    urlll="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey=";
+    urlll="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
     console.log("PASA POR ELSE");
   }
   return urlll;
 }
 
-    $("#removeAll").click(() => {
+function urrl2(){ //FROM PUT => UPDATE
+  if($("#payload").val()==0 || $("#payload2").val()==0){
+    urlll="/api/v1/locations/?apikey="+$("#url").val();
+    console.log("PASA POR IF");
+  }
+  else{
+    console.log("PASA POR ELSE");
+    urlll="/api/v1/locations/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val();
+  }
+  return urlll;
+}
+
+    $("#remove").click(() => {
         console.log("Data removed");
-        urlll=urrl()+$("#url").val();
+        urlll=urrl();
         console.log("URL seleccionada: "+urlll);
 
         var request = $.ajax({
@@ -95,8 +102,9 @@ function urrl(){
 
    $("#update").click(() => {
       console.log("Data updated");
+      urlll=urrl2();
       var request=$.ajax({
-         url: urlput+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val(),
+         url: urlll,
          type: "PUT",
          data:"{" + ' "country": ' + '"' + $("#payload").val() + '"'  + "," +
            '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
@@ -127,7 +135,7 @@ function urrl(){
   });
 
   $("#view").click(() => {
-    urlll=urrl()+$("#url").val();
+    urlll=urrl();
       var request = $.ajax({
           url:urlll,
           type: "GET",
@@ -135,6 +143,7 @@ function urrl(){
             '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
             $("#payload3").val()+'"'+ "," + ' "doping": ' + '"' + $("#payload4").val() + '"' + "}",
           contentType: "application/json"
+
       });
 
       request.done(function(data,status,jqXHR) {
@@ -142,6 +151,7 @@ function urrl(){
           console.log("Data received:");
           var jsonString = JSON.stringify(data);
           console.log(jsonString);
+
           $("#data").html(jsonString);
           $("#status").html(jqXHR.status);
           $("#log").html(status);
