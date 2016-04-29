@@ -2,35 +2,40 @@ $(document).ready(() => {
     console.log("Jquery ready!");
     var urlll;
     var urll="/api/v1/locations/?apikey=";
-    //MEJORAR FUNCIÓN PARA USAR TOP Y DOPING
 
-    function urrl(){    //FROM DELTE AND VIEW
-  console.log("URL ANTES DE TRATAR: "+urlll);
+  function urrl(){    //FROM DELTE AND VIEW
   if($("#payload").val()==0 && $("#payload2").val()==0){
-    console.log("ANTES DE URLLL FUNCION");
     urlll="/api/v1/locations/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
-    console.log("PASA POR PRIMER IF");
   }else if($("#payload2").val()==0 && $("#payload").val()!=0){
     urlll="/api/v1/locations"+"/"+$("#payload").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
-    console.log("PASA POR SEGUNDO IF");
   }else if($("#payload2").val()!=0 && $("#payload").val()==0){
     urlll="/api/v1/locations"+"/"+$("#payload2").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
-    console.log("PASA POR TERCER IF");
   }else{
     urlll="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
-    console.log("PASA POR ELSE");
+  }
+
+  return urrl3();
+}
+
+function urrl2(){ //FROM PUT => UPDATE
+  if($("#payload").val()==0 || $("#payload2").val()==0){
+    urlll="/api/v1/locations/?apikey="+$("#url").val();
+  }
+  else{
+    urlll="/api/v1/locations/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val();
   }
   return urlll;
 }
 
-  function urrl2(){ //FROM PUT => UPDATE
-  if($("#payload").val()==0 || $("#payload2").val()==0){
-    urlll="/api/v1/locations/?apikey="+$("#url").val();
-    console.log("PASA POR IF");
-  }
-  else{
-    console.log("PASA POR ELSE");
-    urlll="/api/v1/locations/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val();
+function urrl3(){
+  if($("#payload3").val()==0 && $("#payload4").val()!=0){
+    urlll=urlll+"&doping="+$("#payload4").val();
+  }else if($("#payload3").val()!=0 && $("#payload4").val()==0){
+    urlll=urlll+"&top="+$("#payload3").val();
+  }else if($("#payload3").val()!=0 && $("#payload4").val()!=0){
+    urlll=urlll+"&top="+$("#payload3").val()+"&doping="+$("#payload4").val();
+  }else{
+    urlll=urlll;
   }
   return urlll;
 }
@@ -38,8 +43,6 @@ $(document).ready(() => {
     $("#remove").click(() => {
         console.log("Data removed");
         urlll=urrl();
-        console.log("URL seleccionada: "+urlll);
-
         var request = $.ajax({
             url:urlll,
             type: "DELETE",
@@ -51,7 +54,6 @@ $(document).ready(() => {
 
         request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
-            console.log("Data received:");
             $("#status").html(jqXHR.status);
             $("#log").html(status);
 
@@ -77,7 +79,6 @@ $(document).ready(() => {
 
         request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
-            console.log("Data received:");
             $("#status").html(jqXHR.status);
             $("#log").html(status);
 

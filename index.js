@@ -14,6 +14,8 @@ app.use("/about",express.static(__dirname + "/about")); //route
 app.use(bodyParser.json()); //se pone en medio de las peticiones
 app.use("/RESTClient",express.static(__dirname + "/restclient"));
 app.use("/data",express.static(__dirname + "/data"));
+app.use("/",express.static(__dirname + "/root"));
+app.use("/locations",express.static(__dirname + "/data/locations/restclient"));
 
 var fs=require("fs");   //for all files.
 
