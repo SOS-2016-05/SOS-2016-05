@@ -13,7 +13,7 @@ $(document).ready(() => {
   }else{
     urlll="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+$("#offset").val()+"&from="+$("#from").val()+"&to="+$("#to").val();
   }
-
+  console.log("AÑO : "+$("#payload2").val());
   return urrl3();
 }
 
