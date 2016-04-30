@@ -31,15 +31,6 @@
           <input id="url" type="text" class="validate" length="4">
           <label for="url">apikey</label>
         </div>
-
-        <div class="input-field col s1">
-          <input value="0" id="offset" type="text" class="validate">
-          <label for="offset">offset</label>
-        </div>
-        <div class="input-field col s1">
-          <input value="10" id="limit" type="text" class="validate">
-          <label for="limit">limit</label>
-        </div>
         <div class="input-field col s2">
           <input value="1896" id="from" type="text" class="validate" length="5">
           <label for="from">from</label>
@@ -47,7 +38,18 @@
         <div class="input-field col s2">
           <input value="2016" id="to" type="text" class="validate" length="5">
           <label for="to">to</label>
-      </div></div>
+      </div>
+      <div class="input-field col s1">
+        <input value="0" id="offset" type="text" class="validate">
+        <label for="offset">Index</label>
+      </div>
+      <div class="input-field col s3">
+        <p class="range-field">
+          <input title="Page" value="10" type="range" id="limit" min="0" max="100" />
+        </p>
+        <label for="limit">limit from page</label>
+      </div>
+      </div>
 
         <div class="row">
         <form class="col s6">
@@ -87,12 +89,27 @@
             <span title="Add" id="add" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></span>
             <span title="Edit item" id="update" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons prefix">present_to_all</i></span>
             <span title="Delete item" id="remove" class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">delete</i></span>
+
+            <ul class="collapsible" data-collapsible="accordion">
+            <li>
+            <div class="collapsible-header"><i class="material-icons">info_outline</i>How to use GUI</div>
+            <div class="collapsible-body"><p>You can search any field in the introduction of the payload.
+              You can use "index" and "limit from page" to search for page, the "index" being the top of the page and "limit" as far show.
+               So you can search by year from the initial date "from" until the end "to".</p>
+             <p>Through the magnifying glass you can search by field you specify or leave empty to show everything. The red buttom can add a new item, the
+               buttom blue can update an item from the list, and finally the black buttom can delete all the list or
+               delete only the elements specify from of payload.</p></div>
+          </li></ul>
+
           </div></div>
 
         <br/><br/>
+
         <span id="loaddata" class="btn waves-effect waves-teal">Load Initial Data<i class="material-icons right">send</i></span>
+
         <br/><hr/>
         HTTP Status: <span id="status"></span>
+        <span id="fail"></span>
         <br/><hr/>
 
           <table id="locations" border='1' class="striped bordered centered highlight responsive-table">

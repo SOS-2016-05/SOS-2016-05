@@ -52,17 +52,45 @@ function urrl3(){
             contentType: "application/json"
         });
 
+        var request2=$.ajax({
+          url: "/api/v1/locations/?apikey=abc",
+          type: "GET",
+          contentType: "application/json"
+        });
+
         request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
             $("#status").html(jqXHR.status);
             $("#log").html(status);
+        });
 
+        request2.done(function(data,status,jqXHR) {
+            console.log("Handling request (OK)");
+            $("#locations").find("tr:gt(0)").remove();    //delete all rows
+             for (i=0;i<data.length;i++){
+               var row = $('<tr/>');
+               $("#locations").append(row);
+               $('<td></td>').text(data[i].country).appendTo(row);
+               $('<td></td>').text(data[i].year).appendTo(row);
+               $('<td></td>').text(data[i].top).appendTo(row);
+               $('<td></td>').text(data[i].doping).appendTo(row);
+             }
+            $("#status").html(jqXHR.status);
+            $("#log").html(status);
         });
 
         request.always(function (jqXHR,status){
             if(status=="error"){
                 console.log("Status: "+jqXHR.status);
                 $("#status").html(jqXHR.status);
+
+                if($("#url").val()==0){
+                  console.log("ENTRA EN APIKEY");
+                  $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
+                }else if($("#url").val()!="abc" && $("url").val()!=0){
+                  $("#fail").html(window.alert("Apikey is wrong."));
+                }
+
                 $("#log").html(status);
             }
 
@@ -77,13 +105,31 @@ function urrl3(){
           contentType: "application/json"
         });
 
+        var request2=$.ajax({
+          url: "/api/v1/locations/?apikey=abc",
+          type: "GET",
+          contentType: "application/json"
+        });
+
         request.done(function(data,status,jqXHR) {
             console.log("Handling request (OK)");
             $("#status").html(jqXHR.status);
             $("#log").html(status);
-
         });
-
+        request2.done(function(data,status,jqXHR) {
+            console.log("Handling request (OK)");
+            $("#locations").find("tr:gt(0)").remove();    //delete all rows
+             for (i=0;i<data.length;i++){
+               var row = $('<tr/>');
+               $("#locations").append(row);
+               $('<td></td>').text(data[i].country).appendTo(row);
+               $('<td></td>').text(data[i].year).appendTo(row);
+               $('<td></td>').text(data[i].top).appendTo(row);
+               $('<td></td>').text(data[i].doping).appendTo(row);
+             }
+            $("#status").html(jqXHR.status);
+            $("#log").html(status);
+        });
         request.always(function (jqXHR,status){
             if(status=="error"){
                 console.log("Status: "+jqXHR.status);
@@ -106,17 +152,44 @@ function urrl3(){
          contentType: "application/json"
        });
 
+       var request2=$.ajax({
+         url: "/api/v1/locations/?apikey=abc",
+         type: "GET",
+         contentType: "application/json"
+       });
+
+
        request.done(function(data,status,jqXHR) {
            console.log("Handling request (OK)");
            console.log("Data received:");
            $("#status").html(jqXHR.status);
            $("#log").html(status);
+       });
 
+       request2.done(function(data,status,jqXHR) {
+           console.log("Handling request (OK)");
+           $("#locations").find("tr:gt(0)").remove();    //delete all rows
+            for (i=0;i<data.length;i++){
+              var row = $('<tr/>');
+              $("#locations").append(row);
+              $('<td></td>').text(data[i].country).appendTo(row);
+              $('<td></td>').text(data[i].year).appendTo(row);
+              $('<td></td>').text(data[i].top).appendTo(row);
+              $('<td></td>').text(data[i].doping).appendTo(row);
+            }
+           $("#status").html(jqXHR.status);
+           $("#log").html(status);
        });
 
        request.always(function (jqXHR,status){
            if(status=="error"){
                console.log("Status: "+jqXHR.status);
+               if($("#url").val()==0){
+                 console.log("ENTRA EN APIKEY");
+                 $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
+               }else if($("#url").val()!="abc" && $("url").val()!=0){
+                 $("#fail").html(window.alert("Apikey is wrong."));
+               }
                $("#status").html(jqXHR.status);
                $("#log").html(status);
            }
@@ -158,6 +231,12 @@ function urrl3(){
       request.always(function (jqXHR,status){
           if(status=="error"){
               console.log("Status: "+jqXHR.status);
+              if($("#url").val()==0){
+                console.log("ENTRA EN APIKEY");
+                $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
+              }else if($("#url").val()!="abc" && $("url").val()!=0){
+                $("#fail").html(window.alert("Apikey is wrong."));
+              }
               $("#status").html(jqXHR.status);
               $("#log").html(status);
           }
@@ -176,17 +255,46 @@ function urrl3(){
           contentType: "application/json"
       });
 
+      var request2=$.ajax({
+        url: "/api/v1/locations/?apikey=abc",
+        type: "GET",
+        contentType: "application/json"
+      });
+
       request.done(function(data,status,jqXHR) {
           console.log("Handling request (OK)");
           console.log("Data received:");
           $("#status").html(jqXHR.status);
           $("#log").html(status);
+      });
 
+      request2.done(function(data,status,jqXHR) {
+          console.log("Handling request (OK)");
+          $("#locations").find("tr:gt(0)").remove();    //delete all rows
+           for (i=0;i<data.length;i++){
+             var row = $('<tr/>');
+             $("#locations").append(row);
+             $('<td></td>').text(data[i].country).appendTo(row);
+             $('<td></td>').text(data[i].year).appendTo(row);
+             $('<td></td>').text(data[i].top).appendTo(row);
+             $('<td></td>').text(data[i].doping).appendTo(row);
+           }
+          $("#status").html(jqXHR.status);
+          $("#log").html(status);
       });
 
       request.always(function (jqXHR,status){
           if(status=="error"){
               console.log("Status: "+jqXHR.status);
+              if($("#url").val()==0){
+                console.log("ENTRA EN APIKEY");
+                $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
+              }else if($("#url").val()!="abc" && $("url").val()!=0){
+                $("#fail").html(window.alert("Apikey is wrong."));
+              }
+              if(status=409 && $("#url").val()=="abc"){
+                $("#fail").html(window.alert("You can't add an item that alredy exists."));
+              }
               $("#status").html(jqXHR.status);
               $("#log").html(status);
           }
