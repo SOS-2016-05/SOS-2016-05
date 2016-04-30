@@ -252,8 +252,6 @@ function load_table()
                     table.push([item.country,item.year,item.goldmedalsnumber,item.silvermedalsnumber]);
                     /*trHTML += '<tr><td>' + item.country + '</td><td>' + item.year + '</td><td>' + item.goldmedalsnumber + '</td><td>'  + item.silvermedalsnumber + '</td><td><a class="btn btn-sm btn-primary" title="Edit""><i class="glyphicon glyphicon-pencil"></i> Edit</a> <a class="btn btn-sm btn-danger" title="Hapus"><i class="glyphicon glyphicon-trash"></i> Delete</a></td></tr>';*/
                 });
-                console.log("Tabla:"+table.length);
-                console.log("-----------------");
                 var rows=$(table).length;
                 var offset=0;
                 var total=Math.ceil(rows/limit);
@@ -263,9 +261,6 @@ function load_table()
                    maxVisible: 5
                 }).on('page', function(event, num){
             $("#table td").remove();
-                    console.log("-----------------");
-                    console.log("Num: "+num);
-                    console.log("Offset: " + limit*(num-1));
 
                     $.ajax({
                             type: "GET",
@@ -279,31 +274,11 @@ function load_table()
                                     trHTML += '<tr><td>' + item.country + '</td><td>' + item.year + '</td><td>' + item.goldmedalsnumber + '</td><td>'  + item.silvermedalsnumber + '</td><td><a class="btn btn-sm btn-primary" title="Edit""><i class="glyphicon glyphicon-pencil"></i> Edit</a> <a class="btn btn-sm btn-danger" title="Hapus"><i class="glyphicon glyphicon-trash"></i> Delete</a></td></tr>';
                                 });
                                 $('#table').append(trHTML);
-                            },
-                            error: function (jqXHR, textStatus, errorThrown)
-                        {
-                            if(jqXHR.status==401)
-                                alert("You have not entered an apikey");
-                            else if(jqXHR.status==403)
-                                alert("The user is not authorized. Try with another apikey");
-                            $('#btnSave').text('save'); //change button text
-                            $('#btnSave').attr('disabled',false); //set button enable
-
-                        }
+                            }
         });
                     
         });
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-        {
-            if(jqXHR.status==401)
-                alert("You have not entered an apikey");
-            else if(jqXHR.status==403)
-                alert("The user is not authorized. Try with another apikey");
-            $('#btnSave').text('save'); //change button text
-            $('#btnSave').attr('disabled',false); //set button enable
- 
-        }
+            }
         });
     }
  
