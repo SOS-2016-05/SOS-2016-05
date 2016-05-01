@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Participants number table</title>
+        <script src="jquery-1.12.2.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+        <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="http://www.jeasyui.com/easyui/datagrid-detailview.js"></script>
+
+               
+    </head>
+    
+    <body>  
+
+            <table id="participantsnumber" title="participantsnumber" class="easyui-datagrid" style="width:700px;height:350px"
+            toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" url="/api/v1/participants-number?apikey=abc" method="get" >
+                <thead>
+                        <tr>
+                            
+                            <th field="country" width="50">Country</th>
+                            <th field="year" width="50">Year</th>
+                            <th field="maleathletesnumber" width="50">Male athletes number</th>
+                            <th field="femaleathletesnumber" width="50">Female athletes number</th>
+                        </tr>
+                    </thead>
+            </table>
+
+             <div id="toolbar">
+             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="refreshTable()">Refresh table</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newData()">New Data</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editData()">Edit Data</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyData()">Remove Data</a>
+        
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="loadInitialData()">Load Initial Data</a>
+    </div>
+
+   <div style="width:400px;margin-top:20px ">
+            <td>Api Key:</td>
+            <td><input class="easyui-textbox" type="text" name="apikey" id="apikey"></input></td>
+                
+        </form>
+        
+        <div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+            closed="true" buttons="#dlg-buttons">
+        <div class="ftitle">Data Information</div>
+        <form id="fm">
+            <div class="fitem">
+                <label>Country:</label>
+                <input name="country" class="easyui-textbox" required="true" id="country1">
+            </div>
+            <div class="fitem">
+                <label>Year:</label>
+                <input name="year" class="easyui-textbox" required="true" id="year1">
+            </div>
+            <div class="fitem">
+                <label>Male athletes number:</label>
+                <input name="maleathletesnumber" class="easyui-textbox" required="true" id="maleathletesnumber1">
+            </div>
+            <div class="fitem">
+                <label>Female athletes number:</label>
+                <input name="femaleathletesnumber" class="easyui-textbox" required="true" id="femaleathletesnumber1">
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveData()" style="width:90px">Save</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+    </div>
+
+     <script type="text/javascript">
+     var InitialData;
+     var key=$('#apikey').val();
+       $(document).ready(function(){
+
+          var request = $.ajax({
+            url:"/api/v1/participants-number?apikey="+key,
+            type:"GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+          });
+
+          request.done(function (data){
+            InitialData=data;
+            $('#participantsnumber').datagrid('loadData', {"total":data.length,"rows":data});
+          });
+
+          request.always(function (jqXHR,status){
+            if(jqXHR.status==401){
+                $('#participantsnumber').datagrid('loadData', {"total":0,"rows":[]});
+            }
+          });
+});
+            var url, method;
+            function newData(){
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','New data');
+                $('#fm').form('clear');
+                var key=$('#apikey').val();
+                console.log(key);
+                url = "/api/v1/participants-number?apikey="+key;
+                method= "POST";
+                }
+
+            function saveData(){
+                $('#fm').form('submit',{
+
+                onSubmit: function(){
+                    var country = $("#country1").val();
+                    var year = $("#year1").val();
+                    var maleathletesnumber = $("#maleathletesnumber1").val();
+                    var femaleathletesnumber = $("#femaleathletesnumber1").val();
+                        var request = $.ajax({
+                        url:url,
+                        type:method,
+                        contentType: "application/json; charset=utf-8",
+                        data: "{" + ' "country": ' + '"' + country + '"'  + "," +
+                        '"year": ' + '"' + year + '"'  + "," + ' "maleathletesnumber": ' + '"' + maleathletesnumber + '"'  + "," + ' "femaleathletesnumber": ' + '"' + femaleathletesnumber + '"' + "}",
+                        dataType: "json",
+                        success: function(data)
+                                {
+                                    $('#dlg').dialog('close');        // close the dialog
+                                    refreshTable();    // reload the user data
+                                },
+                                error: function (jqXHR)
+                                {
+                                    if(jqXHR.status==409){
+                                        alert("There was a conflict: existing resource found, insert another country or year");
+                                    }else if(jqXHR.status==400){
+                                        alert("Some of the fields are empty, review them");
+                                    }else if(jqXHR.status==401){
+                                        alert("Wrong API Key")
+                                    }
+                                    refreshTable();
+                                }
+                                        
+                        });
+                                
+                        }
+                            
+                            
+                        });
+                    }
+
+            function refreshTable(){
+                $('#participantsnumber').datagrid('reload');
+            }
+
+            function loadInitialData(){
+                var key=$('#apikey').val();
+                url = '/api/v1/participants-number/loadInitialData?apikey='+key;
+                method= "GET";
+                    var request =$.ajax({
+                        type: method,
+                        url: url,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data)
+                                {
+                                    $('#participantsnumber').datagrid('loadData', {"total":InitialData.length,"rows":InitialData}); 
+                                },
+                        error: function (jqXHR)
+                                { if(jqXHR.status==401){
+                                        alert("Wrong API Key")
+                                    }
+                                    refreshTable();
+                                }
+                        
+                    });
+                    
+            }
+
+            function editData(){
+                var row = $('#participantsnumber').datagrid('getSelected');
+                if (row){
+                    $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit Data');
+                    $('#fm').form('load',row);
+                    var country = $("#country1").val();
+                    var year = $("#year1").val();
+                    var key=$('#apikey').val();
+                    url = "/api/v1/participants-number/"+country+"/"+year+"?apikey="+key;
+                    method= "PUT";
+                }
+        }
+
+        function destroyData(){
+            var key=$('#apikey').val();
+            var row = $('#participantsnumber').datagrid('getSelected');
+            var value= $('#participantsnumber').datagrid('getSelected','columns');
+            var country= value.country;
+            var year= value.year;
+            method="DELETE";
+            url= "/api/v1/participants-number/"+country+"/"+year+"?apikey="+key;
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this data?',function(r){
+                    if (r){
+                        var request =$.ajax({
+                        type: method,
+                        url: url,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data)
+                                {
+                                    
+                                },
+                        error: function (jqXHR)
+                                { if(jqXHR.status==401){
+                                        alert("Wrong API Key");
+                                    }
+                                }
+                        
+                        
+                    });
+                       refreshTable(); 
+                    }
+                });
+            }
+            
+        }
+</script>
+   <style type="text/css">
+        #fm{
+            margin:0;
+            padding:10px 30px;
+        }
+        .ftitle{
+            font-size:10px;
+            font-weight:bold;
+            padding:5px 0;
+            margin-bottom:10px;
+            border-bottom:1px solid #ccc;
+        }
+        .fitem{
+            margin-bottom:5px;
+        }
+        .fitem label{
+            display:inline-block;
+            width:80px;
+        }
+        .fitem input{
+            width:160px;
+        }
+    </style>         
+    </body>
+</html>

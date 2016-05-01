@@ -17,6 +17,7 @@ app.use("/data",express.static(__dirname + "/data"));
 app.use("/",express.static(__dirname + "/root"));
 app.use("/locations/charts",express.static(__dirname + "/root/chart/locations"));
 app.use("/locations",express.static(__dirname + "/data/locations/restclient"));
+app.use("/participants-number",express.static(__dirname + "/data/participants-number/gui"));
 
 var fs=require("fs");   //for all files.
 
