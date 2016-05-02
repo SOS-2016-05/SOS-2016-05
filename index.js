@@ -18,6 +18,7 @@ app.use("/",express.static(__dirname + "/root"));
 app.use("/locations/charts",express.static(__dirname + "/root/chart/locations"));
 app.use("/locations",express.static(__dirname + "/data/locations/restclient"));
 app.use("/participants-number",express.static(__dirname + "/data/participants-number/gui"));
+app.use("/gold-medals",express.static(__dirname + "/data/gold-medals/gui/restclient"));
 
 var fs=require("fs");   //for all files.
 
@@ -271,7 +272,6 @@ res.end()
 //------------ALL PUT IN ATHLETESNUMBER.HTML
 app.use("/data/gold-medals",express.static(__dirname + "/data/gold-medals"));
 app.use("/data/gold-medals/RESTClient",express.static(__dirname + "/data/gold-medals/restclient"));
-app.use("/gold-medals",express.static(__dirname + "/gold-medals/restclient"));
 app.use("/data/locations",express.static(__dirname + "/data/locations"));
 app.use("/data/locations",express.static(__dirname + "/data/locations/restclient"));
 app.listen(port);
