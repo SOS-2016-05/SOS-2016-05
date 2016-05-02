@@ -41,8 +41,24 @@
    <div style="width:400px;margin-top:20px ">
             <td>Api Key:</td>
             <td><input class="easyui-textbox" type="text" name="apikey" id="apikey"></input></td>
-                
-        </form>
+    </div>
+
+    <div style="margin:20px 0;"></div>
+    <td>Search:</td>
+    <td><input id=search  class="easyui-searchbox" data-options="prompt:'Please write a country',searcher:SearchCountry" style="width:300px"></input></td>
+
+    <div style="margin-top:20px">
+    <td>Limit:</td>
+    <td><select id=limit onchange="">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+    </td>
+        </select>
+    </div>
+
         
         <div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
             closed="true" buttons="#dlg-buttons">
@@ -218,6 +234,33 @@
                 });
             }
             
+        }
+
+        function SearchCountry(value){
+            var limit=$('#limit').val();
+            var key=$('#apikey').val();
+            var country=value;
+            method="GET";
+            url="/api/v1/participants-number/"+country+"?apikey="+key+"&offset=0&limit="+limit;
+            var request =$.ajax({
+                        type: method,
+                        url: url,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data)
+                                {  
+                                 $('#participantsnumber').datagrid('loadData', {"total":data.length,"rows":data});  
+                                },
+                        error: function (jqXHR)
+                                { if(jqXHR.status==401){
+                                        alert("Wrong API Key");
+                                    }else if(jqXHR.status==404){
+                                        alert("NOT FOUND: Please write another country");
+                                    }
+                                }
+                        
+                        
+                    });
         }
 </script>
    <style type="text/css">

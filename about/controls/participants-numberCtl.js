@@ -154,14 +154,51 @@ module.exports.getParticipantsnumbersCountryOrYear=function (req,res){
 	 var from1=req.query.from;//search
 	 var to1=req.query.to;//search
 	 var apikey=ApiKey(req.query.apikey);
+	 var limit=req.query.limit;//paginación
+	 var offset=req.query.offset;//paginación
+	 
 	if(apikey){
-		getParticipantsCountryYear(countryOrYear,athletesnumber,res,from1,to1);
+		if(offset==null && limit==null){
+			getParticipantsCountryYear(countryOrYear,athletesnumber,res,from1,to1);
+		}else{
+			filterLimitCountryOrYear(countryOrYear,limit,offset,res);
+     	}
 		
 	}else{
 		console.log("you must identificate");
  		res.sendStatus(401);// Unauthorized
 	}
 };
+
+function filterLimitCountryOrYear(countryOrYear,limit,offset,res){
+	console.log("New GET with FilterLimit of resource "+countryOrYear);
+	var array=[];
+	var array2=[];
+	var cont=0;
+	if(isNaN(countryOrYear)){//if is a COUNTRY
+
+		array= StrArrayParticipantsnumberCountry(countryOrYear,athletesnumber);
+	}else{//if is a YEAR
+		array= StrArrayParticipantsnumberYear(countryOrYear,athletesnumber);
+	}
+	if(array.length>0){
+		if(offset>array.length){
+			console.log("Error, offset greater than the array size.");
+		}else{
+
+			for(var i=offset;i<array.length;i++){
+				if(limit>cont){
+					array2.push(array[i]);
+					cont++;
+					}
+				}
+			res.send(array2); 
+			res.sendStatus(200);//OK
+		}
+	}else{
+			res.sendStatus(404);//not found
+		}
+}
 
 function getParticipantsCountryYear(countryOrYear,array,res,from1,to1){
 	console.log("New GET of resource "+countryOrYear);
