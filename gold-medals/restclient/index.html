@@ -109,12 +109,14 @@ var limit=2;
 $(document).ready(function() {
     
     $("#load").on("click", (()=>{
+        searchby = "";
         load_table();
         
     }));
     
     $("#apikey").on("keypress", ((e)=>{
         if(e.which == 13) {
+            searchby = "";
             load_table();
         }  
     }));
@@ -209,11 +211,12 @@ function load_table()
         var apikey=$("#apikey").val();
         var table = [];
         var urlend = "";
+        if(searchby=="gold" & $("#search").val())
+                urlend = "&goldmedalsnumber="+$("#search").val();
+        else if(searchby=="silver" & $("#search").val())
+                urlend = "&silvermedalsnumber="+$("#search").val();
         if($("#table td").length/5==0){
-            if(searchby=="gold")
-                urlend+= "&goldmedalsnumber="+$("#search").val();
-            else if(searchby=="silver")
-                urlend+= "&silvermedalsnumber="+$("#search").val();
+            
                 
             $.ajax({
                             type: "GET",
@@ -250,7 +253,6 @@ function load_table()
                 var trHTML = '';
                 $.each(response, function (i, item) {
                     table.push([item.country,item.year,item.goldmedalsnumber,item.silvermedalsnumber]);
-                    /*trHTML += '<tr><td>' + item.country + '</td><td>' + item.year + '</td><td>' + item.goldmedalsnumber + '</td><td>'  + item.silvermedalsnumber + '</td><td><a class="btn btn-sm btn-primary" title="Edit""><i class="glyphicon glyphicon-pencil"></i> Edit</a> <a class="btn btn-sm btn-danger" title="Hapus"><i class="glyphicon glyphicon-trash"></i> Delete</a></td></tr>';*/
                 });
                 var rows=$(table).length;
                 var offset=0;
@@ -260,8 +262,12 @@ function load_table()
                    page: 1,
                    maxVisible: 5
                 }).on('page', function(event, num){
-            $("#table td").remove();
-
+                    $("#table td").remove();
+                    urlend = "";
+                    if(searchby=="gold" & $("#search").val())
+                            urlend = "&goldmedalsnumber="+$("#search").val();
+                    else if(searchby=="silver" & $("#search").val())
+                            urlend = "&silvermedalsnumber="+$("#search").val();
                     $.ajax({
                             type: "GET",
                             url: '/api/v1/gold-medals?apikey=' + apikey+"&offset="+limit*(num-1)+"&limit="+limit+urlend,
@@ -270,7 +276,7 @@ function load_table()
                             success: function (response) {
                                 $("#table td").remove();
                                 var trHTML = '';
-                                $.each(response, function (i, item) {
+                                $.each(response, function (i, item) {                            
                                     trHTML += '<tr><td>' + item.country + '</td><td>' + item.year + '</td><td>' + item.goldmedalsnumber + '</td><td>'  + item.silvermedalsnumber + '</td><td><a class="btn btn-sm btn-primary" title="Edit""><i class="glyphicon glyphicon-pencil"></i> Edit</a> <a class="btn btn-sm btn-danger" title="Hapus"><i class="glyphicon glyphicon-trash"></i> Delete</a></td></tr>';
                                 });
                                 $('#table').append(trHTML);
