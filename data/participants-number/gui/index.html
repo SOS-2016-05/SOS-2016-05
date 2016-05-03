@@ -145,7 +145,12 @@
                                     if(jqXHR.status==409){
                                         alert("There was a conflict: existing resource found, insert another country or year");
                                     }else if(jqXHR.status==400){
-                                        alert("Some of the fields are empty, review them");
+                                        if(method=="POST"){
+                                            alert("Some of the fields are empty, review them");
+                                        }else if(method=="PUT"){
+                                            alert("ERROR: The Country and the year must be the same");
+                                        }
+                                        
                                     }else if(jqXHR.status==401){
                                         alert("Wrong API Key")
                                     }
@@ -191,6 +196,8 @@
             function editData(){
                 var row = $('#participantsnumber').datagrid('getSelected');
                 if (row){
+                    $('#country1').combogrid('disable');
+                    $('#year1').combogrid('disable');
                     $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit Data');
                     $('#fm').form('load',row);
                     var country = $("#country1").val();
