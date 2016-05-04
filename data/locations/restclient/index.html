@@ -29,7 +29,7 @@
           <label for="urll">URL</label>
         </div>
         <div class="input-field col s1">
-          <input id="url" type="text" class="validate" length="4">
+          <input id="url" type="text" class="validate" length="4" value="abc">
           <label for="url">apikey</label>
         </div>
         <div class="input-field col s2">
@@ -95,8 +95,8 @@
             <li>
             <div class="collapsible-header"><i class="material-icons">info_outline</i>How to use GUI</div>
             <div class="collapsible-body"><p>You can search any field in the introduction of the payload.
-              You can use "index" and "limit from page" to search for page, the "index" being the top of the page and "limit" as far show.
-               So you can search by year from the initial date "from" until the end "to".</p>
+              You can use "index" and "limit from page" to search for page, the "index" being the top of the page and "limit" as far show. Finally you can use
+              the buttons on the end to look within the limits you used. So you can search by year from the initial date "from" until the end "to".</p>
              <p>Through the magnifying glass you can search by field you specify or leave empty to show everything. The red buttom can add a new item, the
                buttom blue can update an item from the list, and finally the black buttom can delete all the list or
                delete only the elements specify from of payload.</p></div>
@@ -109,7 +109,7 @@
         <span id="loaddata" class="btn waves-effect waves-teal">Load Initial Data<i class="material-icons right">send</i></span>
 
         <br/><hr/>
-        HTTP Status: <span id="status"></span>
+        Status: <span id="status"></span>
         <span id="fail"></span>
         <br/><hr/>
 
@@ -124,7 +124,9 @@
 
         <br/><hr/>
         <ul id="list"></ul>
+        <span title="Before" id="before" class="btn-floating btn-large waves-effect waves-light gray"><i class="material-icons">skip_previous</i></span>
+        <span title="Next" id="next" class="btn-floating btn-large waves-effect waves-light gray"><i class="material-icons">skip_next</i></span>
         <hr/>
-        Log: <span id="log"></span>
+
     </body>
 </html>

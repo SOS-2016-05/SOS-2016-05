@@ -168,7 +168,7 @@ module.exports.putLocation=function (req,res){ //put
           location.top=body.top;
           location.doping=body.doping;
       });
-    	res.sendStatus(200);
+    	res.sendStatus(201);
     	}else{
 			res.sendStatus(400);
     	}
@@ -198,7 +198,7 @@ module.exports.deleteLocation=function (req,res){  //delete name
 			if(temp.length!=0)
 			{
 					locations=diff;
-					res.sendStatus(200);
+					res.sendStatus(201);
 			}
 			else
 					res.sendStatus(404);
@@ -214,7 +214,7 @@ module.exports.deleteLocations=function (req,res){  //delete list
 		if(apikey){
 		 console.log("New DELETE of all resources");
 	 	 locations.splice(0,locations.length);
-	 	 res.sendStatus(200);
+	 	 res.sendStatus(201);
 		}
 		else{
 			console.log("you must identificate");
