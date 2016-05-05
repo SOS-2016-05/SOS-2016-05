@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <title>Participants number table</title>
         <script src="jquery-1.12.2.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
-        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
-        <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+        <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="easyui/demo/demo.css">
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
-        <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="http://www.jeasyui.com/easyui/datagrid-detailview.js"></script>
 
                
@@ -40,26 +40,14 @@
 
    <div style="width:400px;margin-top:20px ">
             <td>Api Key:</td>
-            <td><input class="easyui-textbox" type="text" name="apikey" id="apikey"></input></td>
+            <td><input class="easyui-textbox" type="text" name="apikey" value="abc" id="apikey"></input></td>
     </div>
 
     <div style="margin:20px 0;"></div>
     <td>Search:</td>
-    <td><input id=search  class="easyui-searchbox" data-options="prompt:'Please write a country',searcher:SearchCountry" style="width:300px"></input></td>
+    <td><a href="#botonsearch" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="datasearch()" style="width:80px">Search</a></td>
 
-    <div style="margin-top:20px">
-    <td>Limit:</td>
-    <td><select id=limit onchange="">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-    </td>
-        </select>
-    </div>
-
-        
+   
         <div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
             closed="true" buttons="#dlg-buttons">
         <div class="ftitle">Data Information</div>
@@ -82,9 +70,92 @@
             </div>
         </form>
     </div>
+
+    <div id="dlgsearch" class="easyui-dialog" style="width:400px;height:210px;padding:10px 20px"
+            closed="true">
+        <div class="ftitle">Search Information</div>
+        <form id="fm2">
+            <div class="fitem">
+                <td>Search by country:</td>
+                <td><a href="#botonsearchcountry" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="datasearchcountry()" style="width:80px">Search</a></td>
+            </div>
+            <div class="fitem">
+                <td>Search by Year:</td>
+                <td><a href="#botonsearchyear" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="datasearchyear()" style="width:80px">Search</a></td>
+            </div>
+        </form>
+    </div>
+
+    <div id="dlgsearchcountry" class="easyui-dialog" style="width:400px;height:220px;padding:10px 20px"
+            closed="true" buttons="#dlg-buttons2">
+        <div class="ftitle">Search country</div>
+        <form id="fm3">
+            <div class="fitem">
+                <td>Search by country:</td>
+                <td><input id=search1  class="easyui-searchbox" data-options="prompt:'Please write a country'" style="width:150px"></input></td>
+            </div>
+            <div class="fitem">
+                <td>Limit to search:</td>
+                <td><select id=limit1 onchange="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                </td>
+        </select>
+            </div>
+        </form>
+    </div>
+
+    <div id="dlgsearchyear" class="easyui-dialog" style="width:400px;height:220px;padding:10px 20px"
+            closed="true" buttons="#dlg-buttons3">
+        <div class="ftitle">Search by year</div>
+        <form id="fm4">
+            <div class="fitem">
+                <td>From:</td>
+                <td><input id=search2  class="easyui-searchbox" data-options="prompt:'Please write a year'" style="width:150px"></input></td>
+            </div>
+            <div class="fitem">
+                <td>To:</td>
+                <td><input id=search3  class="easyui-searchbox" data-options="prompt:'Please write a year'" style="width:150px"></input></td>
+            </div>
+
+            <div class="fitem">
+                <td>Limit to search:</td>
+                <td><select id=limit2 onchange="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="11">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                </td>
+        </select>
+            </div>
+        </form>
+    </div>
+
     <div id="dlg-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveData()" style="width:90px">Save</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+    </div>
+
+    <div id="dlg-buttons2">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="SearchCountry()" style="width:90px">Save</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlgsearchcountry').dialog('close')" style="width:90px">Cancel</a>
+    </div>
+
+    <div id="dlg-buttons3">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="SearchByYear()" style="width:90px">Save</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlgsearchyear').dialog('close')" style="width:90px">Cancel</a>
     </div>
 
      <script type="text/javascript">
@@ -112,10 +183,11 @@
 });
             var url, method;
             function newData(){
+                $('#country1').combogrid('enable');
+                $('#year1').combogrid('enable');
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','New data');
                 $('#fm').form('clear');
                 var key=$('#apikey').val();
-                console.log(key);
                 url = "/api/v1/participants-number?apikey="+key;
                 method= "POST";
                 }
@@ -243,10 +315,10 @@
             
         }
 
-        function SearchCountry(value){
-            var limit=$('#limit').val();
+        function SearchCountry(){
+            var limit=$('#limit1').val();
             var key=$('#apikey').val();
-            var country=value;
+            var country=$('#search1').val();
             method="GET";
             url="/api/v1/participants-number/"+country+"?apikey="+key+"&offset=0&limit="+limit;
             var request =$.ajax({
@@ -268,6 +340,48 @@
                         
                         
                     });
+        }
+
+        function SearchByYear(){
+            var limit=$('#limit2').val();
+            var key=$('#apikey').val();
+            var from1=$('#search2').val();
+            var to1=$('#search3').val();
+            method="GET";
+            url="/api/v1/participants-number/?apikey="+key+"&from="+from1+"&to="+to1+"&offset=0&limit="+limit;
+            var request =$.ajax({
+                        type: method,
+                        url: url,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data)
+                                {  
+                                 $('#participantsnumber').datagrid('loadData', {"total":data.length,"rows":data});  
+                                },
+                        error: function (jqXHR)
+                                { if(jqXHR.status==401){
+                                        alert("Wrong API Key");
+                                    }else if(jqXHR.status==404){
+                                        alert("NOT FOUND: Please write another year");
+                                    }
+                                }
+                        
+                        
+                    });
+        }
+
+        function datasearch(){
+            $('#dlgsearch').dialog('open').dialog('center').dialog('setTitle','Search data');
+        }
+
+        function datasearchcountry(){
+            $('#dlgsearchcountry').dialog('open').dialog('center').dialog('setTitle','Search country');
+             $('#dlgsearch').dialog('close');
+        }
+
+        function datasearchyear(){
+            $('#dlgsearchyear').dialog('open').dialog('center').dialog('setTitle','Search by year');
+             $('#dlgsearch').dialog('close');
         }
 </script>
    <style type="text/css">
