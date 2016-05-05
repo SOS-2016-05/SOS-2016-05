@@ -1,9 +1,9 @@
 $(document).ready(() => {
     console.log("Jquery ready!");
     var urlll;
-    var nx=false;
-    var bf=false;
-    var cont=parseInt($("#offset").val());
+    var cont2=0;
+    var cont3=0;
+    var cont;
     var urll="/api/v1/locations/?apikey=";
 
   function urrl(){    //FROM DELTE AND VIEW
@@ -43,6 +43,7 @@ function urrl3(){
 }
 
 function urrl4(){    //FROM DELTE AND VIEW
+
 if($("#payload").val()==0 && $("#payload2").val()==0){
   urlll="/api/v1/locations/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+cont+"&from="+$("#from").val()+"&to="+$("#to").val();
 }else if($("#payload2").val()==0 && $("#payload").val()!=0){
@@ -52,25 +53,9 @@ if($("#payload").val()==0 && $("#payload2").val()==0){
 }else{
   urlll="/api/v1/locations"+"/"+$("#payload").val()+"/"+$("#payload2").val()+"/?apikey="+$("#url").val()+"&limit="+$("#limit").val()+"&offset="+cont+"&from="+$("#from").val()+"&to="+$("#to").val();
 }
+
 return urrl3();
 }
-
-function pagination(data){
-    console.log("Limite del limit: "+parseInt( $("#limit").val() ));
-    cont=cont+parseInt($("#limit").val());
-    console.log("Limite pasado cont: "+cont);
-  return cont;
-}
-
-
-function pagination2(data){
-    console.log("Limite del limit: "+parseInt( $("#limit").val() ));
-    console.log("Limite normal: "+cont);
-    cont-=parseInt( $("#limit").val() );
-    console.log("Limite pasado: "+cont);
-  return cont;
-}
-
 
     $("#remove").click(() => {
         console.log("Data removed");
@@ -342,8 +327,13 @@ function pagination2(data){
 
 
   $("#next").click(() => {
-    urlll=urrl4();
-      var request = $.ajax({
+        if(cont3==0){
+          cont=parseInt($("#offset").val());
+          console.log("cont "+cont);
+          cont3++;
+        }
+        urlll=urrl4();
+        var request = $.ajax({
           url:urlll,
           type: "GET",
           data:"{" + ' "country": ' + '"' + $("#payload").val() + '"'  + "," +
@@ -362,23 +352,28 @@ function pagination2(data){
              $('<td></td>').text(data[i].year).appendTo(row);
              $('<td></td>').text(data[i].top).appendTo(row);
              $('<td></td>').text(data[i].doping).appendTo(row);
+             cont2++;
            }
 
-           console.log("offset "+$("#offset").val());
-
-           console.log("CONTADOR NEXT "+cont);
-          // var offsett=pagination(data);
-          if(cont<data.length){
-            console.log("data: "+data.length);
-            console.log("contador "+cont);
-            cont=cont+parseInt($("#limit").val());
-          }else if(cont>data.length){
-            cont=0;
+           console.log("offset "+$("#offset").val() +" es igual al cont: "+cont);
+           console.log("limit con lo que se suma: "+$("#limit").val());
+           console.log("contador offset"+cont);
+           console.log(cont3);
+           var sum=parseInt( $("#limit").val() );
+           console.log("suma "+sum);
+           if(cont3==1){
+            cont=cont+sum;
+             console.log("cont "+cont);
+             cont3++;
+             if(cont<cont2){
+               cont=cont+sum;
+               console.log("contador con suma: "+cont);
+             }
+           }
+          else if(cont<cont2){
+            cont=cont+sum;
+            console.log("contador con suma: "+cont);
           }
-
-          // offsett=offsett+pagination(data);
-           //console.log("OFFSETT "+offsett);
-          // toString(offsett);
            if(jqXHR.status==200){
               $("#status").html("Resource searched with succes.");
            }
@@ -394,16 +389,25 @@ function pagination2(data){
                 $("#fail").html(window.alert("Apikey is wrong."));
               }
               if(jqXHR.status==404){
-                 $("#status").html("limit of table, please use before.");
-                 alert("limit of table");
+                 $("#status").html("limit of table, you will start again.");
+                 alert("limit of table.");
+                 cont=parseInt($("#offset").val());
               }
           }
 
       });
   });
 
-
+/*
   $("#before").click(() => {
+    var sum=parseInt( $("#limit").val() );
+    if(cont3==0){
+      cont=parseInt($("#offset").val());
+      console.log("cont "+cont);
+      cont3++;
+    }else if(cont3==2){
+      cont=cont-sum;
+    }
     urlll=urrl4();
       var request = $.ajax({
           url:urlll,
@@ -424,17 +428,24 @@ function pagination2(data){
              $('<td></td>').text(data[i].year).appendTo(row);
              $('<td></td>').text(data[i].top).appendTo(row);
              $('<td></td>').text(data[i].doping).appendTo(row);
+             cont2++;
            }
-           console.log("CONTADOR ATRAS: "+cont);
-           console.log("offset "+$("#offset").val());
-           activenx(nx);
-           tratamiento(nx,bf);
-           cont=cont-parseInt($("#limit").val());
 
-           //var offsett;
-           //offsett=offsett+pagination2(data);
-           //console.log("OFFSETT "+offsett);
-          // toString(offsett);
+
+           console.log("suma "+sum);
+           if(cont3==1){
+            cont=cont-sum;
+             console.log("cont "+cont);
+             cont3++;
+             if(cont<cont2){
+               cont=cont-sum;
+               console.log("contador con suma: "+cont);
+             }
+           }else if(cont3==2){
+             cont=cont-sum;
+             cont3++;
+           }
+
            if(jqXHR.status==200){
               $("#status").html("Resource searched with succes.");
            }
@@ -450,11 +461,17 @@ function pagination2(data){
                 $("#fail").html(window.alert("Apikey is wrong."));
               }
               if(jqXHR.status==404){
-                 $("#status").html("Resource not found.");
+                $("#status").html("limit of table, you will start again.");
+                alert("limit of table.");
+                cont=parseInt($("#offset").val());
+              }else if(jqXHR.status==500){
+                $("#status").html("limit of table, you will start again.");
+                alert("limit of table.");
+                cont=parseInt($("#limit").val());
               }
           }
 
       });
   });
-
+*/
 });
