@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+</head>
+<body>
+<div  font: sans-serif;  style="width:400px;margin-top:20px ">
+            <td>Number of participants in the London Olympics 2012:</td>
+    </div>
+<script type="text/javascript">
+
+	  google.charts.load('current', {'packages':['geochart']});
+      //IMPORTAR JQUERY PARA EL $
+      
+      $(document).ready(()=>{
+      	var request=$.ajax({
+      		type: "GET",
+        	url: '/api/v1/participants-number?apikey=abc',
+       		contentType: "application/json; charset=utf-8",
+        	dataType: "json"
+        	
+      	});
+
+      	request.done((dataFromServer,status)=>{
+      		google.charts.setOnLoadCallback(drawRegionsMap);
+			
+		      function drawRegionsMap() {
+		      	var dataForWidget=[["Country","Participants number"]];
+		      	for(i=0;i<dataFromServer.length;i++){
+		      		var item=dataFromServer[i];
+		      		if(item.year=="2012"){
+		      			var itemForWidget;
+		      			if(item.country=="EEUU"){
+		      				//this is because the google charts doesn't know the country EEUU
+		      				itemForWidget=["United States",item.maleathletesnumber+item.femaleathletesnumber];
+		      			}else{
+		      				itemForWidget=[item.country,item.maleathletesnumber+item.femaleathletesnumber];
+		      			}
+		      			
+			      		dataForWidget.push(itemForWidget);
+			      		
+		      		}
+	      		
+	      	}
+
+	        var data2 = google.visualization.arrayToDataTable(dataForWidget);
+
+	        var options = {
+	        	 title: 'Number of participants in the London Olympics 2012:',
+	        	 colorAxis: {colors: ['#E53129', '#4374e0']}// red t blue
+	        };
+
+	        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+	        chart.draw(data2, options);
+      	}
+      });
+
+      });
+    
+</script>
+	<div id="regions_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>

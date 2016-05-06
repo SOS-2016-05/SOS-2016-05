@@ -1,11 +1,27 @@
 var fs=require("fs");
 var athletesnumber=[
- {"country":"EEUU","year":"2012","maleathletesnumber":288,"femaleathletesnumber":251},
+ {"country":"EEUU","year":"2012","maleathletesnumber":261 ,"femaleathletesnumber":268},
  {"country":"EEUU","year":"2008","maleathletesnumber":307,"femaleathletesnumber":282},
- {"country":"China","year":"2012","maleathletesnumber":215,"femaleathletesnumber":170},
+ {"country":"China","year":"2012","maleathletesnumber":164,"femaleathletesnumber":216},
  {"country":"China","year":"2008","maleathletesnumber":312,"femaleathletesnumber":288},
- {"country":"Spain","year":"2012","maleathletesnumber":167,"femaleathletesnumber":131},
- {"country":"Spain","year":"2008","maleathletesnumber":162,"femaleathletesnumber":120}];
+ {"country":"Spain","year":"2012","maleathletesnumber":166,"femaleathletesnumber":112},
+ {"country":"Spain","year":"2008","maleathletesnumber":162,"femaleathletesnumber":120},
+ {"country":"Germany","year":"2012","maleathletesnumber":206,"femaleathletesnumber":186},
+ {"country":"Germany","year":"2008","maleathletesnumber":237,"femaleathletesnumber":183},
+ {"country":"France","year":"2012","maleathletesnumber":196,"femaleathletesnumber":134},
+ {"country":"France","year":"2008","maleathletesnumber":188,"femaleathletesnumber":121},
+ {"country":"Italy","year":"2012","maleathletesnumber":167,"femaleathletesnumber":117},
+ {"country":"Italy","year":"2008","maleathletesnumber":203,"femaleathletesnumber":130},
+ {"country":"Russia","year":"2012","maleathletesnumber":225,"femaleathletesnumber":211},
+ {"country":"Russia","year":"2008","maleathletesnumber":231,"femaleathletesnumber":223},
+ {"country":"Brazil","year":"2012","maleathletesnumber":134,"femaleathletesnumber":126},
+ {"country":"Brazil","year":"2008","maleathletesnumber":139,"femaleathletesnumber":129},
+ {"country":"Canada","year":"2012","maleathletesnumber":121,"femaleathletesnumber":156},
+ {"country":"Canada","year":"2008","maleathletesnumber":186,"femaleathletesnumber":146},
+ {"country":"Japan","year":"2012","maleathletesnumber":139,"femaleathletesnumber":151},
+ {"country":"Japan","year":"2008","maleathletesnumber":167,"femaleathletesnumber":165},
+ {"country":"Great Britain","year":"2012","maleathletesnumber":296,"femaleathletesnumber":245},
+ {"country":"Great Britain","year":"2008","maleathletesnumber":163,"femaleathletesnumber":141}];
 
 function StrArrayParticipantsnumber(str1,str2,elements){
 	var cont = -1;
@@ -100,6 +116,7 @@ module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load 
 	if(apikey){
 		var content=fs.readFileSync('dataParticipantsNumber.json','utf8');
     	athletesnumber = JSON.parse(content);
+    	console.log(content);
     	console.log("The participants numbers data has been loaded.")
     	res.sendStatus(201);//OK
 		
