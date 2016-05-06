@@ -1,11 +1,27 @@
 var fs=require("fs");
 var athletesnumber=[
- {"country":"EEUU","year":"2012","maleathletesnumber":288,"femaleathletesnumber":251},
+ {"country":"EEUU","year":"2012","maleathletesnumber":261 ,"femaleathletesnumber":268},
  {"country":"EEUU","year":"2008","maleathletesnumber":307,"femaleathletesnumber":282},
- {"country":"China","year":"2012","maleathletesnumber":215,"femaleathletesnumber":170},
+ {"country":"China","year":"2012","maleathletesnumber":164,"femaleathletesnumber":216},
  {"country":"China","year":"2008","maleathletesnumber":312,"femaleathletesnumber":288},
- {"country":"Spain","year":"2012","maleathletesnumber":167,"femaleathletesnumber":131},
- {"country":"Spain","year":"2008","maleathletesnumber":162,"femaleathletesnumber":120}];
+ {"country":"Spain","year":"2012","maleathletesnumber":166,"femaleathletesnumber":112},
+ {"country":"Spain","year":"2008","maleathletesnumber":162,"femaleathletesnumber":120},
+ {"country":"Germany","year":"2012","maleathletesnumber":206,"femaleathletesnumber":186},
+ {"country":"Germany","year":"2008","maleathletesnumber":237,"femaleathletesnumber":183},
+ {"country":"France","year":"2012","maleathletesnumber":196,"femaleathletesnumber":134},
+ {"country":"France","year":"2008","maleathletesnumber":188,"femaleathletesnumber":121},
+ {"country":"Italy","year":"2012","maleathletesnumber":167,"femaleathletesnumber":117},
+ {"country":"Italy","year":"2008","maleathletesnumber":203,"femaleathletesnumber":130},
+ {"country":"Russia","year":"2012","maleathletesnumber":225,"femaleathletesnumber":211},
+ {"country":"Russia","year":"2008","maleathletesnumber":231,"femaleathletesnumber":223},
+ {"country":"Brazil","year":"2012","maleathletesnumber":134,"femaleathletesnumber":126},
+ {"country":"Brazil","year":"2008","maleathletesnumber":139,"femaleathletesnumber":129},
+ {"country":"Canada","year":"2012","maleathletesnumber":121,"femaleathletesnumber":156},
+ {"country":"Canada","year":"2008","maleathletesnumber":186,"femaleathletesnumber":146},
+ {"country":"Japan","year":"2012","maleathletesnumber":139,"femaleathletesnumber":151},
+ {"country":"Japan","year":"2008","maleathletesnumber":167,"femaleathletesnumber":165},
+ {"country":"Great Britain","year":"2012","maleathletesnumber":296,"femaleathletesnumber":245},
+ {"country":"Great Britain","year":"2008","maleathletesnumber":163,"femaleathletesnumber":141}];
 
 function StrArrayParticipantsnumber(str1,str2,elements){
 	var cont = -1;
@@ -100,6 +116,7 @@ module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load 
 	if(apikey){
 		var content=fs.readFileSync('dataParticipantsNumber.json','utf8');
     	athletesnumber = JSON.parse(content);
+    	console.log(content);
     	console.log("The participants numbers data has been loaded.")
     	res.sendStatus(201);//OK
 		
@@ -114,15 +131,24 @@ module.exports.getParticipantsnumbers=function (req,res){
 	 var limit=req.query.limit;//paginación
 	 var offset=req.query.offset;//paginación
 	 var apikey=ApiKey(req.query.apikey);
+	 var from1=req.query.from;//search
+	 var to1=req.query.to;//search
      if(apikey){
-     	if(offset==null && limit==null ){
-			console.log("New GET for directory listing");
-    		res.status(200).jsonp(athletesnumber);//OK
-     	}else{
-     		res.send(FilterLimit(limit,offset));
-     		res.sendStatus(200);//ok
+
+     	if(from1==null && to1==null){
+
+				if(offset==null && limit==null ){
+							console.log("New GET for directory listing");
+				    		res.status(200).jsonp(athletesnumber);//OK
+				     	}else{
+				     		res.send(FilterLimit(limit,offset));
+				     		res.sendStatus(200);//ok
+				     	}
+     	}else{//Search
+     		res.send(generalSearch(from1,to1,offset,limit,res));
+     		res.sendStatus(200);
      	}
-     						
+   						
 	}else{
 		console.log("you must identificate");
 		res.sendStatus(401);// Unauthorized
@@ -159,7 +185,7 @@ module.exports.getParticipantsnumbersCountryOrYear=function (req,res){
 	 
 	if(apikey){
 		if(offset==null && limit==null){
-			getParticipantsCountryYear(countryOrYear,athletesnumber,res,from1,to1);
+			participantsCountryYear(countryOrYear,athletesnumber,res,from1,to1);
 		}else{
 			filterLimitCountryOrYear(countryOrYear,limit,offset,res);
      	}
@@ -200,7 +226,7 @@ function filterLimitCountryOrYear(countryOrYear,limit,offset,res){
 		}
 }
 
-function getParticipantsCountryYear(countryOrYear,array,res,from1,to1){
+function participantsCountryYear(countryOrYear,array,res,from1,to1){
 	console.log("New GET of resource "+countryOrYear);
 	var arrayathletesnumber=[];
 	if(isNaN(countryOrYear)){//if is a COUNTRY
@@ -222,6 +248,45 @@ function getParticipantsCountryYear(countryOrYear,array,res,from1,to1){
 	}else{
 			res.sendStatus(404);//not found
 		}
+}
+
+function generalSearch(from1,to1,offset,limit,res){
+	var array=[];
+	var array2=[];
+	var cont=0;
+	if(to1==null){
+		for(i=0;i<athletesnumber.length;i++){
+			if(athletesnumber[i].year>=from1){
+				array.push(athletesnumber[i]);
+			}
+		}
+	}else if(from1==null){
+		for(i=0;i<athletesnumber.length;i++){
+			if(athletesnumber[i].year<=to1){
+				array.push(athletesnumber[i]);
+			}
+		}
+	}else{
+		for(i=0;i<athletesnumber.length;i++){
+			if(athletesnumber[i].year>=from1 && athletesnumber[i].year<=to1){
+				array.push(athletesnumber[i]);
+			}
+	}
+
+	for(var i=offset;i<array.length;i++){
+			if(limit>cont){
+				array2.push(array[i]);
+				cont++;
+				}
+			}
+		}
+	if(array2.length>0){
+			res.send(array2); 
+			res.sendStatus(200);//OK
+	}else{
+			res.sendStatus(404);//not found
+		}
+
 }
 
 module.exports.postParticipantsnumbers=function (req,res){

@@ -18,6 +18,7 @@ app.use("/",express.static(__dirname + "/root"));
 app.use("/locations/charts",express.static(__dirname + "/root/chart/locations"));
 app.use("/locations",express.static(__dirname + "/data/locations/restclient"));
 app.use("/participants-number",express.static(__dirname + "/data/participants-number/gui"));
+app.use("/participants-number/charts",express.static(__dirname + "/root/chart/participants-number"));
 app.use("/gold-medals",express.static(__dirname + "/data/gold-medals/gui/restclient"));
 
 var fs=require("fs");   //for all files.
