@@ -3,6 +3,8 @@ $(document).ready(() => {
     var urlll;
     var cont2=0;
     var cont3=0;
+    var trat;
+    var trat2=0;
     var cont;
     var urll="/api/v1/locations/?apikey=";
 
@@ -327,10 +329,19 @@ return urrl3();
 
 
   $("#next").click(() => {
+        var sum=parseInt( $("#limit").val() );
         if(cont3==0){
           cont=parseInt($("#offset").val());
-          console.log("cont "+cont);
+          console.log("entra en if primero cont "+cont);
           cont3++;
+        }if(trat==undefined){
+          console.log("entra trat");
+          trat=false;
+          if(trat==true){
+            cont=cont+sum+sum;
+            console.log("contador del trat: "+cont);
+            trat==false;
+          }console.log("trat next: "+trat);
         }
         urlll=urrl4();
         var request = $.ajax({
@@ -355,24 +366,14 @@ return urrl3();
              cont2++;
            }
 
-           console.log("offset "+$("#offset").val() +" es igual al cont: "+cont);
-           console.log("limit con lo que se suma: "+$("#limit").val());
-           console.log("contador offset"+cont);
-           console.log(cont3);
-           var sum=parseInt( $("#limit").val() );
-           console.log("suma "+sum);
+           console.log("variable suma "+sum);
            if(cont3==1){
             cont=cont+sum;
-             console.log("cont "+cont);
+             console.log("variable cont "+cont);
              cont3++;
-             if(cont<cont2){
-               cont=cont+sum;
-               console.log("contador con suma: "+cont);
-             }
-           }
-          else if(cont<cont2){
+           }else if(cont<cont2){
             cont=cont+sum;
-            console.log("contador con suma: "+cont);
+            console.log("contador que suma: "+cont);
           }
            if(jqXHR.status==200){
               $("#status").html("Resource searched with succes.");
@@ -393,20 +394,30 @@ return urrl3();
                  alert("limit of table.");
                  cont=parseInt($("#offset").val());
               }
+              else if(jqXHR.status==500){
+                $("#status").html("limit of table, you will start again.");
+                alert("limit of table.");
+                cont=parseInt($("#limit").val());
+              }
           }
 
       });
   });
 
-/*
+
   $("#before").click(() => {
     var sum=parseInt( $("#limit").val() );
     if(cont3==0){
       cont=parseInt($("#offset").val());
-      console.log("cont "+cont);
       cont3++;
-    }else if(cont3==2){
-      cont=cont-sum;
+    }if(trat=undefined){
+      console.log("trat before");
+      trat=true;
+      if(trat=false){
+          cont=cont-sum-sum;
+          console.log("contador del trat: "+cont);
+          trat=true;
+        }console.log("trat before: "+trat);
     }
     urlll=urrl4();
       var request = $.ajax({
@@ -431,19 +442,14 @@ return urrl3();
              cont2++;
            }
 
-
-           console.log("suma "+sum);
+           console.log("varibale suma "+sum);
            if(cont3==1){
             cont=cont-sum;
-             console.log("cont "+cont);
+             console.log("variable cont "+cont);
              cont3++;
-             if(cont<cont2){
-               cont=cont-sum;
-               console.log("contador con suma: "+cont);
-             }
-           }else if(cont3==2){
+           }else if(cont<cont2){
              cont=cont-sum;
-             cont3++;
+             console.log("contador que resta: "+cont);
            }
 
            if(jqXHR.status==200){
@@ -473,5 +479,5 @@ return urrl3();
 
       });
   });
-*/
+
 });
