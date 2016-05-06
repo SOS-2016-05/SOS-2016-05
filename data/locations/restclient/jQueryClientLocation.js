@@ -3,8 +3,6 @@ $(document).ready(() => {
     var urlll;
     var cont2=0;
     var cont3=0;
-    var trat;
-    var trat2=0;
     var cont;
     var urll="/api/v1/locations/?apikey=";
 
@@ -329,19 +327,11 @@ return urrl3();
 
 
   $("#next").click(() => {
+      console.log("variable cont antes de .done: "+cont);
         var sum=parseInt( $("#limit").val() );
         if(cont3==0){
           cont=parseInt($("#offset").val());
-          console.log("entra en if primero cont "+cont);
           cont3++;
-        }if(trat==undefined){
-          console.log("entra trat");
-          trat=false;
-          if(trat==true){
-            cont=cont+sum+sum;
-            console.log("contador del trat: "+cont);
-            trat==false;
-          }console.log("trat next: "+trat);
         }
         urlll=urrl4();
         var request = $.ajax({
@@ -366,14 +356,14 @@ return urrl3();
              cont2++;
            }
 
-           console.log("variable suma "+sum);
+           console.log("variable suma=limit: "+sum);
            if(cont3==1){
             cont=cont+sum;
              console.log("variable cont "+cont);
              cont3++;
            }else if(cont<cont2){
             cont=cont+sum;
-            console.log("contador que suma: "+cont);
+            console.log("contador sumado: "+cont);
           }
            if(jqXHR.status==200){
               $("#status").html("Resource searched with succes.");
@@ -406,18 +396,11 @@ return urrl3();
 
 
   $("#before").click(() => {
+    console.log("variable cont antes de .done del before: "+cont);
     var sum=parseInt( $("#limit").val() );
     if(cont3==0){
       cont=parseInt($("#offset").val());
       cont3++;
-    }if(trat=undefined){
-      console.log("trat before");
-      trat=true;
-      if(trat=false){
-          cont=cont-sum-sum;
-          console.log("contador del trat: "+cont);
-          trat=true;
-        }console.log("trat before: "+trat);
     }
     urlll=urrl4();
       var request = $.ajax({
@@ -442,14 +425,14 @@ return urrl3();
              cont2++;
            }
 
-           console.log("varibale suma "+sum);
+           console.log("varibale suma=limit: "+sum);
            if(cont3==1){
-            cont=cont-sum;
+             cont=cont-sum;
              console.log("variable cont "+cont);
              cont3++;
            }else if(cont<cont2){
              cont=cont-sum;
-             console.log("contador que resta: "+cont);
+             console.log("contador restado: "+cont);
            }
 
            if(jqXHR.status==200){
