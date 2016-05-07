@@ -4,6 +4,8 @@ var limit=2;
  
 $(document).ready(function() {
     
+    load_table();
+    
     $("#load").on("click", (()=>{
         searchby = "";
         load_table();

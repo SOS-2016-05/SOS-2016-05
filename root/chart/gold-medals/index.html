@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      $(document).ready(()=>{
+
+        var request=$.ajax({
+          url:"/api/v1/gold-medals?apikey=sosrw"
+        });
+
+        request.done((dataFromServer,status)=>{
+          google.charts.setOnLoadCallback(drawSeriesChart);
+
+          function drawSeriesChart() {
+            console.log("DATAFROMSERVER: "+dataFromServer);
+            var dataForWidget=[["country","year","goldmedalsnumber","silvermedalsnumber"]];
+
+
+            for (i=0;i<dataFromServer.length;i++){
+              var item=dataFromServer[i];
+              console.log("item: "+item);
+              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.goldmedalsnumber),parseInt(item.silvermedalsnumber)];
+              dataForWidget.push(itemForWidget);
+            }
+            console.log("DATA FOR WIDGET: "+dataForWidget);
+
+            var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
+            var options = {
+              title: 'Graphic showing crossed data about the gold medals won in the Olympic Games throughout the years',
+              hAxis: {title: 'Timeline'},
+              vAxis: {title: 'Gold medals nº'},
+              bubble: {textStyle: {fontSize: 11}}
+            };
+            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+            chart.draw(data, options);
+          }
+
+        });
+
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="series_chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
