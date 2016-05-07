@@ -17,7 +17,7 @@
     <body>  
 
             <table id="participantsnumber" title="participantsnumber" class="easyui-datagrid" style="width:700px;height:350px"
-            toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" url="/api/v1/participants-number?apikey=abc" method="get" >
+            toolbar="#toolbar" pagination="false" rownumbers="true" fitColumns="true" singleSelect="true" url="/api/v1/participants-number?apikey=abc" method="get" >
                 <thead>
                         <tr>
                             
@@ -36,6 +36,24 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyData()">Remove Data</a>
         
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="loadInitialData()">Load Initial Data</a>
+    </div>
+
+    <div style="width:350px;margin-top:20px ">
+        <td>Pagination: </td>
+        <td><a id="buttonNext" class="easyui-linkbutton" onclick="next();">Next</a></td>
+        <td><a id="buttonPrevious" class="easyui-linkbutton" onclick="previous();">Previous</a></td>
+        <td>Limit for page:</td>
+        <td><select id=limit onchange="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                </td></select>
     </div>
 
    <div style="width:400px;margin-top:20px ">
@@ -161,6 +179,10 @@
      <script type="text/javascript">
      var InitialData;
      var key=$('#apikey').val();
+     var arrayTable;
+     var contSearch=0;
+     var limitOnChange1=0;
+     var limitOnChange2=0;
        $(document).ready(function(){
 
           var request = $.ajax({
@@ -173,11 +195,13 @@
           request.done(function (data){
             InitialData=data;
             $('#participantsnumber').datagrid('loadData', {"total":data.length,"rows":data});
+            arrayTable =$('#participantsnumber').datagrid('getRows');
           });
 
           request.always(function (jqXHR,status){
             if(jqXHR.status==401){
                 $('#participantsnumber').datagrid('loadData', {"total":0,"rows":[]});
+                arrayTable =$('#participantsnumber').datagrid('getRows');
             }
           });
 });
@@ -383,6 +407,80 @@
             $('#dlgsearchyear').dialog('open').dialog('center').dialog('setTitle','Search by year');
              $('#dlgsearch').dialog('close');
         }
+
+        function next(){
+            
+            var limitPage=parseInt( $("#limit").val() );
+            limitOnChange2=limitOnChange1;
+            limitOnChange1=limitPage;
+            if(limitOnChange1!=limitOnChange2){
+                contSearch=0;
+            }
+            var key=$('#apikey').val();
+            //console.log("Limit per page: "+limitPage);
+            //console.log("Cont search: "+contSearch);
+            //console.log(arrayPage);
+            //console.log("array: "+arrayTable);
+            var request = $.ajax({
+                url:"/api/v1/participants-number?apikey="+key+"&offset="+contSearch+"&limit="+limitPage,
+                type:"GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data)
+                                {  
+                                 $('#participantsnumber').datagrid('loadData', {"total":data.length,"rows":data});
+                                 $('#buttonNext').linkbutton('enable');
+                                 $('#buttonPrevious').linkbutton('enable');
+                                 
+                                 if(limitPage>data.length){
+                                    $('#buttonNext').linkbutton('disable');
+                                 }else{
+                                    contSearch+=limitPage;
+                                 } 
+                                },
+                        error: function (jqXHR)
+                                { if(jqXHR.status==401){
+                                        alert("Wrong API Key");
+                                    }
+                                }
+                });
+        }
+
+        function previous(){
+            var limitPage=parseInt( $("#limit").val() );
+            var key=$('#apikey').val();
+            contSearch-=limitPage;
+
+            limitOnChange2=limitOnChange1;
+            limitOnChange1=limitPage;
+            if(limitOnChange1!=limitOnChange2){
+                contSearch=0;
+            }
+            
+            var request = $.ajax({
+                url:"/api/v1/participants-number?apikey="+key+"&offset="+contSearch+"&limit="+limitPage,
+                type:"GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data)
+                                {  
+                                 $('#participantsnumber').datagrid('loadData', {"total":data.length,"rows":data});
+                                 $('#buttonNext').linkbutton('enable');
+                                 if(contSearch<=0){
+                                    $('#buttonPrevious').linkbutton('disable');
+                                    contSearch+=limitPage;
+                                }
+
+                                },
+                        error: function (jqXHR)
+                                { if(jqXHR.status==401){
+                                        alert("Wrong API Key");
+                                    }
+                                }
+                });
+        }
+
+
 </script>
    <style type="text/css">
         #fm{
