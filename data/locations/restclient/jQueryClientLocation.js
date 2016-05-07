@@ -324,16 +324,21 @@ return urrl3();
   });
 
 //pagination
-
+var comp;
 
   $("#next").click(() => {
       console.log("variable cont antes de .done: "+cont);
         var sum=parseInt( $("#limit").val() );
         if(cont3==0){
           cont=parseInt($("#offset").val());
+          urlll=urrl4();
+          comp=false;
           cont3++;
+        }else if(comp==true){
+          cont=cont+sum+sum;
+          comp=false;
         }
-        urlll=urrl4();
+
         var request = $.ajax({
           url:urlll,
           type: "GET",
@@ -341,7 +346,6 @@ return urrl3();
             '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
             $("#payload3").val()+'"'+ "," + ' "doping": ' + '"' + $("#payload4").val() + '"' + "}",
           contentType: "application/json; charset=utf-8"
-
       });
 
       request.done(function(data,status,jqXHR) {
@@ -355,16 +359,11 @@ return urrl3();
              $('<td></td>').text(data[i].doping).appendTo(row);
              cont2++;
            }
-
-           console.log("variable suma=limit: "+sum);
-           if(cont3==1){
-            cont=cont+sum;
-             console.log("variable cont "+cont);
-             cont3++;
-           }else if(cont<cont2){
+          if(cont<cont2){
             cont=cont+sum;
             console.log("contador sumado: "+cont);
           }
+          urlll=urrl4();
            if(jqXHR.status==200){
               $("#status").html("Resource searched with succes.");
            }
@@ -400,9 +399,15 @@ return urrl3();
     var sum=parseInt( $("#limit").val() );
     if(cont3==0){
       cont=parseInt($("#offset").val());
+      urlll=urrl4();
+      comp=true;
       cont3++;
+    }else if(comp==false){
+      cont=cont-sum-sum;
+      urlll=urrl4();
+      comp=true;
     }
-    urlll=urrl4();
+
       var request = $.ajax({
           url:urlll,
           type: "GET",
@@ -410,7 +415,6 @@ return urrl3();
             '"year": ' + '"' + $("#payload2").val() + '"' + "," + ' "top": ' + '"' +
             $("#payload3").val()+'"'+ "," + ' "doping": ' + '"' + $("#payload4").val() + '"' + "}",
           contentType: "application/json; charset=utf-8"
-
       });
 
       request.done(function(data,status,jqXHR) {
@@ -425,16 +429,11 @@ return urrl3();
              cont2++;
            }
 
-           console.log("varibale suma=limit: "+sum);
-           if(cont3==1){
-             cont=cont-sum;
-             console.log("variable cont "+cont);
-             cont3++;
-           }else if(cont<cont2){
+           if(cont<cont2){
              cont=cont-sum;
              console.log("contador restado: "+cont);
            }
-
+           urlll=urrl4();
            if(jqXHR.status==200){
               $("#status").html("Resource searched with succes.");
            }
