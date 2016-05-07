@@ -338,7 +338,6 @@ var comp;
           cont=cont+sum+sum;
           comp=false;
         }
-
         var request = $.ajax({
           url:urlll,
           type: "GET",
@@ -382,11 +381,14 @@ var comp;
                  $("#status").html("limit of table, you will start again.");
                  alert("limit of table.");
                  cont=parseInt($("#offset").val());
+                 urlll=urrl4();
+                  $("#next").disabled=false;
               }
               else if(jqXHR.status==500){
                 $("#status").html("limit of table, you will start again.");
                 alert("limit of table.");
-                cont=parseInt($("#limit").val());
+                cont=parseInt($("#offset").val());
+                urlll=urrl4();
               }
           }
 
@@ -406,6 +408,9 @@ var comp;
       cont=cont-sum-sum;
       urlll=urrl4();
       comp=true;
+    }else if(cont<0){
+      cont=parseInt( $("#offset").val() );
+      urlll=urrl4();
     }
 
       var request = $.ajax({
@@ -451,11 +456,13 @@ var comp;
               if(jqXHR.status==404){
                 $("#status").html("limit of table, you will start again.");
                 alert("limit of table.");
-                cont=parseInt($("#offset").val());
+                cont=parseInt( $("#offset").val() );
+                urlll=urrl4();
               }else if(jqXHR.status==500){
                 $("#status").html("limit of table, you will start again.");
                 alert("limit of table.");
-                cont=parseInt($("#limit").val());
+                cont=parseInt( $("#offset").val() );
+                urlll=urrl4();
               }
           }
 
