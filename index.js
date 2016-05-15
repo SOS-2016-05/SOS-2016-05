@@ -7,8 +7,8 @@ var governify=require('governify');
 
 //==================PROXYS===================================================================================
 //*****************PROXY ANTONIO*****************************************************************************
-var pathAntonio = '/api/v1/consumed';
-var apiServerHostAntonio = 'http://sos-2016-13.herokuapp.com';
+var pathAntonio = '/api/v1/spain-births';
+var apiServerHostAntonio = 'http://sos-2016-03.herokuapp.com';
 
 app.use(pathAntonio, function(req,res){
   var url = apiServerHostAntonio + req.baseUrl + req.url;
@@ -24,7 +24,7 @@ app.use(pathAntonio, function(req,res){
 });
 
 
-//****************PROXY ENRIQUE******************************************************************************* 
+//****************PROXY ENRIQUE*******************************************************************************
 
 var pathEnrique = '/api/v1/mort-sickness';
 var apiServerHostEnrique = 'http://sos-2016-03.herokuapp.com';

@@ -5,6 +5,36 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" />
   <script src="/restclient/jquery-1.12.2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+
+  <script>
+$(document).ready(()=>{
+  $("#btn").click(()=>{
+    var request = $.ajax({
+      url: "/api/sandbox/sportscenters?apikey="+$("#apikey").val(),
+      contentType: "application/json",
+      type: "GET"
+    });
+    request.done((data)=>{
+      console.log("done");
+    });
+    request.always((data,jqXHR,status)=>{
+      if(status=="error"){
+        $("#status").html(status);
+      }else if(status=="Payment Required"){
+        console.log("code 402");
+      $("#result").html('<a href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fenriqueguefer%2FGovernify-API%2FPlans%2Fportal-config.json">You must buy</a>');
+    }else if(status=="Unauthorized"){
+      console.log("code 401");
+      $("#result").html("Unauthorized, please insert apikey.");
+    }else if(status=="429"){
+      console.log("code 429");
+      $("#result").html('<a href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fenriqueguefer%2FGovernify-API%2FPlans%2Fportal-config.json">You must buy</a>');
+    }
+    });
+  });
+});
+</script>
+
 </head>
   <body>
   <div id="container" >
@@ -56,6 +86,16 @@
       <p align="center">Mario Esteban Uclés: <a href='/data/gold-medals'>Gold Medals data</a> - <a href='/data/gold-medals/restclient'>Gold Medals REST Client</a></p>
     </div>
   </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">web</i>API governify</div>
+      <div class="collapsible-body">
+        <input id="apikey" size="6"/>
+        <button id="btn">Submit</button></p>
+        <p align="center"><a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fenriqueguefer%2FGovernify-API%2FPlans%2Fportal-config.json'>Buy apikey</a></p>
+        <div id="result"></div>
+        <div id="status"></div>
+      </div>
+    </li>
 </ul>
   </body>
 </html>
