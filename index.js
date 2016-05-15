@@ -2,9 +2,13 @@ var express=require("express");
 var app=express();
 var bodyParser=require("body-parser");
 var request = require("request");
+var cors=require('cors');
 
+//==================PROXYS===================================================================================
+//*****************PROXY ANTONIO*****************************************************************************
 var pathAntonio = '/api/v1/consumed';
 var apiServerHostAntonio = 'http://sos-2016-13.herokuapp.com';
+
 app.use(pathAntonio, function(req,res){
   var url = apiServerHostAntonio + req.baseUrl + req.url;
   console.log("Piped: "+ req.baseUrl + req.url);
@@ -18,17 +22,40 @@ app.use(pathAntonio, function(req,res){
   })).pipe(res);
 });
 
+
+//****************PROXY ENRIQUE******************************************************************************* 
+
+var pathEnrique = '/api/v1/emissions';
+var apiServerHostEnrique = 'http://sos-2016-13.herokuapp.com';
+app.use(pathEnrique, function(req,res){
+  var url = apiServerHostEnrique + req.baseUrl + req.url;
+  console.log("Piped: "+ req.baseUrl + req.url);
+  console.log("URL Accesed: "+ url);
+
+  req.pipe(request(url,(error,response,body)=>{
+    if(error){
+      console.error(error);
+      res.sendStatus(503);
+    }
+  })).pipe(res);
+});
+
+
+
+
+//===============================================================================================================
 var locationCtl=require("./about/controls/locationCtl.js");
 var animeCtl=require("./about/controls/animeCtl.js");
 var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
 var participantsNumberCtl=require("./about/controls/participants-numberCtl.js");
 var goldMedalsCtl=require("./about/controls/goldMedalsCtl.js");
-var cors=require('cors');
+
 
 var port=(process.env.PORT || 10000); //local test port
 
-app.use("/about",express.static(__dirname + "/about")); //route
 app.use(bodyParser.json()); //se pone en medio de las peticiones
+app.use(cors());
+app.use("/about",express.static(__dirname + "/about")); //route
 app.use("/RESTClient",express.static(__dirname + "/restclient"));
 app.use("/data",express.static(__dirname + "/data"));
 app.use("/",express.static(__dirname + "/root"));
@@ -38,24 +65,13 @@ app.use("/participants-number",express.static(__dirname + "/data/participants-nu
 app.use("/participants-number/charts",express.static(__dirname + "/root/chart/participants-number"));
 app.use("/gold-medals",express.static(__dirname + "/data/gold-medals/gui/restclient"));
 app.use("/gold-medals/charts",express.static(__dirname + "/root/chart/gold-medals"));
-app.use(cors());
+
 
 var fs=require("fs");   //for all files.
 
-var dat=[];   //data location
-var athletesnumber=[];  //data athletesnumber
+var dat=[]; //data location
+//var athletesnumber=[];  //data athletesnumber
 //var datt[];       //data gold-medals
-
-
-
-///PROXY-----------------
-
-//PROXY ANTONIO
-
-//---
-
-///----------------------
-
 //Declares a function where for a given string returns its position from the given array
 function StrArray(str,elements){
 	var cont = -1;

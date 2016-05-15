@@ -1,11 +1,11 @@
-var InitialData;
-     var key=$('#apikey').val();
+    var InitialData;
+     
      var arrayTable;
      var contSearch=0;
      var limitOnChange1=0;
      var limitOnChange2=0;
        $(document).ready(function(){
-
+        var key=$('#apikey').val();
           var request = $.ajax({
             url:"/api/v1/participants-number?apikey="+key,
             type:"GET",
