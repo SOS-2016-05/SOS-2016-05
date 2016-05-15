@@ -26,8 +26,8 @@ app.use(pathAntonio, function(req,res){
 
 //****************PROXY ENRIQUE******************************************************************************* 
 
-var pathEnrique = '/api/v1/emissions';
-var apiServerHostEnrique = 'http://sos-2016-13.herokuapp.com';
+var pathEnrique = '/api/v1/mort-sickness';
+var apiServerHostEnrique = 'http://sos-2016-03.herokuapp.com';
 app.use(pathEnrique, function(req,res){
   var url = apiServerHostEnrique + req.baseUrl + req.url;
   console.log("Piped: "+ req.baseUrl + req.url);
