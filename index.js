@@ -3,6 +3,7 @@ var app=express();
 var bodyParser=require("body-parser");
 var request = require("request");
 var cors=require('cors');
+var governify=require('governify');
 
 //==================PROXYS===================================================================================
 //*****************PROXY ANTONIO*****************************************************************************
@@ -43,7 +44,15 @@ app.use(pathEnrique, function(req,res){
 
 
 
-//===============================================================================================================
+//=============================API GOVERNIFY===============================================================
+//key= multiPlan_C2_sos-2016-05-enrguefer_ag
+governify.control(app,{
+  datastore:"http://datastore.governify.io/api/v6.1/",namespace: "sos-2016-05-enrguefer",defaultPath:"/api/sandbox/sportscenters"
+});
+
+
+
+//=========================================================================================================
 var locationCtl=require("./about/controls/locationCtl.js");
 var animeCtl=require("./about/controls/animeCtl.js");
 var sportscentersCtl=require("./about/controls/sportscentersCtl.js");
