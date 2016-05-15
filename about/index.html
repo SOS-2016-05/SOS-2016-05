@@ -15,7 +15,9 @@ $(document).ready(()=>{
       type: "GET"
     });
     request.done((data)=>{
-      console.log("done");
+      var jsonString = JSON.stringify(data);
+      $("#result").html(jsonString);
+      $("#status").html("200");
     });
     request.always((data,jqXHR,status)=>{
       if(status=="error"){
@@ -23,12 +25,15 @@ $(document).ready(()=>{
       }else if(status=="Payment Required"){
         console.log("code 402");
       $("#result").html('<a href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fenriqueguefer%2FGovernify-API%2FPlans%2Fportal-config.json">You must buy</a>');
+      $("#status").html("402");
     }else if(status=="Unauthorized"){
       console.log("code 401");
       $("#result").html("Unauthorized, please insert apikey.");
-    }else if(status=="429"){
+      $("#status").html("401");
+    }else if(status=="Too Many Requests"){
       console.log("code 429");
       $("#result").html('<a href="http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fenriqueguefer%2FGovernify-API%2FPlans%2Fportal-config.json">You must buy</a>');
+      $("#status").html("429");
     }
     });
   });
@@ -89,11 +94,11 @@ $(document).ready(()=>{
     <li>
       <div class="collapsible-header"><i class="material-icons">web</i>API governify</div>
       <div class="collapsible-body">
-        <input id="apikey" size="6"/>
+        Insert a key: <input id="apikey" size="6"/>
         <button id="btn">Submit</button></p>
+        Result: <div id="result"></div>
+        Status: <div id="status"></div>
         <p align="center"><a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fenriqueguefer%2FGovernify-API%2FPlans%2Fportal-config.json'>Buy apikey</a></p>
-        <div id="result"></div>
-        <div id="status"></div>
       </div>
     </li>
 </ul>
