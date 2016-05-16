@@ -15,7 +15,7 @@ app.use(pathAntonio, function(req,res){
   console.log("Piped: "+ req.baseUrl + req.url);
   console.log("URL Accesed: "+ url);
 
-  req.pipe(request(url,(error,response,body)=>{
+  req.pipe(request(url,function (error,response,body){
     if(error){
       console.error(error);
       res.sendStatus(503);
@@ -33,7 +33,7 @@ app.use(pathEnrique, function(req,res){
   console.log("Piped: "+ req.baseUrl + req.url);
   console.log("URL Accesed: "+ url);
 
-  req.pipe(request(url,(error,response,body)=>{
+  req.pipe(request(url,function (error,response,body){
     if(error){
       console.error(error);
       res.sendStatus(503);
@@ -41,6 +41,22 @@ app.use(pathEnrique, function(req,res){
   })).pipe(res);
 });
 
+//****************PROXY MARIO*******************************************************************************
+
+var pathMario = '/api/v1/population-growth';
+var apiServerHostMario = 'http://sos-2016-03.herokuapp.com';
+app.use(pathMario, function(req,res){
+  var url = apiServerHostMario + req.baseUrl + req.url;
+  console.log("Piped: "+ req.baseUrl + req.url);
+  console.log("URL Accesed: "+ url);
+
+  req.pipe(request(url,function (error,response,body){
+    if(error){
+      console.error(error);
+      res.sendStatus(503);
+    }
+  })).pipe(res);
+});
 
 
 
