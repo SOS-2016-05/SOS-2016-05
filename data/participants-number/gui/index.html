@@ -17,7 +17,7 @@
     
     <body>  
 
-            <table id="participantsnumber" title="participantsnumber" class="easyui-datagrid" style="width:700px;height:350px"
+            <table id="participantsnumber" title="Participants Number" class="easyui-datagrid" style="width:700px;height:350px"
             toolbar="#toolbar" pagination="false" rownumbers="true" fitColumns="true" singleSelect="true" url="/api/v1/participants-number?apikey=abc" method="get" >
                 <thead>
                         <tr>
@@ -41,8 +41,8 @@
 
     <div style="width:350px;margin-top:20px ">
         <td>Pagination: </td>
-        <td><a id="buttonNext" class="easyui-linkbutton" onclick="next();">Next</a></td>
         <td><a id="buttonPrevious" class="easyui-linkbutton" onclick="previous();">Previous</a></td>
+        <td><a id="buttonNext" class="easyui-linkbutton" onclick="next();">Next</a></td>
         <td>Limit for page:</td>
         <td><select id=limit onchange="">
                     <option value="1">1</option>
@@ -130,8 +130,8 @@
 
     <div style="margin-top:20px ">
         <td>Pagination: </td>
-        <td><a id="buttonNextCountry" class="easyui-linkbutton" onclick="nextCountry();">Next</a></td>
         <td><a id="buttonPreviousCountry" class="easyui-linkbutton" onclick="previousCountry();">Previous</a></td>
+        <td><a id="buttonNextCountry" class="easyui-linkbutton" onclick="nextCountry();">Next</a></td>  
         </form>
     </div>
 
@@ -163,8 +163,8 @@
 
         <div style="margin-top:20px ">
         <td>Pagination: </td>
-        <td><a id="buttonNextYear" class="easyui-linkbutton" onclick="nextYear();">Next</a></td>
         <td><a id="buttonPreviousYear" class="easyui-linkbutton" onclick="previousYear();">Previous</a></td>
+        <td><a id="buttonNextYear" class="easyui-linkbutton" onclick="nextYear();">Next</a></td>       
         </form>
     </div>
         </form>
