@@ -59,14 +59,6 @@ function StrArrayParticipantsnumberCountrySearch(countryOrYear,elements,from1,to
 		return arr;
 }
 
-function ApiKey(password){
-	var pass=false;
-	if(password=="abc"){
-		pass=true;
-	}
-	return pass;
-}
-
 function FilterLimit(limit,offset){	//filter for pagination
 	var res=[];
 	var cont=0;
@@ -111,29 +103,20 @@ function CheckBody(body){
 
 module.exports.getLoadIntialDataParticipantsnumbers=function (req,res){  //load json  atheletesnumber
     athletesnumber= [];
-    var apikey=ApiKey(req.query.apikey);
 
-	if(apikey){
 		var content=fs.readFileSync('dataParticipantsNumber.json','utf8');
     	athletesnumber = JSON.parse(content);
     	console.log(content);
     	console.log("The participants numbers data has been loaded.")
     	res.sendStatus(201);//OK
-		
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);// Unauthorized
-	}
 };
     
 
 module.exports.getParticipantsnumbers=function (req,res){
 	 var limit=req.query.limit;//paginación
 	 var offset=req.query.offset;//paginación
-	 var apikey=ApiKey(req.query.apikey);
 	 var from1=req.query.from;//search
 	 var to1=req.query.to;//search
-     if(apikey){
 
      	if(from1==null && to1==null){
 
@@ -148,16 +131,11 @@ module.exports.getParticipantsnumbers=function (req,res){
      		res.send(generalSearch(from1,to1,offset,limit,res));
      		res.sendStatus(200);
      	}
-   						
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);// Unauthorized
-	}
+   					
   };
 
 module.exports.getParticipantsnumber=function (req,res){ //
-	 var apikey=ApiKey(req.query.apikey);
-	 if(apikey){
+	 
 		var country = req.params.country;
 	 	var year = req.params.year;
 	 	console.log("New GET of resource "+country+" "+year);
@@ -168,32 +146,20 @@ module.exports.getParticipantsnumber=function (req,res){ //
 		 }else{
 			res.sendStatus(404);//Not found
 		 }
-
-	 }else{
-		console.log("you must identificate");
- 		res.sendStatus(401);// Unauthorized
-	 }
 };
 
 module.exports.getParticipantsnumbersCountryOrYear=function (req,res){
 	 var countryOrYear = req.params.countryOrYear;
 	 var from1=req.query.from;//search
 	 var to1=req.query.to;//search
-	 var apikey=ApiKey(req.query.apikey);
 	 var limit=req.query.limit;//paginación
 	 var offset=req.query.offset;//paginación
 	 
-	if(apikey){
 		if(offset==null && limit==null){
 			participantsCountryYear(countryOrYear,athletesnumber,res,from1,to1);
 		}else{
 			filterLimitCountryOrYear(countryOrYear,limit,offset,res);
      	}
-		
-	}else{
-		console.log("you must identificate");
- 		res.sendStatus(401);// Unauthorized
-	}
 };
 
 function filterLimitCountryOrYear(countryOrYear,limit,offset,res){
@@ -290,8 +256,7 @@ function generalSearch(from1,to1,offset,limit,res){
 }
 
 module.exports.postParticipantsnumbers=function (req,res){
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
+	
 		var athnumber = req.body;
 		if(CheckBody(athnumber)){
 			var array2=StrArrayParticipantsnumber(athnumber.country,athnumber.year,athletesnumber);
@@ -307,12 +272,6 @@ module.exports.postParticipantsnumbers=function (req,res){
 		}else{
  			res.sendStatus(400);// Bad request
 		}
-		
-		
-	}else{
-		console.log("you must identificate");
- 		res.sendStatus(401);//Unauthorized
-	}
         
 };
 
@@ -321,8 +280,7 @@ module.exports.postParticipantsnumber=function (req,res){
     }
 
 module.exports.putParticipantsnumber=function (req,res){ 
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
+	
 		console.log(req.body);
 		console.log(req.params.country);
 		console.log(req.params.year);
@@ -340,11 +298,6 @@ module.exports.putParticipantsnumber=function (req,res){
 		}else{
 			res.sendStatus(400);//bad request
 		}
-			
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);//Unauthorized
-	}
 		
 };
 
@@ -353,8 +306,7 @@ module.exports.putParticipantsnumbers=function (req,res){
     }
 
 module.exports.deleteParticipantsnumber=function (req,res){
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
+	
 		var country = req.params.country;
 		var year = req.params.year;
 		console.log("New DELETE of resource "+country+" "+year);
@@ -365,35 +317,19 @@ module.exports.deleteParticipantsnumber=function (req,res){
 		}else{
 			res.sendStatus(404);//Not Found
 			}
-	}else{
-		console.log("you must identificate");
- 		res.sendStatus(401);//Unauthorized
-	}
 	
  };
 
 module.exports.deleteParticipantsnumbers=function (req,res){
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
 		console.log("New DELETE of all resources");
 	 	athletesnumber.splice(0,athletesnumber.length);
-	 	res.sendStatus(200);//ok
-	}else{
-		console.log("you must identificate");
- 		res.sendStatus(401);//Unauthorized
-	}
-	 
+	 	res.sendStatus(200);//ok 
  };
 
 module.exports.deleteParticipantsnumberCountryOrYear=function (req,res){
 	var countryOrYear = req.params.countryOrYear;
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
-		DeleteParticipantsCountryYear(countryOrYear,athletesnumber,res)
-	}else{
-		console.log("you must identificate");
- 		res.sendStatus(401);//Unauthorized
-	}	 
+	
+		DeleteParticipantsCountryYear(countryOrYear,athletesnumber,res);	 
  };
 
 function DeleteParticipantsCountryYear(countryOrYear,array,res){

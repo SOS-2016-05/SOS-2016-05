@@ -5,11 +5,19 @@ $(document).ready(function(){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
-            insertTable(data);
+            //insertTable(data);
+             $('#participantsnumber').dataTable({
+             	data:data,
+             	columns:[
+             	{'data':'country'},
+             	{'data':'year'},
+             	{'data':'maleathletesnumber'},
+             	{'data':'femaleathletesnumber'}]
+             });
     	}
     });
     	
-	function insertRow(data) {
+	/*function insertRow(data) {
 	    var row = $("<tr/>")
 	    $("#participantsnumber").append(row); 
 	    row.append($("<td>"+data.country+"</td>"));
@@ -21,8 +29,12 @@ $(document).ready(function(){
     function insertTable(data) {
 	    for (var i = 0; i < data.length; i++)
 	        insertRow(data[i]);
-	}
+	}*/
 
 	
 
 });
+
+
+
+           
