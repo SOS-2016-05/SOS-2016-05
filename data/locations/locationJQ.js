@@ -4,7 +4,7 @@
 $(document).ready(function(){
     $.ajax({
         type: "GET",
-        url: '/api/v1/locations?apikey=abc',
+        url: '/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
