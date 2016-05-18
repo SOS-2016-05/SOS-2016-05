@@ -5,6 +5,7 @@ $(document).ready(() => {
     var cont3=0;
     var cont;
     var urll="/api/v1/locations/?apikey=";
+    var ky;
 
   function urrl(){    //FROM DELTE AND VIEW
   if($("#payload").val()==0 && $("#payload2").val()==0){
@@ -57,8 +58,30 @@ if($("#payload").val()==0 && $("#payload2").val()==0){
 return urrl3();
 }
 
+function key(error){
+  if(error="Too Many Request"){
+    console.log("too many request key or payment required");
+    alert("You must buy a new plan.")
+  }else if(error="Unauthorized"){
+    console.log("Unauthorized");
+    alert("Please insert apikey.");
+  }else if(error="Payment Required"){
+    console.log("payment key");
+    if($("#url").val()==multiPlan_C2_sos-2016-05-ajv_ag){
+      console.log("c2 key");
+      $("#url").html('value=multiPlan_C4_sos-2016-05-ajv_ag');
+    }
+    else{
+      console.log("c3 key");
+      $("#url").html('value=multiPlan_C2_sos-2016-05-ajv_ag');
+    }
+  }
+  return key=$("#url").val();
+}
+
     $("#remove").click(() => {
         console.log("Data removed");
+        ky=key();
         urlll=urrl();
         var request = $.ajax({
             url:urlll,
@@ -70,7 +93,7 @@ return urrl3();
         });
 
         var request2=$.ajax({
-          url: "/api/v1/locations/?apikey=abc",
+          url: "/api/v1/locations/?apikey="+ky,
           type: "GET",
           contentType: "application/json"
         });
@@ -108,8 +131,10 @@ return urrl3();
         request.always(function (jqXHR,status){
             if($("#url").val()==0){
               $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
-            }else if($("#url").val()!="abc" && $("url").val()!=0){
+            }else if( ( $("#url").val()!="multiPlan_C2_sos-2016-05-ajv_ag" || $("#url").val()!="multiPlan_C4_sos-2016-05-ajv_ag" ) && $("#url").val()!=0){
               $("#fail").html(window.alert("Apikey is wrong."));
+            }else if(jqXHR.status==429){
+              aler("you must Buy a new plan.");
             }
             if(jqXHR.status==404){
               $("#status").html("Resource not found.");
@@ -118,15 +143,14 @@ return urrl3();
     });
 
     $("#loaddata").click(() => {
-       console.log("Data loaded");
        var request=$.ajax({
-          url: "/api/v1/locations/loadInitialData?apikey=abc",
+          url: "/api/v1/locations/loadInitialData?apikey=multiPlan_C4_sos-2016-05-ajv_ag",
           type: "GET",
           contentType: "application/json"
         });
-
+        console.log("Data loaded");
         var request2=$.ajax({
-          url: "/api/v1/locations/?apikey=abc",
+          url: "/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag",
           type: "GET",
           contentType: "application/json"
         });
@@ -177,7 +201,7 @@ return urrl3();
        });
 
        var request2=$.ajax({
-         url: "/api/v1/locations/?apikey=abc",
+         url: "/api/v1/locations/?apikey=multiPlan_C4_sos-2016-05-ajv_ag",
          type: "GET",
          contentType: "application/json"
        });
@@ -209,10 +233,11 @@ return urrl3();
           console.log("Status: "+jqXHR.status);
           if($("#url").val()==0){
               $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
-          }else if($("#url").val()!="abc" && $("url").val()!=0){
+            }else if(( $("#url").val()!="multiPlan_C2_sos-2016-05-ajv_ag" || $("#url").val()!="multiPlan_C4_sos-2016-05-ajv_ag" )&& $("#url").val()!=0){
               $("#fail").html(window.alert("Apikey is wrong."));
-          }
-
+            }else if(jqXHR.status==429){
+              alert("you must Buy a new plan.");
+            }
            if(jqXHR.status==404){
               $("#status").html("Resource not found.");
            }else if(jqXHR.status==405){
@@ -255,8 +280,10 @@ return urrl3();
               if($("#url").val()==0){
                 console.log("ENTRA EN APIKEY");
                 $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
-              }else if($("#url").val()!="abc" && $("url").val()!=0){
+              }else if($("#url").val()!="multiPlan_C4_sos-2016-05-ajv_ag" && $("#url").val()!=0){
                 $("#fail").html(window.alert("Apikey is wrong."));
+              }else if(jqXHR.status==429){
+                aler("you must Buy a new plan.");
               }
               if(jqXHR.status==404){
                  $("#status").html("Resource not found.");
@@ -267,7 +294,7 @@ return urrl3();
   });
 
   $("#add").click(() => {
-      console.log("Data added");
+
       var request = $.ajax({
           url:urll+$("#url").val(),
           type: "POST",
@@ -278,12 +305,13 @@ return urrl3();
       });
 
       var request2=$.ajax({
-        url: "/api/v1/locations/?apikey=abc",
+        url: "/api/v1/locations/?apikey=multiPlan_C4_sos-2016-05-ajv_ag",
         type: "GET",
         contentType: "application/json"
       });
 
       request.done(function(data,status,jqXHR) {
+        console.log("Data added");
           if(jqXHR.status==201){
             $("#status").html("Resource added with succes.");
           }
@@ -309,8 +337,10 @@ return urrl3();
               if($("#url").val()==0){
                 console.log("ENTRA EN APIKEY");
                 $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
-              }else if($("#url").val()!="abc" && $("url").val()!=0){
+              }else if( ($("#url").val()!="multiPlan_C2_sos-2016-05-ajv_ag" || $("#url").val()!="multiPlan_C4_sos-2016-05-ajv_ag") && $("#url").val()!=0){
                 $("#fail").html(window.alert("Apikey is wrong."));
+              }else if(jqXHR.status==429){
+                aler("you must Buy a new plan.");
               }
               if(jqXHR.status==409 && $("#url").val()=="abc"){
                 $("#fail").html(window.alert("You can't add an item that alredy exists."));
@@ -374,8 +404,10 @@ var comp;
               if($("#url").val()==0){
                 console.log("ENTRA EN APIKEY");
                 $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
-              }else if($("#url").val()!="abc" && $("url").val()!=0){
+              }else if(( $("#url").val()!="multiPlan_C2_sos-2016-05-ajv_ag" || $("#url").val()!="multiPlan_C4_sos-2016-05-ajv_ag" ) && $("#url").val()!=0){
                 $("#fail").html(window.alert("Apikey is wrong."));
+              }else if(jqXHR.status==429){
+                aler("you must Buy a new plan.");
               }
               if(jqXHR.status==404){
                  $("#status").html("limit of table, you will start again.");
@@ -450,8 +482,10 @@ var comp;
               if($("#url").val()==0){
                 console.log("ENTRA EN APIKEY");
                 $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
-              }else if($("#url").val()!="abc" && $("url").val()!=0){
+              }else if(( $("#url").val()!="multiPlan_C2_sos-2016-05-ajv_ag" || $("#url").val()!="multiPlan_C4_sos-2016-05-ajv_ag" )&& $("#url").val()!=0){
                 $("#fail").html(window.alert("Apikey is wrong."));
+              }else if(jqXHR.status==429){
+                aler("you must Buy a new plan.");
               }
               if(jqXHR.status==404){
                 $("#status").html("limit of table, you will start again.");

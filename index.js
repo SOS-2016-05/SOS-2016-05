@@ -7,7 +7,7 @@ var governify=require('governify');
 
 //==================PROXYS===================================================================================
 //*****************PROXY ANTONIO*****************************************************************************
-var pathAntonio = '/api/v1/mort-sickness';
+var pathAntonio = '/api/v1/spain-births';
 var apiServerHostAntonio = 'http://sos-2016-03.herokuapp.com';
 
 app.use(pathAntonio, function(req,res){
@@ -66,6 +66,12 @@ governify.control(app,{
   datastore:"http://datastore.governify.io/api/v6.1/",namespace: "sos-2016-05-enrguefer",defaultPath:"/api/sandbox/sportscenters"
 });
 
+
+governify.control(app,{
+  datastore:"http://datastore.governify.io/api/v6.1/",
+	namespace: "sos-2016-05-ajv",
+	defaultPath:"/api/v1/locations"
+});
 
 
 //=========================================================================================================

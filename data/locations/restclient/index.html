@@ -28,8 +28,8 @@
           <input placeholder="/api/v1/locations/" id="urll" type="text" class="validate" disabled="disabled">
           <label for="urll">URL</label>
         </div>
-        <div class="input-field col s1">
-          <input id="url" type="text" class="validate" length="4" value="abc">
+        <div class="input-field col s3">
+          <input id="url" type="text" class="validate" length="32" value="multiPlan_C2_sos-2016-05-ajv_ag">
           <label for="url">apikey</label>
         </div>
         <div class="input-field col s2">
@@ -100,7 +100,13 @@
              <p>Through the magnifying glass you can search by field you specify or leave empty to show everything. The red buttom can add a new item, the
                buttom blue can update an item from the list, and finally the black buttom can delete all the list or
                delete only the elements specify from of payload.</p></div>
-          </li></ul>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">vpn_key</i>Namespace for Apikey</div>
+            <div class="collapsible-body"><p>Namespace / Client ID: <b>sos-2016-05-ajv</b></p>
+            <p><a href="http://portal.governify.io/app/#/portal?configurl=http://labs.isa.us.es/ir/ant.jim.v/Governify-API/Plans/portal-config.json">Buy plan</a><i class="material-icons">payment</i></p></div>
+          </li>
+        </ul>
 
           </div></div>
 
@@ -125,7 +131,7 @@
         <br/><hr/>
         <ul id="list"></ul>
         <span title="Before" id="before" class="btn-floating btn-large waves-effect waves-light gray">
-          <i class="material-icons">skip_previous</i></span> 
+          <i class="material-icons">skip_previous</i></span>
         <span title="Next" id="next" class="btn-floating btn-large waves-effect waves-light gray">
           <i class="material-icons">skip_next</i></span>
         <hr/>

@@ -64,37 +64,19 @@ function SearchDatesInArray(from,to){		//SEARCH DATE
 					 (from==undefined && to==undefined)));
     }
 }
-
-function ApiKey(password){		//APIKEY URL
-	var pass=false;
-	if(password=="abc"){
-		pass=true;
-	}
-	return pass;
-}
-
 function CheckBody(body){		//check 400
     return body.country && body.year && body.top && body.doping;
 }
 
 module.exports.getLoadIntialDataLocations=function (req,res){	//load json locations
-	locations= [];
-	var apikey=ApiKey(req.query.apikey);
-
-	if(apikey){
+		locations= [];
 		var content=fs.readFileSync('./datalocation.json','utf8');
 		locations = JSON.parse(content);
 		console.log("The location data has been loaded.")
 		res.sendStatus(201);
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);
-	}
 };
 
 module.exports.getLocations=function (req,res){	//load json locations
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
 		var country=req.params.country;
 		var year=req.params.year;
 		var from=req.query.from;
@@ -113,17 +95,9 @@ module.exports.getLocations=function (req,res){	//load json locations
         res.send(temp);
     else
         res.sendStatus(404);
-
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);
-	}
 };
 
-module.exports.postLocation=function (req,res){  //post ****
-		var apikey=ApiKey(req.query.apikey);
-
-		if(apikey){
+module.exports.postLocation=function (req,res){  //post
 			var loc = req.body;
 			if(CheckBody(loc)){
 				var temp= locations.filter(FilterLocations(loc.country,loc.year));
@@ -137,10 +111,6 @@ module.exports.postLocation=function (req,res){  //post ****
 			}else{
 				res.sendStatus(400);
 			}
-		}else{
-			console.log("you must identificate");
-			res.sendStatus(401);
-		}
 };
 
 module.exports.postLocationF=function (req,res){    //post FORBIDDEN
@@ -149,8 +119,6 @@ module.exports.postLocationF=function (req,res){    //post FORBIDDEN
 };
 
 module.exports.putLocation=function (req,res){ //put
-	var apikey=ApiKey(req.query.apikey);
-	if(apikey){
 		var body = req.body;
 		var country = req.params.country;
 		var year = req.params.year;
@@ -175,10 +143,6 @@ module.exports.putLocation=function (req,res){ //put
 		}else{
 			res.sendStatus(404);
 		}
-	}else{
-		console.log("you must identificate");
-		res.sendStatus(401);
-	}
 };
 
 module.exports.putLocations=function (req,res){ //put FORBBIDEN
@@ -187,9 +151,6 @@ module.exports.putLocations=function (req,res){ //put FORBBIDEN
 };
 
 module.exports.deleteLocation=function (req,res){  //delete name
-	var apikey=ApiKey(req.query.apikey);
-
-	if(apikey){
 			var value1=req.params.value1;
 			var value2=req.params.value2;
 			console.log("New DELETE "+ value1+ " "+value2);
@@ -202,22 +163,10 @@ module.exports.deleteLocation=function (req,res){  //delete name
 			}
 			else
 					res.sendStatus(404);
-	}
-	else{
-		console.log("you must identificate");
-		res.sendStatus(401);
-	}
  };
 
 module.exports.deleteLocations=function (req,res){  //delete list
-		var apikey=ApiKey(req.query.apikey);
-		if(apikey){
 		 console.log("New DELETE of all resources");
 	 	 locations.splice(0,locations.length);
 	 	 res.sendStatus(201);
-		}
-		else{
-			console.log("you must identificate");
-			res.sendStatus(401);
-		}
  };
