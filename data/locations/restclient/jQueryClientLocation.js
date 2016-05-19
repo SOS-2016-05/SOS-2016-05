@@ -109,7 +109,8 @@ return urrl3();
             if($("#url").val()==0){
               $("#fail").html(window.alert("Apikey is empty, please introduce an apikey."));
             }else if(jqXHR.status==402){
-              alert("you must buy a plan.");
+              $("#status").html("You must buy a new plan");
+              alert("you must Buy a new plan.");
             }else if(jqXHR.status==429){
               alert("you must Buy a new plan.");
             }

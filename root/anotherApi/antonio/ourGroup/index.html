@@ -15,12 +15,16 @@
           url: "/api/v1/gold-medals?apikey=sosrw"
         });
 
-        request2.done((dataFromServer,status)=>{
-          for (i=0;i<dataFromServer.length;i++){
-            var item=dataFromServer[i];
+        var dataArray=[];
+
+        request2.done(function(data,status){
+          for (i=0;i<data.length;i++){
+            var item=data[i];
             console.log("item: "+item);
-            var itemForWidget2 =[parseInt(item.goldmedalsnumber)];
-            dataForWidget.push(itemForWidget2);
+            var itemF =[parseInt(item.goldmedalsnumber)];
+            console.log("itemF "+itemF);
+            dataArray.push(itemF);
+            console.log("dataArray "+dataArray);
           }
         });
 
@@ -29,12 +33,13 @@
 
           function drawSeriesChart() {
             console.log("DATAFROMSERVER: "+dataFromServer);
-            var dataForWidget=[["Country",'Year',"Top","Doping"]];
+            var dataForWidget=[["Country",'Year',"Top","Doping","GoldMedalsNumber"]];
 
             for (i=0;i<dataFromServer.length;i++){
               var item=dataFromServer[i];
+              var item2=dataArray[i];
               console.log("item: "+item);
-              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.top),item.doping];
+              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.top),item.doping,parseInt(item2)];
               dataForWidget.push(itemForWidget);
             }
             console.log("DATA FOR WIDGET: "+dataForWidget);
