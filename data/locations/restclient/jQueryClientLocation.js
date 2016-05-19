@@ -5,7 +5,6 @@ $(document).ready(() => {
     var cont3=0;
     var cont;
     var urll="/api/v1/locations/?apikey=";
-  //  var ky;
 
   function urrl(){    //FROM DELTE AND VIEW
   if($("#payload").val()==0 && $("#payload2").val()==0){
@@ -57,27 +56,6 @@ if($("#payload").val()==0 && $("#payload2").val()==0){
 
 return urrl3();
 }
-/*
-function key(error){
-  if(error="Too Many Request"){
-    console.log("too many request key or payment required");
-    alert("You must buy a new plan.")
-  }else if(error="Unauthorized"){
-    console.log("Unauthorized");
-    alert("Please insert apikey.");
-  }else if(error="Payment Required"){
-    console.log("payment key");
-    if($("#url").val()==multiPlan_C2_sos-2016-05-ajv_ag){
-      console.log("c2 key");
-      $("#url").html('value=multiPlan_C4_sos-2016-05-ajv_ag');
-    }
-    else{
-      console.log("c3 key");
-      $("#url").html('value=multiPlan_C2_sos-2016-05-ajv_ag');
-    }
-  }
-  return key=$("#url").val();
-}*/
 
     $("#remove").click(() => {
         console.log("Data removed");

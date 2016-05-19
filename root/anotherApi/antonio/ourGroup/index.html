@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      $(document).ready(()=>{
+
+        var request=$.ajax({
+          url:"/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag"
+        });
+
+        var request2=$.ajax({   //Integration with Mario.
+          url: "/api/v1/gold-medals?apikey=sosrw"
+        });
+
+        request2.done((dataFromServer,status)=>{
+          for (i=0;i<dataFromServer.length;i++){
+            var item=dataFromServer[i];
+            console.log("item: "+item);
+            var itemForWidget2 =[parseInt(item.goldmedalsnumber)];
+            dataForWidget.push(itemForWidget2);
+          }
+        });
+
+        request.done((dataFromServer,status)=>{
+          google.charts.setOnLoadCallback(drawSeriesChart);
+
+          function drawSeriesChart() {
+            console.log("DATAFROMSERVER: "+dataFromServer);
+            var dataForWidget=[["Country",'Year',"Top","Doping"]];
+
+            for (i=0;i<dataFromServer.length;i++){
+              var item=dataFromServer[i];
+              console.log("item: "+item);
+              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.top),item.doping];
+              dataForWidget.push(itemForWidget);
+            }
+            console.log("DATA FOR WIDGET: "+dataForWidget);
+
+            var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
+            var options = {
+              title: 'correlation between the best male brands of 100 m and'+
+              'the amount of doping in the various years and countries of the Olympic Games',
+              hAxis: {title: 'Years'},
+              vAxis: {title: 'TOP male'},
+              bubble: {textStyle: {fontSize: 11}}
+            };
+            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+            chart.draw(data, options);
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="series_chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
