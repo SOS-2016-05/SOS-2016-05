@@ -7,9 +7,22 @@
       google.charts.load('current', {'packages':['corechart']});
       $(document).ready(()=>{
 
-        var request2=$.ajax({   //Integration with Mario.
-          url: "/api/v1/gold-medals?apikey=sosrw",
+        var dataArray=[];
+
+        var request2=$.ajax({   //Integration with GROUP 03 - spain-births
+          url: "/api/v1/spain-births?apikey=multiPlan_C4_sos-2016-03-arp_ag",
           async: false
+        });
+
+        request2.done(function(data,status){
+          for (i=0;i<data.length;i++){
+            var item=data[i];
+            console.log("item: "+item);
+            var itemF =[parseInt(item.men)];
+            console.log("itemF "+itemF);
+            dataArray.push(itemF);
+            console.log("dataArray "+dataArray);
+          }
         });
 
         var request=$.ajax({
@@ -17,26 +30,12 @@
         });
 
 
-
-        var dataArray=[];
-
-        request2.done(function(data,status){
-          for (i=0;i<data.length;i++){
-            var item=data[i];
-            console.log("item: "+item);
-            var itemF =[parseInt(item.goldmedalsnumber)];
-            console.log("itemF "+itemF);
-            dataArray.push(itemF);
-            console.log("dataArray "+dataArray);
-          }
-        });
-
         request.done((dataFromServer,status)=>{
           google.charts.setOnLoadCallback(drawSeriesChart);
 
           function drawSeriesChart() {
             console.log("DATAFROMSERVER: "+dataFromServer);
-            var dataForWidget=[["Country",'Year',"Top","Doping","GoldMedalsNumber"]];
+            var dataForWidget=[["Country",'Year',"Top","Doping","Men"]];
 
             for (i=0;i<dataFromServer.length;i++){
               var item=dataFromServer[i];

@@ -97,7 +97,7 @@ app.use("/participants-number/charts",express.static(__dirname + "/root/chart/pa
 app.use("/gold-medals",express.static(__dirname + "/data/gold-medals/gui/restclient"));
 app.use("/gold-medals/charts",express.static(__dirname + "/root/chart/gold-medals"));
 app.use("/anotherApi/antonio/ourGroup",express.static(__dirname + "/root/anotherApi/antonio/ourGroup"));
-
+app.use("/anotherApi/antonio/anotherGroup",express.static(__dirname + "/root/anotherApi/antonio/anotherGroup"));
 
 var fs=require("fs");   //for all files.
 
