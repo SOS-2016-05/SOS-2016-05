@@ -23,6 +23,12 @@
             if(jqXHR.status==401){
                 $('#participantsnumber').datagrid('loadData', {"total":0,"rows":[]});
                 arrayTable =$('#participantsnumber').datagrid('getRows');
+            }else if(jqXHR.status==402){
+                $('#participantsnumber').datagrid('loadData', {"total":0,"rows":[]});
+                arrayTable =$('#participantsnumber').datagrid('getRows');
+            }else if(jqXHR.status==429){
+                $('#participantsnumber').datagrid('loadData', {"total":0,"rows":[]});
+                arrayTable =$('#participantsnumber').datagrid('getRows');
             }
           });
 });
@@ -69,7 +75,11 @@
                                         }
                                         
                                     }else if(jqXHR.status==401){
-                                        alert("Wrong API Key")
+                                        alert("Wrong API Key");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                     refreshTable();
                                 }
@@ -102,6 +112,10 @@
                         error: function (jqXHR)
                                 { if(jqXHR.status==401){
                                         alert("Wrong API Key")
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                     refreshTable();
                                 }
@@ -148,6 +162,10 @@
                         error: function (jqXHR)
                                 { if(jqXHR.status==401){
                                         alert("Wrong API Key");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                         
@@ -180,6 +198,10 @@
                                         alert("Wrong API Key");
                                     }else if(jqXHR.status==404){
                                         alert("NOT FOUND: Please write another country");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                         
@@ -208,6 +230,10 @@
                                         alert("Wrong API Key");
                                     }else if(jqXHR.status==404){
                                         alert("NOT FOUND: Please write another year");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                         
@@ -262,6 +288,10 @@
                         error: function (jqXHR)
                                 { if(jqXHR.status==401){
                                         alert("Wrong API Key");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                 });
@@ -296,6 +326,10 @@
                         error: function (jqXHR)
                                 { if(jqXHR.status==401){
                                         alert("Wrong API Key");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                 });
@@ -336,6 +370,10 @@
                                         alert("Wrong API Key");
                                     }else if(jqXHR.status==404){
                                         alert("NOT FOUND: Please write another country");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                 });
@@ -372,6 +410,10 @@
                                         alert("Wrong API Key");
                                     }else if(jqXHR.status==404){
                                         alert("NOT FOUND: Please write another year");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                 });
@@ -409,11 +451,13 @@
                                         alert("Wrong API Key");
                                     }else if(jqXHR.status==404){
                                         alert("NOT FOUND: Please write another year");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                 });
-            console.log("contSearch: "+contSearch);
-            console.log("limit: "+limitPage);
         }
 
         function previousYear(){
@@ -448,9 +492,11 @@
                                         alert("Wrong API Key");
                                     }else if(jqXHR.status==404){
                                         alert("NOT FOUND: Please write another year");
+                                    }else if(jqXHR.status==402){
+                                        alert("Payment required");
+                                    }else if(jqXHR.status==429){
+                                        alert("To many request");
                                     }
                                 }
                 });
-            console.log("contSearch: "+contSearch);
-            console.log("limit: "+limitPage);
         }

@@ -61,9 +61,9 @@ app.use(pathMario, function(req,res){
 
 
 //=============================API GOVERNIFY===============================================================
-//key= multiPlan_C2_sos-2016-05-enrguefer_ag
 governify.control(app,{
   datastore:"http://datastore.governify.io/api/v6.1/",namespace: "sos-2016-05-enrguefer",defaultPath:"/api/sandbox/sportscenters"
+  //key= multiPlan_C2_sos-2016-05-enrguefer_ag
 });
 
 
@@ -71,6 +71,13 @@ governify.control(app,{
   datastore:"http://datastore.governify.io/api/v6.1/",
 	namespace: "sos-2016-05-ajv",
 	defaultPath:"/api/v1/locations"
+});
+
+governify.control(app,{
+  datastore:"http://datastore.governify.io/api/v6.1/",
+  namespace: "sos-2016-05-egf",
+  defaultPath:"/api/v1/participants-number"
+  //key= multiPlan_C4_sos-2016-05-egf_ag
 });
 
 

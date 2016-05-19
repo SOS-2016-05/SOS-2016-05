@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $.ajax({
         type: "GET",
-        url: '/api/v1/participants-number?apikey=abc',
+        url: '/api/v1/participants-number?apikey=multiPlan_C4_sos-2016-05-egf_ag',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
