@@ -1,6 +1,12 @@
 
 var fs=require("fs");
-var locations=[];
+var locations=[
+	{"country": "Greece", "year": "1896","top": "12","doping":"0"},
+  {"country": "Mexico","year": "1968","top": "9.95","doping":"1"},
+  {"country": "Greece","year": "2004","top": "9.85","doping":"22"},
+  {"country": "Pekin","year": "2008","top": "9.69","doping":"1"},
+  {"country": "Sidney","year": "2000","top": "9.87","doping":"10"}
+];
 
 function FilterLocations(str1,str2){	//filter for Locations
 	return function(location){
