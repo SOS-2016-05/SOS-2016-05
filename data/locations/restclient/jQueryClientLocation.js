@@ -261,7 +261,7 @@ return urrl3();
               }else if(jqXHR.status==402){
                 alert("you must buy a plan.");
               }else if(jqXHR.status==429){
-                aler("you must Buy a new plan.");
+                alert("you must Buy a new plan.");
               }
               if(jqXHR.status==404){
                  $("#status").html("Resource not found.");
