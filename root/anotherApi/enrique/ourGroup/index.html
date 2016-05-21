@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+
+      $(document).ready(()=>{
+        
+        var request=$.ajax({
+          type: "GET",
+          url: '/api/v1/participants-number?apikey=multiPlan_C4_sos-2016-05-egf_ag',
+          contentType: "application/json; charset=utf-8",
+          dataType: "json"
+          
+        });
+
+        var request2=$.ajax({   //Integration with antonio.
+          type: "GET",
+          url: "/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          async: false
+        });
+
+        var dataArray=[];
+        request2.done(function(data,status){
+          for (i=0;i<data.length;i++){
+            var item=data[i];
+            var itemF =[item.year,parseInt(item.doping)];
+            dataArray.push(itemF);
+          }
+        });
+
+        request.done((dataFromServer,status)=>{
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var dataForWidget = [
+                  ['Year', 'Participants Number', 'doping']];
+
+              for(j=0;j<dataArray.length;j++){
+                var item2=dataArray[j];
+                //console.log(item2);
+                //console.log(item2[0]);
+                var nparticipants=0;
+                //console.log(nparticipants);
+                for (i=0;i<dataFromServer.length;i++){
+                  var item=dataFromServer[i];
+                  
+                  
+                  
+                  if(item.year==item2[0]){
+                    //console.log("AÑO enrique:"+item.year+" AÑO antonio"+item2[0]);
+                    nparticipants+=item.maleathletesnumber;//+item.femaleathletesnumber;
+                    //console.log(nparticipants);
+                  }
+                  
+                  
+                }
+                if(nparticipants>0){
+                    var itemForWidget =[item2[0],nparticipants,item2[1]];
+                    //console.log(itemForWidget);
+                    dataForWidget.push(itemForWidget);
+                  }
+
+              }
+
+                var options = {
+                    chart: {
+                    title: 'Olympics doping data',
+                    subtitle: 'Participants number and doping: 2008-2012',
+                  }
+                };
+                console.log(dataForWidget);
+                var data2 = google.visualization.arrayToDataTable(dataForWidget);
+                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+                chart.draw(data2, options);
+      }
+
+        });
+
+         });
+      
+    </script>
+  </head>
+  <body>
+    <div id="columnchart_material" style="width: 500px; height: 670px;"></div>
+  </body>
+</html>
