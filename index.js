@@ -111,6 +111,7 @@ app.use("/anotherApi/antonio/anotherGroup",express.static(__dirname + "/root/ano
 app.use("/anotherApi/antonio/anotherApi",express.static(__dirname + "/root/anotherApi/antonio/anotherApi"));
 //app.use("/anotherApi/antonio/anotherApi2",express.static(__dirname + "/root/anotherApi/antonio/anotherApi2"));
 app.use("/anotherApi/enrique/ourGroup",express.static(__dirname + "/root/anotherApi/enrique/ourGroup"));
+app.use("/anotherApi/enrique/anotherGroup",express.static(__dirname + "/root/anotherApi/enrique/anotherGroup"));
 
 
 //---------------------------ANIMESERIES--------------------------------------------------
