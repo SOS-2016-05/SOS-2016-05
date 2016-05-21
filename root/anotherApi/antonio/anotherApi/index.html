@@ -1,22 +1,51 @@
 <html>
   <head>
-    <title>Locations table</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" />
-    <script type= "text/javascript" src="/restclient/jquery-1.12.2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-    <script type="text/javascript" src="locationJQ.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      $(document).ready(()=>{
+
+        var request=$.ajax({
+          url:"http://gsx2json.com/api?id=1BS1BZ6jPKE4s8vNjfYFEN0bxOmb6E4ByEXhZeJNGxMg"
+        });
+
+        request.done((dataFromServer,status)=>{
+          google.charts.setOnLoadCallback(drawSeriesChart);
+
+          function drawSeriesChart() {
+            console.log("DATAFROMSERVER: "+dataFromServer);
+            var dataForWidget=[['name','frequency','percentage']];
+
+
+            for (i=0;i<dataFromServer.rows.length;i++){
+              console.log("tamaño rows: "+dataFromServer.rows.length);
+              var item=dataFromServer.rows[i];
+              console.log("item: "+item);
+              var itemForWidget =[item.name,parseInt(item.frequency),parseInt(item.percentage)];
+              dataForWidget.push(itemForWidget);
+            }
+            console.log("DATA FOR WIDGET: "+dataForWidget);
+
+            var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
+            var options = {
+              title: 'Names of children used in Andalucia.',
+              hAxis: {title: 'frequency'},
+              vAxis: {title: 'percentage'},
+              bubble: {textStyle: {fontSize: 11}}
+            };
+            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+            chart.draw(data, options);
+          }
+
+        });
+
+      });
+    </script>
   </head>
 
-  <body class="card-panel #cfd8dc blue-grey lighten-4 z-depth-1">
-    <div class="container">
-      <table id="locations" border='1' class="striped bordered centered highlight responsive-table">
-        <tr>
-          <th class="black-text center-align">Country</th>
-          <th class="black-text center-align">Year</th>
-          <th class="black-text center-align">Top</th>
-          <th class="black-text center-align">Doping</th>
-        </tr>
-      </table>
-    </div>
+  <body>
+    <div id="series_chart_div" style="width: 900px; height: 500px;"></div>
   </body>
 </html>

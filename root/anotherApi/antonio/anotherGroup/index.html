@@ -6,19 +6,15 @@
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       $(document).ready(()=>{
-
         var dataArray=[];
-
         var request3=$.ajax({   //load data
           url: "/api/v1/spain-births/loadInitialData?apikey=multiPlan_C4_sos-2016-03-arp_ag",
           async: false
         });
-
         var request2=$.ajax({   //Integration with GROUP 03 - spain-births
           url: "/api/v1/spain-births?apikey=multiPlan_C4_sos-2016-03-arp_ag",
           async: false
         });
-
         request2.done(function(data,status){
           for (i=0;i<data.length;i++){
             var item=data[i];
@@ -29,19 +25,14 @@
             console.log("dataArray "+dataArray);
           }
         });
-
         var request=$.ajax({
           url:"/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag"
         });
-
-
         request.done((dataFromServer,status)=>{
           google.charts.setOnLoadCallback(drawSeriesChart);
-
           function drawSeriesChart() {
             console.log("DATAFROMSERVER: "+dataFromServer);
             var dataForWidget=[["Country",'Year',"Top","Doping","Men"]];
-
             for (i=0;i<dataFromServer.length;i++){
               var item=dataFromServer[i];
               var item2=dataArray[i];
@@ -50,7 +41,6 @@
               dataForWidget.push(itemForWidget);
             }
             console.log("DATA FOR WIDGET: "+dataForWidget);
-
             var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
             var options = {
               title: 'Integration of GROUP SOS 03 with data "men" and correlation between the best male brands of 100 m and'+
