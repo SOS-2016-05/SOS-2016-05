@@ -1,68 +1,84 @@
 <html>
-  <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<head>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
+</head>
+<body>
+<div  font: sans-serif;  style="width:400px;margin-top:20px ">
+  <td>Integration of our GROUP SOS 05 with data "gold medals" and "countries" of the Olympic Games</td>
+</div>
+<script type="text/javascript">
+
+	  google.charts.load('current', {'packages':['geochart']});
+
       $(document).ready(()=>{
+      	var request=$.ajax({
+      		type: "GET",
+        	url: '/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag',
+       		contentType: "application/json; charset=utf-8",
+					async:false,
+        	dataType: "json"
+      	});
 
-        var request2=$.ajax({   //Integration with Mario.
+        var request2=$.ajax({   //Integration with mario
+          type: "GET",
           url: "/api/v1/gold-medals?apikey=sosrw",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
           async: false
         });
-
-        var request=$.ajax({
-          url:"/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag"
-        });
-
-
 
         var dataArray=[];
 
         request2.done(function(data,status){
           for (i=0;i<data.length;i++){
             var item=data[i];
-            console.log("item: "+item);
-            var itemF =[parseInt(item.goldmedalsnumber)];
-            console.log("itemF "+itemF);
+            var itemF =[item.country,parseInt(item.goldmedalsnumber)];
             dataArray.push(itemF);
-            console.log("dataArray "+dataArray);
           }
         });
 
-        request.done((dataFromServer,status)=>{
-          google.charts.setOnLoadCallback(drawSeriesChart);
+      	request.done((dataFromServer,status)=>{
+      		google.charts.setOnLoadCallback(drawRegionsMap);
 
-          function drawSeriesChart() {
-            console.log("DATAFROMSERVER: "+dataFromServer);
-            var dataForWidget=[["Country",'Year',"Top","Doping","GoldMedalsNumber"]];
+		      function drawRegionsMap() {
+		      	var dataForWidget=[["Country","Gold Medals"]];
 
-            for (i=0;i<dataFromServer.length;i++){
-              var item=dataFromServer[i];
-              var item2=dataArray[i];
-              console.log("item: "+item);
-              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.top),item.doping,parseInt(item2)];
-              dataForWidget.push(itemForWidget);
+            for(i=0;i<dataFromServer.length;i++){
+							var gold=0;
+		      		var item=dataFromServer[i];
+							console.log("item "+item);
+
+            	for(j=0;j<dataArray.length;j++){
+                var item2=dataArray[j];
+
+								if(item.country==item2[0]){
+                  gold+=item2[1];
+                }
+
             }
-            console.log("DATA FOR WIDGET: "+dataForWidget);
+						if(gold>0){
+							var itemForWidget=[item.country,gold];
+							dataForWidget.push(itemForWidget);
+					}
+        }
 
-            var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
-            var options = {
-              title: 'Integration of our GROUP SOS 05 with data "gold medals" and correlation between the best male brands of 100 m and'+
-              'the amount of doping in the various years and countries of the Olympic Games.',
-              hAxis: {title: 'Years'},
-              vAxis: {title: 'TOP male'},
-              bubble: {textStyle: {fontSize: 11}}
-            };
-            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
-            chart.draw(data, options);
-          }
-        });
+	        var data = google.visualization.arrayToDataTable(dataForWidget);
+
+	        var options = {
+	        	 title: 'Gold medals in country',
+	        	 colorAxis: {colors: ['#E53129', '#4374e0']}
+	        };
+	        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+	        chart.draw(data, options);
+      	}
       });
-    </script>
-  </head>
-  <body>
-    <div id="series_chart_div" style="width: 900px; height: 500px;"></div>
+    });
+</script>
+	<div id="regions_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
   </body>
 </html>
