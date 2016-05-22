@@ -19,32 +19,45 @@
           for (i=0;i<data.length;i++){
             var item=data[i];
             console.log("item: "+item);
-            var itemF =[parseInt(item.men)];
+            var itemF =[item.year,parseInt(item.men)];
             console.log("itemF "+itemF);
             dataArray.push(itemF);
             console.log("dataArray "+dataArray);
           }
         });
         var request=$.ajax({
-          url:"/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag"
+          url:"/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag",
+          async: false
         });
         request.done((dataFromServer,status)=>{
           google.charts.setOnLoadCallback(drawSeriesChart);
+
           function drawSeriesChart() {
             console.log("DATAFROMSERVER: "+dataFromServer);
-            var dataForWidget=[["Country",'Year',"Top","Doping","Men"]];
+            var dataForWidget=[["Country",'Year',"Top","Men in Spain"]];
+
             for (i=0;i<dataFromServer.length;i++){
               var item=dataFromServer[i];
-              var item2=dataArray[i];
+              var m=0;
+              for(k=0;k<dataArray.length;k++){
+                var item2=dataArray[k];
+
+                if(item2[0]==item.year){
+                  console.log("entra en la igualdad");
+                  m=m+item2[1];
+                }
+              }
+
+              //var item2=dataArray[i];
               console.log("item: "+item);
-              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.top),item.doping,parseInt(item2)];
+              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.top),m];
               dataForWidget.push(itemForWidget);
             }
+
             console.log("DATA FOR WIDGET: "+dataForWidget);
             var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
             var options = {
-              title: 'Integration of GROUP SOS 03 with data "men" and correlation between the best male brands of 100 m and'+
-              'the amount of doping in the various years and countries of the Olympic Games.',
+              title: 'Integration of GROUP SOS 03 with data "men in Spain" from my data years',
               hAxis: {title: 'Years'},
               vAxis: {title: 'TOP male'},
               bubble: {textStyle: {fontSize: 11}}
