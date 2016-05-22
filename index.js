@@ -109,7 +109,7 @@ app.use("/gold-medals/charts",express.static(__dirname + "/root/chart/gold-medal
 app.use("/anotherApi/antonio/ourGroup",express.static(__dirname + "/root/anotherApi/antonio/ourGroup"));
 app.use("/anotherApi/antonio/anotherGroup",express.static(__dirname + "/root/anotherApi/antonio/anotherGroup"));
 app.use("/anotherApi/antonio/anotherApi",express.static(__dirname + "/root/anotherApi/antonio/anotherApi"));
-//app.use("/anotherApi/antonio/anotherApi2",express.static(__dirname + "/root/anotherApi/antonio/anotherApi2"));
+app.use("/anotherApi/antonio/anotherApi2",express.static(__dirname + "/root/anotherApi/antonio/anotherApi2"));
 app.use("/anotherApi/enrique/ourGroup",express.static(__dirname + "/root/anotherApi/enrique/ourGroup"));
 app.use("/anotherApi/enrique/anotherGroup",express.static(__dirname + "/root/anotherApi/enrique/anotherGroup"));
 

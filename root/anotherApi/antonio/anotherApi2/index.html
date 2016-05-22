@@ -1,23 +1,46 @@
 <html>
   <head>
-    <title>Locations table</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" />
-    <script type= "text/javascript" src="/restclient/jquery-1.12.2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-    <script type="text/javascript" src="apiJQ.js"></script>
-  </head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
 
-  <body class="card-panel #cfd8dc blue-grey lighten-4 z-depth-1">
-    <div class="container">
-      <table id="excel" border='1' class="striped bordered centered highlight responsive-table">
-        <tr>
-          <th class="black-text center-align">Order</th>
-          <th class="black-text center-align">Name</th>
-          <th class="black-text center-align">Frequency</th>
-          <th class="black-text center-align">%</th>
-          <th class="black-text center-align">% accumulated</th>
-        </tr>
-      </table>
-    </div>
+      $(document).ready(()=>{
+
+        var request=$.ajax({
+          type: "GET",
+          url: 'http://jsonplaceholder.typicode.com/comments?postId=1',
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          async: false
+        });
+
+        request.done((dataFromServer,status)=>{
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var dataForWidget = [['id', 'name']];
+
+                for (i=0;i<dataFromServer.length;i++){
+                  var item=dataFromServer[i];
+                  var itemForWidget =[item.id,item.name];
+                  dataForWidget.push(itemForWidget);
+              }
+
+                var options = {
+                    chart: {
+                    title: 'External API',
+                  }
+                };
+                console.log(dataForWidget);
+                var data = google.visualization.arrayToDataTable(dataForWidget);
+                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                chart.draw(data, options);
+              }
+      });
+    });
+    </script>
+  </head>
+  <body>
+    <div id="columnchart_material" style="width: 500px; height: 670px;"></div>
   </body>
 </html>
