@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+  </head>
+
+  <body>
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['corechart']});
+     
+      $(document).ready(()=>{
+        
+        var request2=$.ajax({//EXTERNAL API
+          type: "GET",
+          url: 'https://restcountries.eu/rest/v1/all',
+          async: false
+          
+        });
+
+        var request=$.ajax({
+          type: "GET",
+          url: '/api/v1/participants-number?apikey=multiPlan_C4_sos-2016-05-egf_ag',
+          contentType: "application/json; charset=utf-8",
+          dataType: "json"
+          
+        });
+
+        var dataArray=[];
+        request2.done(function(data,status){
+          for (i=0;i<data.length;i++){
+            var item=data[i];
+            var itemF =[item.name,item.region,item.population,item.area];
+            dataArray.push(itemF);
+          }
+        });
+
+        //console.log(dataArray);
+
+        request.done((dataFromServer,status)=>{
+          google.charts.setOnLoadCallback(drawRegionsMap);
+      
+          function drawRegionsMap() {
+            var dataForWidget=[["Country","population","area","region","Participants Number"]];
+            for(j=0;j<dataArray.length;j++){
+              var item2=dataArray[j];
+              for(i=0;i<dataFromServer.length;i++){
+                var item=dataFromServer[i];
+                if(item.country==item2[0]){
+                  if(item.year=="2012"){
+                    var itemForWidget =[item2[0],item2[2],item2[3],item2[1],item.maleathletesnumber+item.femaleathletesnumber];
+                    dataForWidget.push(itemForWidget);
+                  }
+                  
+                    
+                    
+                  }   
+                }
+              }
+              
+                    var data2 = google.visualization.arrayToDataTable(dataForWidget); 
+                    var options = {
+                          title: 'Comparison between the population and area of a country respect of the number of participants in a olympics games',
+                           hAxis: {title: 'population'},
+                           vAxis: {title: 'area'},
+                          bubble: {textStyle: {fontSize: 11}}
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+                    chart.draw(data2, options);
+            }   
+      });
+
+      });
+    
+</script>
+  <div id="series_chart_div" style="width: 1200px; height: 700px;"></div>
+</body>
+</html>
