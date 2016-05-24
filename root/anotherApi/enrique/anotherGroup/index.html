@@ -3,7 +3,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
+      google.charts.load('current', {packages: ['corechart', 'bar']})
 
       $(document).ready(()=>{
         var dataArray=[];
@@ -44,34 +44,51 @@
             google.charts.setOnLoadCallback(drawChart);
             function drawChart() {
                 var dataForWidget = [
-                  ['sickness', 'mortality','participantsnumber']];
+                  ['Sickness','Total deads']];
 
-              for(j=0;j<dataFromServer.length;j++){
-                var item=dataFromServer[j];
+              for(i=0;i<dataArray.length;i++){
+                var item2=dataArray[i];
                 
-                for(i=0;i<dataArray.length;i++){
-                  var item2=dataArray[i];
-                  if(item.country=="Spain"){
+                for(j=0;j<dataFromServer.length;j++){
+                  var item=dataFromServer[j];
+                  
                     //console.log(item);
                     //console.log(item2);
-                    var itemForWidget =[item2[0],item2[1],item.maleathletesnumber+item.femaleathletesnumber];
+                    if(item.country=="Spain"){
+                      if(item.year=="2012"){
+                        var itemForWidget =[item2[0],(item.maleathletesnumber+item.femaleathletesnumber)*item2[1]];
+                        //console.log(item2[0]);
+                        //console.log(item.maleathletesnumber);
+                        //console.log(item.femaleathletesnumber);
+                        //console.log(item2[1]);
+                        //console.log((item.maleathletesnumber+item.femaleathletesnumber)*item2[1]);
+                        //console.log("==================================");
+
                     //console.log(itemForWidget);
-                    dataForWidget.push(itemForWidget);
-                  }
-                  
+                      }
+                    }
+                    
                 }
+                dataForWidget.push(itemForWidget);
               }
+                //console.log(dataForWidget);
                 var data = google.visualization.arrayToDataTable(dataForWidget); 
                 var options = {
-                      title: 'Integration of GROUP SOS 03: comparison between the sickness and its mortality'+' respect the numbers of spanish participants in a olympics game',
-                       hAxis: {title: 'Mortality'},
-                       vAxis: {title: 'Number of Spanish participants'},
-                      bubble: {textStyle: {fontSize: 11}}
-                };
+                        title: 'Deads in Spanish athletes caused by an ETS',
+                        chartArea: {width: '50%'},
+                        hAxis: {
+                          title: 'Total deads in athletes',
+                          minValue: 0
+                        },
+                        vAxis: {
+                          title: 'Sickness'
+                        }
+                      };
 
-                var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
-                chart.draw(data, options);
-      }
+                var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                chart.draw(data,options);
+                }
+
 
         });
 
@@ -80,6 +97,6 @@
      </script>
   </head>
   <body>
-    <div id="series_chart_div" style="width: 1200px; height: 700px;"></div>
+     <div id="chart_div" style="width: 900px; height: 500px;"></div>
   </body>
 </html>
