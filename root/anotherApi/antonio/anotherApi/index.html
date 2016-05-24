@@ -12,9 +12,9 @@
         });
 
         request.done((dataFromServer,status)=>{
-          google.charts.setOnLoadCallback(drawSeriesChart);
+          google.charts.setOnLoadCallback(drawChart);
 
-          function drawSeriesChart() {
+          function drawChart() {
             console.log("DATAFROMSERVER: "+dataFromServer);
             var dataForWidget=[['name','frequency','percentage']];
 
@@ -30,12 +30,11 @@
 
             var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
             var options = {
-              title: 'Names of children used in Andalucia.',
-              hAxis: {title: 'frequency'},
-              vAxis: {title: 'percentage'},
-              bubble: {textStyle: {fontSize: 11}}
+              title: 'Names of children used in Andalucia. The number is the frequency of the name',
+              pieSliceText: 'label',
+              pieHole: 0.4,
             };
-            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
             chart.draw(data, options);
           }
 
@@ -46,6 +45,6 @@
   </head>
 
   <body>
-    <div id="series_chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
   </body>
 </html>
