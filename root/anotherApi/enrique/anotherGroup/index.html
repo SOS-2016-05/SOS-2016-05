@@ -56,7 +56,8 @@
                     //console.log(item2);
                     if(item.country=="Spain"){
                       if(item.year=="2012"){
-                        var itemForWidget =[item2[0],(item.maleathletesnumber+item.femaleathletesnumber)*item2[1]];
+                        var totalMortality=((item.maleathletesnumber+item.femaleathletesnumber)*item2[1])/100
+                        var itemForWidget =[item2[0],totalMortality];
                         //console.log(item2[0]);
                         //console.log(item.maleathletesnumber);
                         //console.log(item.femaleathletesnumber);
