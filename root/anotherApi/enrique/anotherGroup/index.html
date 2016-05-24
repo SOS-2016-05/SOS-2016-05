@@ -9,14 +9,14 @@
         var dataArray=[];
         var request3=$.ajax({   //load data
           type: "GET",
-          url: "/api/v1/mort-sickness/loadInitialData?apikey=patriW",
+          url: "/api/v1/mort-sickness/loadInitialData?apikey=multiPlan_C4_sos-2016-03-pgs_ag",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false
         });
         var request2=$.ajax({   //Integration with GROUP 03 - mort-sickness
           type: "GET",
-          url: "/api/v1/mort-sickness?apikey=patriR",
+          url: "/api/v1/mort-sickness?apikey=multiPlan_C4_sos-2016-03-pgs_ag",//PONER CLAVE GOVERNIFY
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false

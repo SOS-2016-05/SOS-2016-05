@@ -21,7 +21,10 @@ var athletesnumber=[
  {"country":"Japan","year":"2012","maleathletesnumber":139,"femaleathletesnumber":151},
  {"country":"Japan","year":"2008","maleathletesnumber":167,"femaleathletesnumber":165},
  {"country":"Great Britain","year":"2012","maleathletesnumber":296,"femaleathletesnumber":245},
- {"country":"Great Britain","year":"2008","maleathletesnumber":163,"femaleathletesnumber":141}];
+ {"country":"Great Britain","year":"2008","maleathletesnumber":163,"femaleathletesnumber":141},
+ {"country":"Greece","year":"2004","maleathletesnumber":292,"femaleathletesnumber":149},
+ {"country":"Denmark","year":"2004","maleathletesnumber":50,"femaleathletesnumber":42},
+ {"country":"Mexico","year":"2004","maleathletesnumber":55,"femaleathletesnumber":54}];
 
 function StrArrayParticipantsnumber(str1,str2,elements){
 	var cont = -1;

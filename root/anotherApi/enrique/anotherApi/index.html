@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+  </head>
+
+  <body>
+<div  font: sans-serif;  style="width:400px;margin-top:20px ">
+            <td>Number of participants in the London Olympics 2012 in relation to their country in the World Cup Football :</td>
+    </div>
+<script type="text/javascript">
+
+   google.charts.load('current', {'packages':['geochart']});
+     
+      $(document).ready(()=>{
+        
+        var request2=$.ajax({//EXTERNAL API
+          type: "GET",
+          url: 'http://worldcup.sfg.io/teams/',
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          async: false
+          
+        });
+
+        var request=$.ajax({
+          type: "GET",
+          url: '/api/v1/participants-number?apikey=multiPlan_C4_sos-2016-05-egf_ag',
+          contentType: "application/json; charset=utf-8",
+          dataType: "json"
+          
+        });
+
+        var dataArray=[];
+        request2.done(function(data,status){
+          for (i=0;i<data.length;i++){
+            var item=data[i];
+            var itemF =[item.country];
+            dataArray.push(itemF);
+          }
+        });
+
+        request.done((dataFromServer,status)=>{
+          google.charts.setOnLoadCallback(drawRegionsMap);
+      
+          function drawRegionsMap() {
+            var dataForWidget=[["Country","Participants number"]];
+            for(i=0;i<dataFromServer.length;i++){
+              var item=dataFromServer[i];
+              var cont=0;
+              for(j=0;j<dataArray.length;j++){
+                var item2=dataArray[j];
+                if(item.country==item2[0]){
+                  if(item.year=="2012"){
+                    var itemForWidget =[item2[0],item.maleathletesnumber];
+                    cont++;
+                  }   
+                }
+              }
+              if(cont!=0){
+                dataForWidget.push(itemForWidget);
+              }               
+            }
+            var data2 = google.visualization.arrayToDataTable(dataForWidget);
+
+            var options = {
+               title: 'Number of participants in the London Olympics 2012 in relation to their country in the World Cup Football',
+               colorAxis: {colors: ['#E53129', '#4374e0']}// red t blue
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+            chart.draw(data2, options);
+          }
+
+          
+        
+      });
+
+      });
+    
+</script>
+  <div id="regions_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
