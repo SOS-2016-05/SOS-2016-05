@@ -7,7 +7,7 @@
 </head>
 <body>
 <div  font: sans-serif;  style="width:400px;margin-top:20px ">
-  <td>Integration of our GROUP SOS 05 with data "female athletes number" and "countries" of the Olympic Games</td>
+  <td>Integration of our GROUP SOS 05 with data "female athletes number" and "gold-medals" of the Olympic Games on coincident years</td>
 </div>
 <script type="text/javascript">
 
@@ -47,7 +47,7 @@
       		google.charts.setOnLoadCallback(drawRegionsMap);
 
 		      function drawRegionsMap() {
-		      	var dataForWidget=[["Country","Female Athletes nº"]];
+		      	var dataForWidget=[["Country","Female Athletes nº","Gold medals nº"]];
 
             for(i=0;i<dataFromServer.length;i++){
                 //Creamos una variable female para que por cada país determine si ha encontrado resultados o no
@@ -64,7 +64,7 @@
                 }
                 //Si female es true, es decir, si tiene un valor distinto de 0, lo dibuja; en caso contrario no lo hará
                 if(female){
-                    var itemForWidget=[item.country,female];
+                    var itemForWidget=[item.country,female,parseInt(item.goldmedalsnumber)];
                     dataForWidget.push(itemForWidget);
                 }
             }

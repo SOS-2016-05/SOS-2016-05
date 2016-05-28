@@ -11,8 +11,8 @@
           url: "/api/v1/population-growth/loadInitialData?apikey=multiPlan_C4_sos-2016-03-asu_ag",
           async: false
         });
-        var request2=$.ajax({   //Integration with GROUP 03 - population-growth
-          url: "https://sos-2016-03.herokuapp.com/api/v1/population-growth?apikey=multiPlan_C4_sos-2016-03-asu_ag",
+        var request2=$.ajax({   //Integration with GROUP 03 - spain-births
+          url: "/api/v1/population-growth?apikey=multiPlan_C4_sos-2016-03-asu_ag",
           async: false
         });
         request2.done(function(data,status){
@@ -30,28 +30,27 @@
           google.charts.setOnLoadCallback(drawSeriesChart);
 
           function drawSeriesChart() {
-            var dataForWidget=[["Country",'Year',"Top","Men in Spain"]];
+            var dataForWidget=[["Country",'Year',"Gold medals number","Men in Spain"]];
 
             for (i=0;i<dataFromServer.length;i++){
-                  var item=dataFromServer[i];
-                  var m=0;
-                  for(k=0;k<dataArray.length;k++){
-                        var item2=dataArray[k];
-                        if(item2[0]==item.year){
-                          m=m+item2[1];
-                        }
-                    }
-        
-                if(m){
-                    var itemForWidget =[item.country,parseInt(item.year),parseInt(item.goldmedalsnumber),m];
-                    dataForWidget.push(itemForWidget);
+              var item=dataFromServer[i];
+              var m=0;
+              for(k=0;k<dataArray.length;k++){
+                var item2=dataArray[k];
+
+                 if(item2[0]==item.year){
+                  m=m+item2[1];
+                     console.log(item2[1]);
                 }
-              
+              }
+
+              var itemForWidget =[item.country,parseInt(item.year),parseInt(item.goldmedalsnumber),m];
+              dataForWidget.push(itemForWidget);
             }
 
             var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
             var options = {
-              title: 'Integration of GROUP SOS 03 with data "men in Spain" from my data years.' +
+              title: 'Group 03 data integration of "men in Spain" with the gold-medals won in the crossed countries' +
               ' When "Men in Spain = 0 " means that there are no references to that year',
               hAxis: {title: 'Years'},
               vAxis: {title: 'TOP male'},
