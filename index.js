@@ -87,6 +87,13 @@ governify.control(app,{
   //key= multiPlan_C4_sos-2016-05-egf_ag
 });
 
+governify.control(app,{
+  datastore:"http://datastore.governify.io/api/v6.1/",
+  namespace: "sos-2016-05-meu",
+  defaultPath:"/api/v1/gold-medals"
+  //key= multiPlan_C4_sos-2016-05-meu_ag
+});
+
 
 //===================================APP USE===========================================================
 
@@ -112,6 +119,11 @@ app.use("/anotherApi/antonio/anotherApi",express.static(__dirname + "/root/anoth
 app.use("/anotherApi/antonio/anotherApi2",express.static(__dirname + "/root/anotherApi/antonio/anotherApi2"));
 app.use("/anotherApi/enrique/ourGroup",express.static(__dirname + "/root/anotherApi/enrique/ourGroup"));
 app.use("/anotherApi/enrique/anotherGroup",express.static(__dirname + "/root/anotherApi/enrique/anotherGroup"));
+app.use("/anotherApi/mario/ourGroup",express.static(__dirname + "/root/anotherApi/mario/ourGroup"));
+app.use("/anotherApi/mario/anotherGroup",express.static(__dirname + "/root/anotherApi/mario/anotherGroup"));
+app.use("/anotherApi/mario/anotherApi",express.static(__dirname + "/root/anotherApi/mario/anotherApi"));
+app.use("/anotherApi/mario/anotherApi2",express.static(__dirname + "/root/anotherApi/mario/anotherApi2"));
+
 
 
 //---------------------------ANIMESERIES--------------------------------------------------
@@ -167,19 +179,19 @@ app.delete("/api/v1/participants-number/:countryOrYear",participantsNumberCtl.de
 app.delete("/api/v1/participants-number",participantsNumberCtl.deleteParticipantsnumbers);
 
 //-----------------------MARIO API GOLD MEDALS-------------------------------------------
-app.get("/api/v1/gold-medals/loadInitialData", ReadAccess , goldMedalsCtl.getLoadIntialDataMedals);
-app.get("/api/v1/gold-medals", ReadAccess ,goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:value1", ReadAccess ,goldMedalsCtl.getMedals);
-app.get("/api/v1/gold-medals/:value1/:value2", ReadAccess ,goldMedalsCtl.getMedals);
-app.post("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.postMedal);
-app.post("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.postMedals);
-app.post("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.postMedals);
-app.put("/api/v1/gold-medals/:country/:year", WriteReadAccess ,goldMedalsCtl.putMedal);
-app.put("/api/v1/gold-medals/:countryOrYear", WriteReadAccess ,goldMedalsCtl.putMedals);
-app.put("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.putMedals);
-app.delete("/api/v1/gold-medals/:value1/:value2", WriteReadAccess ,goldMedalsCtl.deleteMedals);
-app.delete("/api/v1/gold-medals/:value1", WriteReadAccess ,goldMedalsCtl.deleteMedals);
-app.delete("/api/v1/gold-medals", WriteReadAccess ,goldMedalsCtl.deleteMedals);
+app.get("/api/v1/gold-medals/loadInitialData", goldMedalsCtl.getLoadIntialDataMedals);
+app.get("/api/v1/gold-medals", goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1", goldMedalsCtl.getMedals);
+app.get("/api/v1/gold-medals/:value1/:value2", goldMedalsCtl.getMedals);
+app.post("/api/v1/gold-medals", goldMedalsCtl.postMedal);
+app.post("/api/v1/gold-medals/:country/:year", goldMedalsCtl.postMedals);
+app.post("/api/v1/gold-medals/:countryOrYear", goldMedalsCtl.postMedals);
+app.put("/api/v1/gold-medals/:country/:year", goldMedalsCtl.putMedal);
+app.put("/api/v1/gold-medals/:countryOrYear", goldMedalsCtl.putMedals);
+app.put("/api/v1/gold-medals", goldMedalsCtl.putMedals);
+app.delete("/api/v1/gold-medals/:value1/:value2", goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals/:value1", goldMedalsCtl.deleteMedals);
+app.delete("/api/v1/gold-medals", goldMedalsCtl.deleteMedals);
 
 //===========================API MUSIC BANDS=======================================================================
 var fs=require("fs");   //for all files.
@@ -204,28 +216,6 @@ var passport = require('passport');
 var LocalAPIKeyStrategy = require('passport-localapikey-update').Strategy;
 
 passport.use(new LocalAPIKeyStrategy(function(apikey, done) { done(null,apikey); }));
-
-function WriteReadAccess(req, res, next) {
-    passport.authenticate('localapikey', function(err, user, info) {
-        if(!user)
-            return res.sendStatus(401);
-        else if (user!="sosrw") {
-            return res.sendStatus(403);
-        }
-        return next();
-    })(req, res, next);
-};
-
-function ReadAccess(req, res, next) {
-    passport.authenticate('localapikey', function(err, user, info) {
-        if(!user)
-            return res.sendStatus(401);
-        else if (user!="sosrw" && user!="sosr") {
-            return res.sendStatus(403);
-        }
-        return next();
-    })(req, res, next);
-};
 
 //Music bands-------------------------------------------------------------
 

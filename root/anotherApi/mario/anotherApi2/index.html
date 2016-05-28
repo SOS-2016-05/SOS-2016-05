@@ -4,23 +4,28 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
+
       $(document).ready(()=>{
+
         var request=$.ajax({
           type: "GET",
-          url: 'http://jsonplaceholder.typicode.com/comments?postId=1',
+          url: 'https://api.github.com/users/hadley/orgs',
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false
         });
+
         request.done((dataFromServer,status)=>{
             google.charts.setOnLoadCallback(drawChart);
             function drawChart() {
-                var dataForWidget = [['id', 'name']];
+                var dataForWidget = [['id', 'login']];
+
                 for (i=0;i<dataFromServer.length;i++){
                   var item=dataFromServer[i];
-                  var itemForWidget =[item.id,item.name];
+                  var itemForWidget =[item.id,item.login];
                   dataForWidget.push(itemForWidget);
               }
+
                 var options = {
                     chart: {
                     title: 'External API',

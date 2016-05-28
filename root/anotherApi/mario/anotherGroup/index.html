@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      $(document).ready(()=>{
+        var dataArray=[];
+        var request3=$.ajax({   //load data
+          url: "/api/v1/population-growth/loadInitialData?apikey=multiPlan_C4_sos-2016-03-asu_ag",
+          async: false
+        });
+        var request2=$.ajax({   //Integration with GROUP 03 - population-growth
+          url: "https://sos-2016-03.herokuapp.com/api/v1/population-growth?apikey=multiPlan_C4_sos-2016-03-asu_ag",
+          async: false
+        });
+        request2.done(function(data,status){
+          for (i=0;i<data.length;i++){
+            var item=data[i];
+            var itemF =[item.year,parseInt(item.men)];
+            dataArray.push(itemF);
+          }
+        });
+        var request=$.ajax({
+          url:"/api/v1/gold-medals?apikey=multiPlan_C4_sos-2016-05-meu_ag",
+          async: false
+        });
+        request.done((dataFromServer,status)=>{
+          google.charts.setOnLoadCallback(drawSeriesChart);
+
+          function drawSeriesChart() {
+            var dataForWidget=[["Country",'Year',"Top","Men in Spain"]];
+
+            for (i=0;i<dataFromServer.length;i++){
+                  var item=dataFromServer[i];
+                  var m=0;
+                  for(k=0;k<dataArray.length;k++){
+                        var item2=dataArray[k];
+                        if(item2[0]==item.year){
+                          m=m+item2[1];
+                        }
+                    }
+        
+                if(m){
+                    var itemForWidget =[item.country,parseInt(item.year),parseInt(item.goldmedalsnumber),m];
+                    dataForWidget.push(itemForWidget);
+                }
+              
+            }
+
+            var data = google.visualization.arrayToDataTable(dataForWidget);  //transformation from data
+            var options = {
+              title: 'Integration of GROUP SOS 03 with data "men in Spain" from my data years.' +
+              ' When "Men in Spain = 0 " means that there are no references to that year',
+              hAxis: {title: 'Years'},
+              vAxis: {title: 'TOP male'},
+              bubble: {textStyle: {fontSize: 11}}
+            };
+            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+            chart.draw(data, options);
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="series_chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

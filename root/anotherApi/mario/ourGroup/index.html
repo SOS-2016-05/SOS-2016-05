@@ -7,35 +7,38 @@
 </head>
 <body>
 <div  font: sans-serif;  style="width:400px;margin-top:20px ">
-  <td>Integration of our GROUP SOS 05 with data "gold medals" and "countries" of the Olympic Games</td>
+  <td>Integration of our GROUP SOS 05 with data "female athletes number" and "countries" of the Olympic Games</td>
 </div>
 <script type="text/javascript">
 
 	  google.charts.load('current', {'packages':['geochart']});
 
       $(document).ready(()=>{
-      	var request=$.ajax({
-      		type: "GET",
-        	url: '/api/v1/locations?apikey=multiPlan_C4_sos-2016-05-ajv_ag',
-       		contentType: "application/json; charset=utf-8",
-					async:false,
-        	dataType: "json"
-      	});
-
-        var request2=$.ajax({   //Integration with mario
+          
+        var request=$.ajax({   //Integration with mario
           type: "GET",
           url: "/api/v1/gold-medals?apikey=multiPlan_C4_sos-2016-05-meu_ag",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           async: false
-        });
+        });  
+          
+      	var request2=$.ajax({
+      		type: "GET",
+        	url: '/api/v1/participants-number?apikey=multiPlan_C4_sos-2016-05-egf_ag',
+       		contentType: "application/json; charset=utf-8",
+					async:false,
+        	dataType: "json"
+      	});
+
+        
 
         var dataArray=[];
 
         request2.done(function(data,status){
           for (i=0;i<data.length;i++){
             var item=data[i];
-            var itemF =[item.country,parseInt(item.goldmedalsnumber)];
+            var itemF =[item.country,parseInt(item.femaleathletesnumber)];
             dataArray.push(itemF);
           }
         });
@@ -44,31 +47,32 @@
       		google.charts.setOnLoadCallback(drawRegionsMap);
 
 		      function drawRegionsMap() {
-		      	var dataForWidget=[["Country","Gold Medals"]];
+		      	var dataForWidget=[["Country","Female Athletes nº"]];
 
             for(i=0;i<dataFromServer.length;i++){
-							var gold=0;
-		      		var item=dataFromServer[i];
-							console.log("item "+item);
+                //Creamos una variable female para que por cada país determine si ha encontrado resultados o no
+                var female=0;
+		      	var item=dataFromServer[i];
 
             	for(j=0;j<dataArray.length;j++){
-                var item2=dataArray[j];
+                    var item2=dataArray[j];
 
-								if(item.country==item2[0]){
-                  gold+=item2[1];
+                    if(item.country==item2[0]){
+                        female+=item2[1];
+                    }
+
                 }
-
+                //Si female es true, es decir, si tiene un valor distinto de 0, lo dibuja; en caso contrario no lo hará
+                if(female){
+                    var itemForWidget=[item.country,female];
+                    dataForWidget.push(itemForWidget);
+                }
             }
-						if(gold>0){
-							var itemForWidget=[item.country,gold];
-							dataForWidget.push(itemForWidget);
-					}
-        }
 
 	        var data = google.visualization.arrayToDataTable(dataForWidget);
 
 	        var options = {
-	        	 title: 'Gold medals in country',
+	        	 title: 'Female athletes by crossed countries',
 	        	 colorAxis: {colors: ['#E53129', '#4374e0']}
 	        };
 	        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
