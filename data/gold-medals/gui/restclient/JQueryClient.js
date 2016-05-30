@@ -34,7 +34,7 @@ $(document).ready(function() {
 
         //Ajax Load data from ajax
         $.ajax({
-            url : "/api/v1/gold-medals/"+country+"/"+year+"?apikey=sosrw",
+            url : "/api/v1/gold-medals/"+country+"/"+year+"?apikey=multiPlan_C4_sos-2016-05-meu_ag",
             type: "GET",
             dataType: "JSON",
             success: function(data)
@@ -44,7 +44,7 @@ $(document).ready(function() {
                 $("#goldmedalsnumber").val(data[0].goldmedalsnumber);
                 $("#silvermedalsnumber").val(data[0].silvermedalsnumber);
                 $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                $('.modal-title').text('Edit Person'); // Set title to Bootstrap modal title
+                $('.modal-title').text('Edit Country'); // Set title to Bootstrap modal title
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -91,14 +91,14 @@ function gold_medals()
     load_table();
 }
     
-function add_person()
+function add_country()
 {
     save_method = 'add';
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add Person'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Add Country'); // Set Title to Bootstrap modal title
     $("#country").prop( "disabled", false );
     $("#year").prop( "disabled", false );
 }
